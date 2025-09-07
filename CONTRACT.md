@@ -21,32 +21,28 @@
 
 | Rolle | Ansvar |
 | --- | --- |
-| Prosjektleder | Planlegger møter, følger opp fremdrift, koordinerer leveranser |
-| Scrum-master (valgfritt) | Fasiliterer smidig arbeidsflyt, retrospektiver, teamdynamikk |
-| Kjernedeveloper | Arkitektur, koding og testing |
-| QA-/testansvarlig | Skriver og kjører tester, sørger for kodekvalitet |
-| Merge/CI-ansvarlig | Håndterer grener, kodegjennomganger og kontinuerlig integrasjon |
-| Dokumentasjonsansvarlig | Sørger for oppdatert dokumentasjon og lettvekts-format |
+| Prosjektleder | Planlegger møter, følger opp fremdrift, koordinerer leveranser | Katharina |
+| Branch manager | Håndterer grener, navngivning og orden, for god oversikt | Syver |
+| Dokumentasjonsansvarlig | Sørger for oppdatert dokumentasjon og lettvekts-format | Alle |
 
-Rollene kan roteres per sprint eller fase etter behov.
 
 ### 4. Møter og oppmøte
 
 - **Forelesninger**: Minimum 75 % oppmøte per person
 - **Møter med læringsassistent**: Minimum 75 % oppmøte per person
-- **Intern prosjektdag**: Minimum 1–2 møter per uke, avklares i felleskalender
-- **Sprint‑møter**: F.eks. hver uke – planlegging (mandag) og retrospektiv (fredag)
+- **Intern prosjektdag**: Hver torsdag, kl 09:00 - 15:00
+- **Sprint‑møter**: Planlegging torsdag morgen, før prosjektdag, og retrospektiv onsdag. 
+Planlegging og retrospekt kan endre dag om gruppen er samstemte om flytting av møte, f.eks. ved sykdom, reise e.l.
 
-Ved fravær: Gi beskjed senest 24 t i forkant. Ved gjentatte fravær: intern erstatning eller justering av arbeidsfordeling.
+Ved fravær: Gi beskjed senest 24 t i forkant. Unntak ved akutt sykdom o.l. Ved gjentatte fravær: ved gjentatt fravær uten gyldig grunn tas dette videre til læringsassitent med tanke på karaktervurdering i fremtiden. 
 
-### 5. Arbeidsflyt og verktøy
+### 5. Verktøy
 
-- **Smidig metode**: korte utviklingssykluser, brukerhistorier → oppgaver
-- **Kildekode og oppgaveverktøy**: Git (GitHub/GitLab), issue-tracker (f.eks. GitHub issues)
-- **Testing**: enhets‑ og integrasjonstester (sørg for bruk av rammeverk, kontinuerlig integrasjon)
-- **Byggesystem**: f. eks. Maven, Gradle, npm – modulstrukturert bygg og testing
-- **Parprogrammering**: Oppfordres til viss grad
-- **Dokumentasjon**: Lettvektsformater (f.eks. Markdown), JavaDoc eller tilsvarende
+- **Smidig metode**: Scrum. Sprinter på 1-2 uker. 
+- **Kildekode og oppgaveverktøy**: Git, GitHub issues
+- **Testing**: enhets‑ og integrasjonstester 
+- **Byggesystem**: Maven
+- **Utforming**: Java Spotless og Eclipse Java Style
 
 ### 6. Leveringsstruktur (mappevurdering)
 
@@ -54,14 +50,13 @@ Ved fravær: Gi beskjed senest 24 t i forkant. Ved gjentatte fravær: intern e
 - **2. leveranse** – 10 % (uke 41)
 - **3. leveranse** – 50 % (uke 46)
 - **Individuell rapport** – 30 % (uke 51)
-- **SJEKK PROSENTER**
 
-Alle gruppeleveranser skal være godkjente og innlevert i tide.
+Alle gruppeleveranser skal være godkjente og innlevert i tide
 
 ### 7. Konflikthåndtering
 
-- **Tidlig oppfølging**: Ta opp problemstillinger umiddelbart i gruppen
-- **Mekling**: Ved interne uenigheter: bruk retrospektiv-møter eller meld fra til læringsassistent
+- **Tidlig oppfølging**: Ta opp problemstillinger umiddelbart internt i gruppen
+- **Mekling**: Ved interne uenigheter: bruk retrospektiv-møter. Meld fra til læringsassistent ved mangel på løsning
 - **Hjelp**: Ved gjentatte eller uløste konflikter – kontakt læringsassistent eller emneansvarlig
 
 ### 8. Kommunikasjon
@@ -70,15 +65,14 @@ Alle gruppeleveranser skal være godkjente og innlevert i tide.
 - **E‑post/NTNU-kanal**: Kun offisiell kommunikasjon (møtereferater, advarsler)
 - **Felles kalender**: Møteplaner, sprint‑tidsfrister, leveransefrister
 
-### 9. Sanksjoner for manglende innsats
+### 9. Tiltak ved manglende imøtekommelse av arbeidsoppgaver
 
-- Manglende oppmøte (under 75 %) kan føre til at obligatorisk aktivitet ikke godkjennes og dermed stryk i emnet
-- Ved udekkede bidrag: diskuter intern løsning (omfordeling eller dokumentasjon av innsats), eventuelt kontakt læringsassistent
-- Ved stryk eller gyldig fravær må prosjekt og mappevurdering tas på nytt
+- Manglende oppmøte (under 75 %) kan føre til at obligatorisk aktivitet ikke godkjennes og dermed stryk i emnet for enkeltindividet
+- Om et av gruppemedlemmene ikke imøtekommer sine respektive frister for designert oppgave, skal det ikke pålegges et annet gruppemedlem å jobbe dobbelt inn dette. Hvert grupepmedlem har ansvar for at sine respektive oppgaver imøtekommer fristene bestemt på møtene. Om gruppemedlemmet opplever at det ikke er mulig å imøtekomme fristen må personen selv forhøre seg med gruppen for å undersøke muligheten for omdelegering av oppgaven. Om personen gjentatte ganger feiler i å imøtekomme fristene vil personen risikere å motta en dårligere karakter enn resten av grupepmedlemmene. Gruppen skal ikke straffes for en persons manglende innsats, ettersom det enkelte gruppemedlemmet må få mulighet til å gjennomføre andre fags innleveringer, i stedet for å arbeide dobbelt i dette emnet for å dekke andres fravær. 
 
 ### 10. Godkjenning av kontrakt
 
-Denne kontrakten signeres digitalt av alle gruppemedlemmer innen **[UKE/DATO]**. Kontrakten lastes opp som del av obligatorisk aktivitet i Blackboard.
+Denne kontrakten signeres digitalt av alle gruppemedlemmer innen 08.09.2025. Kontrakten lastes opp som del av obligatorisk aktivitet i Blackboard.
 
 Dato:
 
