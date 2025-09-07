@@ -14,13 +14,13 @@
 - Sikre et godt, effektivt og inkluderende arbeidsmiljø
 - Oppfylle kravene til obligatorisk aktiviteter
 - Sikre enkeltinidividets karakter i faget
-- Levere prosjektfaser i tide (uke 38, 41, 46) og individuell rapport uke 51 (**SJEKK DATOER**)
+- Levere prosjektfaser i tide (uke 38, 41, 46) og individuell rapport uke 51 
 - Jobbe smidig med fokus på kodekvalitet, testing, bruk av versjonskontroll og oppgavehåndtering
 
 ### 3. Roller og ansvarsfordeling
 
-| Rolle | Ansvar |
-| --- | --- |
+| Rolle | Ansvar | Navn |
+| --- | --- | --- |
 | Prosjektleder | Planlegger møter, følger opp fremdrift, koordinerer leveranser | Katharina |
 | Branch manager | Håndterer grener, navngivning og orden, for god oversikt | Syver |
 | Dokumentasjonsansvarlig | Sørger for oppdatert dokumentasjon og lettvekts-format | Alle |
