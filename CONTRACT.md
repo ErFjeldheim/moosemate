@@ -1,4 +1,4 @@
-## Gruppekontrakt for [Gruppenavn] – IT1901
+## Gruppekontrakt for Gruppe 24 – IT1901
 
 ### 1. Gruppemedlemmer
 
@@ -12,7 +12,8 @@
 ### 2. Målet med kontrakten
 
 - Sikre et godt, effektivt og inkluderende arbeidsmiljø
-- Oppfylle kravene til obligatorisk aktivitet – spesielt minimum 75 % oppmøte på forelesninger og møter med læringsassistent, godkjente øvinger og godkjent gruppekontrakt
+- Oppfylle kravene til obligatorisk aktiviteter
+- Sikre enkeltinidividets karakter i faget
 - Levere prosjektfaser i tide (uke 38, 41, 46) og individuell rapport uke 51 (**SJEKK DATOER**)
 - Jobbe smidig med fokus på kodekvalitet, testing, bruk av versjonskontroll og oppgavehåndtering
 
