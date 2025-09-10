@@ -11,7 +11,7 @@ Her kommer informasjon om prosjektet...
 - Holger Setten (holgese)
 - Syver Andersen (syvera)
 - Edvard Os (edvarao)
-- Erik Fjeldheim (erikfj)
+- Erik Fjeldheim (erikhfj)
 - Jonas Forsberg (jonafors)
 
 ## Leveranseplan
@@ -21,11 +21,11 @@ Her kommer informasjon om prosjektet...
 - **Uke 51** – Individuell rapport (30 %)
 
 ## Teknologi og verktøy
-- **Programmeringsspråk:** Java
-- **Byggesystem:** Maven / Gradle
-- **IDE:** --
-- **Versjonskontroll:** Git + GitLab (git.ntnu.no)
-- **Kommunikasjon:** Slack / Messenger
+- **Programmeringsspråk:** Java (21 LTS)
+- **Byggesystem:** Maven
+- **IDE:** Visual Studio Code
+- **Versjonskontroll:** Git + Github (git.ntnu.no)
+- **Kommunikasjon:** Messenger + Notion
 - **Smidig metode:** Scrum (sprintmøter, retrospektiv, standups)
 
 ## Struktur tentativ
