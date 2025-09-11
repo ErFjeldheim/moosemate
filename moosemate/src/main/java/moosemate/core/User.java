@@ -6,6 +6,17 @@ public class User {
     private String email;
     private String password;
 
+    // Default constructor for setting values later
+    public User() {
+    }
+
+    // Constructor
+    public User(String username, String email, String password) {
+        setUsername(username);
+        setEmail(email);
+        setPassword(password);
+    }
+
     public String getUsername() {
         return username;
     }
