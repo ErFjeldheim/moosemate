@@ -18,7 +18,9 @@ Behold issuenummer, kort konkret beskrivelse at issue/branch.
 
 ### Gjør endringer og legg til filer
 git add .  (adder alle nye filer) 
-# eller  
+
+eller:
+
 git add <filnavn>
 
 eventuelt bruk implementert i vsCode
