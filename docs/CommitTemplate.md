@@ -21,7 +21,15 @@
 
 ## Scope (optional)
 
-Examples: `auth`, `api`, `ui`, `docs`, `deps`.  
+Examples for MooseMate project:
+- **core** → business logic (Post, User, PostService, UserService)
+- **ui** → JavaFX controllers and UI logic
+- **services** → database/JSON file operations (user_db, post_db)
+- **fxml** → FXML layout files
+- **css** → styling changes
+- **data** → JSON file structure changes
+- **docs** → documentation
+- **config** → application configuration  
 
 ---
 
@@ -33,8 +41,7 @@ Examples: `auth`, `api`, `ui`, `docs`, `deps`.
 
 ## Example
 
-feat(auth): add JWT-based login
+feat(services): add local user database storage
 
-Implement JWT authentication for the login system to improve security
-and allow stateless session handling. This replaces the old cookie-
-based mechanism.
+Implement JSON-based user_db.json file for persistent user storage.
+Users are now saved locally and loaded on application startup.
