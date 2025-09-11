@@ -1,36 +1,26 @@
-# IT1901 – Gruppe 2524
+# MooseMate
 
-## Prosjektbeskrivelse
-Dette prosjektet er en del av emnet **IT1901: Informatikk prosjektarbeid I** ved NTNU (høst 2025).  
-Målet er å utvikle en programvareløsning ved bruk av smidig utviklingsmetodikk, med fokus på kodekvalitet, testing, samarbeid og dokumentasjon.
+MooseMate is a simple JavaFX application. The actual coding project is located in [moosemate](./moosemate/src/) folder.
 
-Her kommer informasjon om prosjektet...
+## Build and run
 
-## Gruppemedlemmer
-- Katharina Baardseth (kebaards)
-- Holger Setten (holgese)
-- Syver Andersen (syvera)
-- Edvard Os (edvarao)
-- Erik Fjeldheim (erikhfj)
-- Jonas Forsberg (jonafors)
+The project is built with Maven:
 
-## Leveranseplan
-- **Uke 38** – Første leveranse (10 %)
-- **Uke 41** – Andre leveranse (10 %)
-- **Uke 46** – Tredje leveranse (50 %)
-- **Uke 51** – Individuell rapport (30 %)
+"bash"
+mvn clean install
+mvn javafx:run
 
-## Teknologi og verktøy
-- **Programmeringsspråk:** Java (21 LTS)
-- **Byggesystem:** Maven
-- **IDE:** Visual Studio Code
-- **Versjonskontroll:** Git + Github (git.ntnu.no)
-- **Kommunikasjon:** Messenger + Notion
-- **Smidig metode:** Scrum (sprintmøter, retrospektiv, standups)
+## Dependencies
 
-## Struktur tentativ
-- `src/` – kildekode
-- `docs/` – dokumentasjon
-- `test/` – tester
-- `README.md` – prosjektbeskrivelse
-- `.gitignore` – ignoreringsfil for repoet
+- Java ver 21
+- Maven ver 3.12.1
+- JUnit 5 ver 5.10.1
+
+## Eclipse Che
+
+[Open in Eclipse Che](https://che.stud.ntnu.no/#https://git.ntnu.no/IT1901-2025-groups/gr2524)
+
+
+## Documentation
+
+Documentation is found in the [docs](./docs) folder.
