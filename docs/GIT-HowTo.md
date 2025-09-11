@@ -26,7 +26,7 @@ eventuelt bruk implementert i vsCode
 ### Commit endringer
 git commit -m "feat(auth): add JWT-based login"
 
-### 2.6 Push endringer på branch til samme branch
+### Push endringer på branch til samme branch
 git add .
 git commit -m "Din commit-melding"
 git push origin <branch-navn>
@@ -45,7 +45,7 @@ git checkout <din-branch>  (flytter deg til din branch om du mot formdodning er 
 git fetch origin main
 git merge origin/main
 
-### 2.9 Slett branch etter merge
+### Slett branch etter merge
 git checkout main
 git branch -d <branch-name>
 git push origin --delete <branch-name> 
