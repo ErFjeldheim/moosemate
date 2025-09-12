@@ -17,5 +17,5 @@ As a new user I want to create an account so that I can join the MooseMate forum
 ### User Story 2: Logging in
 As an already existing member of the MooseMate forum, I want to log in with username/email and password.
 
-## Screenshots
+## Screenshot
 ![Screenshot of MooseMate application](src/main/resources/images/screenshot.png)

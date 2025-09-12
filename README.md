@@ -1,20 +1,20 @@
-# MooseMate
+# MooseMate project
 
 MooseMate is a simple JavaFX application. The actual coding project is located in [moosemate](./moosemate/src/) folder.
 
 ## Build and run
 
-The project is built with Maven:
+The project is built with Maven
 
-"bash"
-mvn clean install
-mvn javafx:run
+- mvn clean install
+- mvn javafx:run
 
 ## Dependencies
 
 - Java ver 21
 - Maven ver 3.12.1
 - JUnit 5 ver 5.10.1
+- Jackson ver 2.16.1
 
 ## Eclipse Che
 
