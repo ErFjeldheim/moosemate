@@ -43,18 +43,18 @@ git push
 - Legg til gruppemedlemmer som reviewers
 
 ### Oppdater branchen din med nyeste main
-git checkout <din-branch>  (flytter deg til din branch om du mot formdodning er på en annen) 
-git fetch origin main
-git merge origin/main
+- git checkout <din-branch>  (flytter deg til din branch om du mot formdodning er på en annen) 
+- git fetch origin main
+- git merge origin/main
 
 ### Slett branch etter merge
-git checkout main
-git branch -d <branch-name>
-git push origin --delete <branch-name> 
+- git checkout main
+- git branch -d <branch-name>
+- git push origin --delete <branch-name> 
 
 ---
 
-## 3. Tips for godt Git-arbeid
+## Tips for godt Git-arbeid
 - Små og hyppige commits  
 - Meningsfulle commit-meldinger  
 - Oppdater branchen ofte for å unngå konflikter  
