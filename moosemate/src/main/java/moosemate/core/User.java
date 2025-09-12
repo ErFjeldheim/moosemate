@@ -63,7 +63,7 @@ public class User {
             throw new IllegalArgumentException("Password must be at least 8 characters");
         }
         if (!password.matches(".*[a-zA-Z].*")) {
-            throw new IllegalArgumentException("Password must contain at least one letter");
+            throw new IllegalArgumentException("Password must contain at least one letter from A-Z");
         }
         if (!password.matches(".*[0-9].*")) {
             throw new IllegalArgumentException("Password must contain at least one number");

@@ -1,3 +1,11 @@
 {
-  "users" : [ ]
+  "users" : [ {
+    "password" : "alice123",
+    "email" : "alice@ntnu.no",
+    "username" : "alice"
+  }, {
+    "password" : "bob12345",
+    "email" : "bob@ntnu.no",
+    "username" : "bob"
+  } ]
 }

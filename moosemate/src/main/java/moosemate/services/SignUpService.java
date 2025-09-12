@@ -53,6 +53,9 @@ public class SignUpService {
      */
     public boolean signUpUser(String username, String email, String password) {
         try {
+            // Validate input using User class (this will throw exceptions for invalid data)
+            User newUser = new User(username, email, password);
+            
             // Read existing data
             Map<String, Object> data = readDataFromFile();
             @SuppressWarnings("unchecked")
@@ -70,20 +73,24 @@ public class SignUpService {
                 return false;
             }
 
-            // Create new user entry
-            Map<String, String> newUser = new HashMap<>();
-            newUser.put("username", username);
-            newUser.put("email", email);
-            newUser.put("password", password);
+            // Create new user entry with validated data
+            Map<String, String> userMap = new HashMap<>();
+            userMap.put("username", newUser.getUsername());
+            userMap.put("email", newUser.getEmail());
+            userMap.put("password", newUser.getPassword());
 
             // Add new user to the list
-            users.add(newUser);
+            users.add(userMap);
 
             // Write back to file
             objectMapper.writeValue(dataFile, data);
             System.out.println("User successfully registered: " + username);
             return true;
 
+        } catch (IllegalArgumentException e) {
+            // This will catch validation errors from User class
+            System.err.println("Validation error: " + e.getMessage());
+            return false;
         } catch (IOException e) {
             System.err.println("Error during user registration: " + e.getMessage());
             return false;
