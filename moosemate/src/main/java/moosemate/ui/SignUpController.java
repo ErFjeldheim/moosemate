@@ -19,16 +19,37 @@ public class SignUpController extends BaseController {
     
     @FXML
     private void handleSignUpButton(ActionEvent event) {
+        // Clear any previously displayed error messages
+        clearError(); 
+        
+        String username = usernameField.getText();
+        String email = emailField.getText();
+        String password = passwordField.getText();
+        
         try {
-            //calls the sign up service to write to file and run further logic implemented in the service
             SignUpService signUpService = new SignUpService();
-            if (signUpService.signUpUser(usernameField.getText(), emailField.getText(), passwordField.getText())) {
-                // Navigate back to login page or to a success page
+            boolean signUpSuccess = signUpService.signUpUser(username, email, password);
+
+            if (signUpSuccess) {
                 System.out.println("Sign up completed!");
-                navigateToOtherPage(event, "/fxml/loginpage.fxml", "Login");
+                navigateToOtherPageWithSuccess(event, "/fxml/loginpage.fxml", "Login", "Sign up successful!");
+            } else {
+                // Check specific reasons for failure to sign up
+                if (signUpService.userExists(username)) {
+                    showError("Username already exists");
+                } else if (signUpService.emailExists(email)) {
+                    showError("Email already registered");
+                } else {
+                    showError("Sign up failed. Please try again.");
+                }
             }
+            
+        } catch (IllegalArgumentException e) {
+            // This catches validation errors from User class constructor
+            showError(e.getMessage());
         } catch (Exception e) {
             System.err.println("Error handling signup: " + e.getMessage());
+            showError("An unexpected error occurred. Please try again.");
         }
     }
     

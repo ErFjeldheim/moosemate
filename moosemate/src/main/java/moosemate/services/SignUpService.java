@@ -48,10 +48,8 @@ public class SignUpService {
         }
     }
 
-    /**
-     * Registers a new user by storing their username, email and password in JSON format.
-     */
-    public boolean signUpUser(String username, String email, String password) {
+    //Registers a new user by storing their username, email and password in JSON format.
+        public boolean signUpUser(String username, String email, String password) throws IllegalArgumentException {
         try {
             // Validate input using User class (this will throw exceptions for invalid data)
             User newUser = new User(username, email, password);
@@ -62,13 +60,13 @@ public class SignUpService {
             List<Map<String, String>> users = (List<Map<String, String>>) data.get("users");
 
             // Check if username already exists
-            if (usernameExists(users, username)) {
+            if (userExists(username)) {
                 System.err.println("Username already exists: " + username);
                 return false;
             }
 
             // Check if email already exists
-            if (emailExists(users, email)) {
+            if (emailExists(email)) {
                 System.err.println("Email already exists: " + email);
                 return false;
             }
@@ -88,18 +86,15 @@ public class SignUpService {
             return true;
 
         } catch (IllegalArgumentException e) {
-            // This will catch validation errors from User class
             System.err.println("Validation error: " + e.getMessage());
-            return false;
+            throw e;
         } catch (IOException e) {
             System.err.println("Error during user registration: " + e.getMessage());
             return false;
         }
     }
+//Alternative method that accepts a User object, for better flexibility. 
 
-    /**
-     * Alternative method that accepts a User object, for better flexibility. 
-     */
     public boolean signUpUser(User user) {
         try {
             return signUpUser(user.getUsername(), user.getEmail(), user.getPassword());
@@ -107,21 +102,6 @@ public class SignUpService {
             System.err.println("Error processing User object: " + e.getMessage());
             return false;
         }
-    }
-
-   
-    //Checks if a username already exists in the user list.
-   
-    private boolean usernameExists(List<Map<String, String>> users, String username) {
-        return users.stream()
-                .anyMatch(user -> username.equals(user.get("username")));
-    }
-
-    
-    //Checks if an email already exists in the user list.
-    private boolean emailExists(List<Map<String, String>> users, String email) {
-        return users.stream()
-                .anyMatch(user -> email.equals(user.get("email")));
     }
 
     
@@ -155,7 +135,8 @@ public class SignUpService {
             @SuppressWarnings("unchecked")
             List<Map<String, String>> users = (List<Map<String, String>>) data.get("users");
             
-            return usernameExists(users, username);
+            return users.stream()
+                    .anyMatch(user -> username.equals(user.get("username")));
         } catch (IOException e) {
             System.err.println("Error checking user existence: " + e.getMessage());
             return false;
@@ -169,7 +150,8 @@ public class SignUpService {
             @SuppressWarnings("unchecked")
             List<Map<String, String>> users = (List<Map<String, String>>) data.get("users");
             
-            return emailExists(users, email);
+            return users.stream()
+                    .anyMatch(user -> email.equals(user.get("email")));
         } catch (IOException e) {
             System.err.println("Error checking email existence: " + e.getMessage());
             return false;

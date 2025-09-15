@@ -2,6 +2,7 @@ package moosemate.ui;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.event.ActionEvent;
@@ -21,7 +22,7 @@ public class LoginController extends BaseController {
     @FXML
     private Button signUpButton;
 
-// navigates to sign up page 
+    // navigates to sign up page 
     @FXML
     private void handleSignUpButton(ActionEvent event){
         try {
@@ -31,17 +32,26 @@ public class LoginController extends BaseController {
         }
     }
 
-
-// handles login button and navigates to home page if user exists
+    // handles login button and navigates to home page if user exists
     @FXML 
     private void handleLoginButton(ActionEvent event) {
         try {
+            clearError(); // Clear previous errors
             LoginService loginService = new LoginService();
-            if (loginService.loginUser(usernameField.getText(), passwordField.getText())) {
+            
+            // Store the result to avoid calling loginUser twice
+            boolean loginSuccess = loginService.loginUser(usernameField.getText(), passwordField.getText());
+            
+            if (loginSuccess) {
                 navigateToOtherPage(event, "/fxml/homepage.fxml", "Home");
+            } else {
+                showError("Invalid username or password");
             }
         } catch (Exception e) {
             System.err.println("Error handling login: " + e.getMessage());
         }
     }
+
+ 
+
 }
