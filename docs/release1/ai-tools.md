@@ -1,1 +1,17 @@
-When working on a JavaFX project, it is common to encounter challenges during the coding phase, whether it be related to UI layout, event handling, or integrating different components. To overcome these obstacles, we can use Claude Sonnet 4 we can use via Github CoPilot, an advanced AI assistant, as a valuable implementation and support tool. Claude Sonnet 4 helps us by breaking down complex coding problems into understandable steps, suggesting efficient solutions, and even generating sample code snippets that we can adapt directly into our project. When we are stuck, instead of spending hours searching through documentation or forums, we can ask Claude Sonnet 4 for targeted guidance, such as debugging strategies, best practices for structuring controllers, or ways to optimize data binding in JavaFX. This not only saves time but also enhances our understanding of the concepts involved. In practice, Claude Sonnet 4 acts as both a tutor and collaborator, guiding us through coding difficulties and enabling smoother progress in our JavaFX development journey.
+# AI Tools Documentation
+
+In this JavaFX-project we have used the following AI tools, assisted by Copilot Pro in VSCode:
+
+- Claude Sonnet 4
+- ChatGPT 5
+
+The AI tools help us with:
+
+- **Simplicity**: breaking down complex problems into clear, step-by-step solutions.
+
+- **Suggestions**: more efficient implemetations of already existing code and generating simple code snippets.
+
+- **Debugging**: locating issues, reducing time spent on trial and error.
+
+- **Learning**: Explaining unfamiliar aspects of Java of JavaFX in the specific contexts of the project
+
