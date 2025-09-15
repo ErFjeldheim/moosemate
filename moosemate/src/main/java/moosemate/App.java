@@ -11,7 +11,7 @@ public class App extends Application {
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/loginpage.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        primaryStage.setTitle("My JavaFX App");
+        primaryStage.setTitle("MooseMate");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
