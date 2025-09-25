@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -50,10 +51,7 @@ public class SignUpService {
 
     //Registers a new user by storing their username, email and password in JSON format.
         public boolean signUpUser(String username, String email, String password) throws IllegalArgumentException {
-        try {
-            // Validate input using User class (this will throw exceptions for invalid data)
-            User newUser = new User(username, email, password);
-            
+        try {    
             // Read existing data
             Map<String, Object> data = readDataFromFile();
             @SuppressWarnings("unchecked")
@@ -71,11 +69,19 @@ public class SignUpService {
                 return false;
             }
 
+            String userID = UUID.randomUUID().toString(); // Generates userID-hash
+            
+            // Implement hashing for password here
+
+            // Validate input using User class (this will throw exceptions for invalid data)
+            User newUser = new User(username, email, password, userID);
+
             // Create new user entry with validated data
             Map<String, String> userMap = new HashMap<>();
             userMap.put("username", newUser.getUsername());
             userMap.put("email", newUser.getEmail());
             userMap.put("password", newUser.getPassword());
+            userMap.put("userID", newUser.getUserID());
 
             // Add new user to the list
             users.add(userMap);

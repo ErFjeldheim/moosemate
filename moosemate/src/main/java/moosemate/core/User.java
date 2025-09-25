@@ -5,16 +5,18 @@ public class User {
     private String username;
     private String email;
     private String password;
+    private String userID;
 
     // Default constructor for setting values later
     public User() {
     }
 
     // Constructor
-    public User(String username, String email, String password) {
+    public User(String username, String email, String password, String userID) {
         setUsername(username);
         setEmail(email);
         setPassword(password);
+        setUserID(userID);
     }
 
     public String getUsername() {
@@ -70,4 +72,13 @@ public class User {
         }
         this.password = password;
     }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
+
 }
