@@ -19,5 +19,10 @@
     "userID" : "04516877-9d08-4a7a-bc35-fb406cb2e0f8",
     "email" : "erik@ganoign.ngoi",
     "username" : "erik"
+  }, {
+    "password" : "$2a$12$2km0fdl0IYeFhzyRfSRukOY.SX2zxwLnYprkb/YibqFi6i5mDxcp6",
+    "userID" : "4349f3fc-adb9-41ea-b3da-164e196ffde2",
+    "email" : "testm@gmkag.no",
+    "username" : "kongen"
   } ]
 }
