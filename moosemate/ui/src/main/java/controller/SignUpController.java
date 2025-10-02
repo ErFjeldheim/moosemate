@@ -5,7 +5,6 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.TextField;
 import javafx.scene.control.PasswordField;
 import impl.SignUpService;
-import impl.UserService;
 
 public class SignUpController extends BaseController {
     
@@ -29,19 +28,8 @@ public class SignUpController extends BaseController {
         
         try {
             SignUpService signUpService = new SignUpService();
-            UserService userService = new UserService();
             
-            // Pre-validate before attempting sign up
-            if (userService.userExists(username)) {
-                showError("Username already exists");
-                return;
-            }
-            
-            if (userService.emailExists(email)) {
-                showError("Email already registered");
-                return;
-            }
-            
+            // Use SignUpService which handles all sign-up business logic
             boolean signUpSuccess = signUpService.signUpUser(username, email, password);
 
             if (signUpSuccess) {
@@ -52,7 +40,7 @@ public class SignUpController extends BaseController {
             }
             
         } catch (IllegalArgumentException e) {
-            // This catches validation errors from User class constructor
+            // This catches validation errors from SignUpService
             showError(e.getMessage());
         } catch (Exception e) {
             System.err.println("Error handling signup: " + e.getMessage());

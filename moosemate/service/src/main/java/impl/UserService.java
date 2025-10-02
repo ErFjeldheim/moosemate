@@ -5,8 +5,9 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * Service class for handling user business logic.
- * Acts as a bridge between controllers and the persistence layer.
+ * Service class for handling user data operations.
+ * Acts as a bridge between other services and the persistence layer.
+ * Focuses on user CRUD operations and data validation.
  */
 public class UserService {
 
@@ -22,15 +23,15 @@ public class UserService {
     }
 
     /**
-     * Creates a new user with the given password (should be hashed before calling this method).
+     * Creates a new user with hashed password.
      * 
      * @param username the username
      * @param email the email address
-     * @param password the password (should be already hashed)
+     * @param hashedPassword the already hashed password
      * @return true if user was created successfully, false otherwise
      */
-    public boolean createUser(String username, String email, String password) {
-        return userRepository.createUser(username, email, password);
+    public boolean createUser(String username, String email, String hashedPassword) {
+        return userRepository.createUser(username, email, hashedPassword);
     }
 
     /**
@@ -61,25 +62,5 @@ public class UserService {
      */
     public boolean emailExists(String email) {
         return userRepository.emailExists(email);
-    }
-
-    /**
-     * Gets a user by username.
-     * 
-     * @param username the username
-     * @return Optional containing the user data if found
-     */
-    public Optional<Map<String, String>> getUserByUsername(String username) {
-        return userRepository.findByUsername(username);
-    }
-
-    /**
-     * Gets a user by email.
-     * 
-     * @param email the email
-     * @return Optional containing the user data if found
-     */
-    public Optional<Map<String, String>> getUserByEmail(String email) {
-        return userRepository.findByEmail(email);
     }
 }

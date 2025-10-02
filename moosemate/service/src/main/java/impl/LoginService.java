@@ -1,22 +1,31 @@
 package impl;
 
-import repository.UserRepository;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Service class for handling user authentication operations.
+ * Handles login business logic and delegates user data operations to UserService.
+ */
 public class LoginService {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final PasswordService passwordService;
 
     public LoginService() {
-        this.userRepository = new UserRepository();
+        this.userService = new UserService();
         this.passwordService = new PasswordService();
     }
 
+    // Constructor for dependency injection (useful for testing)
+    public LoginService(UserService userService, PasswordService passwordService) {
+        this.userService = userService;
+        this.passwordService = passwordService;
+    }
+
     /**
-     * Delegates to UserRepository for user lookup and password validation.
-     * Verifies password by using BCrypt
+     * Authenticates a user by username/email and password.
+     * Uses UserService for user lookup and PasswordService for verification.
      * 
      * @param usernameOrEmail username or email to authenticate
      * @param password plain text password to verify
@@ -24,8 +33,8 @@ public class LoginService {
      */
     public boolean loginUser(String usernameOrEmail, String password) {
         try {
-            // Find user by username or email
-            Optional<Map<String, String>> userOpt = userRepository.findByUsernameOrEmail(usernameOrEmail);
+            // Find user using UserService
+            Optional<Map<String, String>> userOpt = userService.findByUsernameOrEmail(usernameOrEmail);
             
             if (!userOpt.isPresent()) {
                 System.err.println("User not found: " + usernameOrEmail);
@@ -34,7 +43,7 @@ public class LoginService {
 
             Map<String, String> user = userOpt.get();
 
-            // Validate password using BCrypt verification
+            // Validate password using PasswordService
             if (validatePassword(user, password)) {
                 System.out.println("Login successful for: " + usernameOrEmail);
                 return true;

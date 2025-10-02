@@ -11,10 +11,10 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>moosemate-core</artifactId>
+    <artifactId>core</artifactId>
     <packaging>jar</packaging>
 
-    <name>moosemate-core</name>
+    <name>core</name>
     <description>Core domain models and DTOs</description>
 
     <dependencies>

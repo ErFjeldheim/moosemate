@@ -11,17 +11,17 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>moosemate-persistence</artifactId>
+    <artifactId>persistence</artifactId>
     <packaging>jar</packaging>
 
-    <name>moosemate-persistence</name>
+    <name>persistence</name>
     <description>Data persistence layer with repositories</description>
 
     <dependencies>
         <!-- Core module dependency -->
         <dependency>
             <groupId>moosemate</groupId>
-            <artifactId>moosemate-core</artifactId>
+            <artifactId>core</artifactId>
             <version>${project.version}</version>
         </dependency>
         

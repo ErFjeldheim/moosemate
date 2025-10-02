@@ -11,14 +11,7 @@
     <packaging>pom</packaging>
 
     <name>moosemate</name>
-    <description>A multi-module JavaFX application using Java 21 LTS</description>
-    <modules>
-        <module>core</module>
-        <module>persistence</module>
-        <module>service</module>
-        <module>ui</module>
-    </modules>
-
+    <description>A JavaFX application using Java 21 LTS</description>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -31,8 +24,7 @@
         <spotbugs.version>4.9.5.0</spotbugs.version>
     </properties>
 
-    <dependencyManagement>
-        <dependencies>
+    <dependencies>
         <!-- JavaFX Controls -->
         <dependency>
             <groupId>org.openjfx</groupId>
@@ -117,7 +109,6 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    </dependencyManagement>
 
     <build>
         <plugins>

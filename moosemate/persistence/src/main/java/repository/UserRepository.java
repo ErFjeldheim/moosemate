@@ -143,24 +143,6 @@ public class UserRepository {
     }
 
     /**
-     * Find a user by username
-     * @param username The username to search for
-     * @return Optional containing the user data if found
-     */
-    public Optional<Map<String, String>> findByUsername(String username) {
-        return findByUsernameOrEmail(username);
-    }
-
-    /**
-     * Find a user by email
-     * @param email The email to search for
-     * @return Optional containing the user data if found
-     */
-    public Optional<Map<String, String>> findByEmail(String email) {
-        return findByUsernameOrEmail(email);
-    }
-
-    /**
      * Checks if a username already exists.
      * 
      * @param username the username to check

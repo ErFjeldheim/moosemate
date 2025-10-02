@@ -1,0 +1,13 @@
+{
+  "users" : [ {
+    "password" : "$2a$12$wFNutRczjnRxJn2lVqvzNu6i9./bdHgb80ZeBNT3IpfXHDkemSVT2",
+    "userID" : "98fc4451-22d0-41ec-9970-2a143a25aeb1",
+    "email" : "test@test.no",
+    "username" : "test2"
+  }, {
+    "password" : "$2a$12$wJhtseFIXOV0axD7pSQ2J.ruwLKCKMhlTH9CtQV1TSzDd.fjlGXnC",
+    "userID" : "5eae5ac2-d476-43e4-b4ca-dd1c95216d45",
+    "email" : "test1@test.no",
+    "username" : "test10"
+  } ]
+}

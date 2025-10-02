@@ -39,7 +39,7 @@ public class LoginController extends BaseController {
             clearError(); // Clear previous errors
             LoginService loginService = new LoginService();
             
-            // Store the result to avoid calling loginUser twice
+            // Use LoginService for authentication
             boolean loginSuccess = loginService.loginUser(usernameField.getText(), passwordField.getText());
             
             if (loginSuccess) {

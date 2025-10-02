@@ -1,28 +1,31 @@
 package impl;
 
-import repository.UserRepository;
-
 /**
  * Service class for handling user sign-up operations.
- * Delegates user creation to UserRepository which handles password hashing and data persistence.
+ * Handles sign-up business logic and delegates user creation to UserService.
  */
 public class SignUpService {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
+    private final PasswordService passwordService;
 
-    
     public SignUpService() {
-        this.userRepository = new UserRepository();
+        this.userService = new UserService();
+        this.passwordService = new PasswordService();
+    }
+
+    // Constructor for dependency injection (useful for testing)
+    public SignUpService(UserService userService, PasswordService passwordService) {
+        this.userService = userService;
+        this.passwordService = passwordService;
     }
 
     /**
-     * Registers a new user by delegating to UserRepository which handles password hashing and validation.
-     * This class is kept until further decision, as we might implement email verification during signup later on.
-     * Might be deleted and implenented in UserRepository if no further logic is implemented
+     * Registers a new user by handling validation, password hashing, and user creation.
      * 
      * @param username the username
      * @param email the email address
-     * @param password the plain text password (will be hashed by UserRepository)
+     * @param password the plain text password (will be hashed)
      * @return true if user was successfully registered, false otherwise
      * @throws IllegalArgumentException if input validation fails
      */
@@ -32,7 +35,19 @@ public class SignUpService {
             throw new IllegalArgumentException("All fields are required");
         }
 
-        // Delegate to UserRepository which handles password hashing and data persistence
-        return userRepository.createUser(username, email, password);
+        // Check if user already exists using UserService
+        if (userService.userExists(username)) {
+            throw new IllegalArgumentException("Username already exists");
+        }
+
+        if (userService.emailExists(email)) {
+            throw new IllegalArgumentException("Email already registered");
+        }
+
+        // Hash the password before storing
+        String hashedPassword = passwordService.hashPassword(password);
+        
+        // Delegate to UserService for actual user creation
+        return userService.createUser(username, email, hashedPassword);
     }
 }

@@ -11,24 +11,24 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>moosemate-service</artifactId>
+    <artifactId>service</artifactId>
     <packaging>jar</packaging>
 
-    <name>moosemate-service</name>
+    <name>service</name>
     <description>Business logic service layer</description>
 
     <dependencies>
         <!-- Core module dependency -->
         <dependency>
             <groupId>moosemate</groupId>
-            <artifactId>moosemate-core</artifactId>
+            <artifactId>core</artifactId>
             <version>${project.version}</version>
         </dependency>
         
         <!-- Persistence module dependency -->
         <dependency>
             <groupId>moosemate</groupId>
-            <artifactId>moosemate-persistence</artifactId>
+            <artifactId>persistence</artifactId>
             <version>${project.version}</version>
         </dependency>
         
