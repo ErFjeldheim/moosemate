@@ -21,6 +21,7 @@ import java.util.UUID;
 public class UserRepository {
     
     private static final String DATA_FILE_PATH = "persistence/src/main/resources/data/data.json";
+    
     private final ObjectMapper objectMapper;
     private final File dataFile;
 
@@ -37,7 +38,12 @@ public class UserRepository {
      * @return the path to the data file
      */
     protected String getDataFilePath() {
-        return DATA_FILE_PATH;
+        // Find project root by walking up until we find the persistence directory
+        File dir = new File(System.getProperty("user.dir"));
+        while (dir != null && !new File(dir, "persistence").exists()) {
+            dir = dir.getParentFile();
+        }
+        return new File(dir != null ? dir : new File("."), DATA_FILE_PATH).getAbsolutePath();
     }
 
     /**
