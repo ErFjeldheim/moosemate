@@ -1,0 +1,8 @@
+{
+  "users" : [ {
+    "password" : "$2a$12$Cp6fadx3vLHrvv0JLYGxieU8/9N2bBt2Eq1VimXdKBDgasVsiAn4i",
+    "userID" : "35b14646-aa9e-4a09-8408-f996a0f8c2fe",
+    "email" : "test@no.no",
+    "username" : "test"
+  } ]
+}
