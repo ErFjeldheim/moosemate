@@ -1,10 +1,11 @@
-package impl;
+package service;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.*;
 
+import repository.UserRepository;
 import java.io.File;
 
 /**
@@ -13,15 +14,20 @@ import java.io.File;
  */
 public class SignUpServiceTest {
 
-    private TestSignUpService signUpService;
-    private final String testDataFile = "test-signup-data.json";
+    private SignUpService signUpService;
+    private UserService userService;
+    private PasswordService passwordService;
+    private final String testDataFile = "./target/test-signup-data.json";
 
     @BeforeEach
     public void setUp() {
         // Clean up any existing test data
         cleanupTestFile();
-        // Initialize fresh SignUpService which will create the data file
-        signUpService = new TestSignUpService();
+        // Initialize services with test repository
+        TestUserRepository testRepository = new TestUserRepository();
+        userService = new UserService(testRepository);
+        passwordService = new PasswordService();
+        signUpService = new SignUpService(userService, passwordService);
     }
 
     @AfterEach
@@ -30,27 +36,9 @@ public class SignUpServiceTest {
     }
 
     /**
-     * Test-specific SignUpService that uses a separate test data file
+     * Test UserRepository that uses separate test data file
      */
-    private class TestSignUpService extends SignUpService {
-        private final TestUserService testUserService = new TestUserService();
-        
-        @Override
-        public boolean signUpUser(String username, String email, String password) throws IllegalArgumentException {
-            // Validate inputs
-            if (username == null || email == null || password == null) {
-                throw new IllegalArgumentException("All fields are required");
-            }
-
-            // Delegate to test UserService
-            return testUserService.createUser(username, email, password);
-        }
-    }
-    
-    /**
-     * Test UserService that uses separate test data file
-     */
-    private class TestUserService extends UserService {
+    private class TestUserRepository extends UserRepository {
         @Override
         protected String getDataFilePath() {
             return testDataFile;
@@ -75,9 +63,10 @@ public class SignUpServiceTest {
         // Create first user
         signUpService.signUpUser("existinguser", "first@example.com", "password123");
         
-        // Try to create another user with same username
-        boolean result = signUpService.signUpUser("existinguser", "new@example.com", "password123");
-        assertFalse(result, "Should not allow duplicate usernames");
+        // Try to create another user with same username should throw exception
+        assertThrows(IllegalArgumentException.class, () -> {
+            signUpService.signUpUser("existinguser", "new@example.com", "password123");
+        }, "Should throw exception for duplicate username");
     }
 
     @Test
@@ -86,9 +75,10 @@ public class SignUpServiceTest {
         // The test isolation ensures this doesn't interfere with other tests
         signUpService.signUpUser("firstuser", "existing@example.com", "password123");
         
-        // Try to create another user with same email
-        boolean result = signUpService.signUpUser("newuser", "existing@example.com", "password123");
-        assertFalse(result, "Should not allow duplicate emails");
+        // Try to create another user with same email should throw exception
+        assertThrows(IllegalArgumentException.class, () -> {
+            signUpService.signUpUser("newuser", "existing@example.com", "password123");
+        }, "Should throw exception for duplicate email");
     }
 
     @Test

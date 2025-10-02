@@ -1,10 +1,11 @@
-package moosemate.services;
+package service;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.*;
 
+import repository.UserRepository;
 import java.io.File;
 import java.util.Map;
 
@@ -14,17 +15,21 @@ import java.util.Map;
  */
 public class LoginServiceTest {
 
-    private TestLoginService loginService;
-    private TestUserService userService;
-    private final String testDataFile = "test-login-data.json";
+    private LoginService loginService;
+    private UserService userService;
+    private PasswordService passwordService;
+    private TestUserRepository userRepository;
+    private final String testDataFile = "./target/test-login-data.json";
 
     @BeforeEach
     public void setUp() {
         // Clean up any existing test data
         cleanupTestFile();
         // Initialize services with test isolation
-        userService = new TestUserService();
-        loginService = new TestLoginService();
+        userRepository = new TestUserRepository();
+        userService = new UserService(userRepository);
+        passwordService = new PasswordService();
+        loginService = new LoginService(userService, passwordService);
     }
 
     @AfterEach
@@ -33,47 +38,9 @@ public class LoginServiceTest {
     }
 
     /**
-     * Test-specific LoginService that uses a separate test data file
+     * Test UserRepository that uses separate test data file
      */
-    private class TestLoginService extends LoginService {
-        private final TestUserService testUserService = new TestUserService();
-        private final PasswordService passwordService = new PasswordService();
-        
-        @Override
-        public boolean loginUser(String usernameOrEmail, String password) {
-            try {
-                // Find user by username or email using test UserService
-                var userOpt = testUserService.findByUsernameOrEmail(usernameOrEmail);
-                
-                if (!userOpt.isPresent()) {
-                    return false;
-                }
-
-                Map<String, String> user = userOpt.get();
-
-                // Validate password using BCrypt verification
-                if (validatePassword(user, password)) {
-                    return true;
-                } else {
-                    return false;
-                }
-
-            } catch (Exception e) {
-                return false;
-            }
-        }
-        
-        @Override
-        public boolean validatePassword(Map<String, String> user, String rawPassword) {
-            String storedHashedPassword = user.get("password");
-            return passwordService.verifyPassword(rawPassword, storedHashedPassword);
-        }
-    }
-    
-    /**
-     * Test UserService that uses separate test data file
-     */
-    private class TestUserService extends UserService {
+    private class TestUserRepository extends UserRepository {
         @Override
         protected String getDataFilePath() {
             return testDataFile;
@@ -89,24 +56,27 @@ public class LoginServiceTest {
 
     @Test
     public void testLoginUserWithValidUsernameAndPassword() {
-        // Create test user for this test
-        userRepository.createUser("testuser", "test@example.com", "password123");
+        // Create test user for this test with hashed password
+        String hashedPassword = passwordService.hashPassword("password123");
+        userService.createUser("testuser", "test@example.com", hashedPassword);
         boolean result = loginService.loginUser("testuser", "password123");
         assertTrue(result, "Should login successfully with valid username and password");
     }
 
     @Test
     public void testLoginUserWithValidEmailAndPassword() {
-        // Create test user for this test
-        userRepository.createUser("testuser", "test@example.com", "password123");
+        // Create test user for this test with hashed password
+        String hashedPassword = passwordService.hashPassword("password123");
+        userService.createUser("testuser", "test@example.com", hashedPassword);
         boolean result = loginService.loginUser("test@example.com", "password123");
         assertTrue(result, "Should login successfully with valid email and password");
     }
 
     @Test
     public void testLoginUserWithInvalidPassword() {
-        // Create test user for this test
-        userRepository.createUser("testuser", "test@example.com", "password123");
+        // Create test user for this test with hashed password
+        String hashedPassword = passwordService.hashPassword("password123");
+        userService.createUser("testuser", "test@example.com", hashedPassword);
         boolean result = loginService.loginUser("testuser", "wrongpassword");
         assertFalse(result, "Should fail login with invalid password");
     }
@@ -127,9 +97,10 @@ public class LoginServiceTest {
 
     @Test
     public void testValidatePasswordWithValidPassword() {
-        // Create test user for this test
-        userRepository.createUser("testuser2", "test2@example.com", "mySecretPassword");
-        var userOpt = userRepository.findByUsernameOrEmail("testuser2");
+        // Create test user for this test with hashed password
+        String hashedPassword = passwordService.hashPassword("mySecretPassword");
+        userService.createUser("testuser2", "test2@example.com", hashedPassword);
+        var userOpt = userService.findByUsernameOrEmail("testuser2");
         assertTrue(userOpt.isPresent(), "User should exist");
         
         Map<String, String> user = userOpt.get();
@@ -139,9 +110,10 @@ public class LoginServiceTest {
 
     @Test
     public void testValidatePasswordWithInvalidPassword() {
-        // Create test user for this test
-        userRepository.createUser("testuser2", "test2@example.com", "mySecretPassword");
-        var userOpt = userRepository.findByUsernameOrEmail("testuser2");
+        // Create test user for this test with hashed password
+        String hashedPassword = passwordService.hashPassword("mySecretPassword");
+        userService.createUser("testuser2", "test2@example.com", hashedPassword);
+        var userOpt = userService.findByUsernameOrEmail("testuser2");
         assertTrue(userOpt.isPresent(), "User should exist");
         
         Map<String, String> user = userOpt.get();
@@ -151,8 +123,9 @@ public class LoginServiceTest {
 
     @Test
     public void testLoginWithEmptyPassword() {
-        // Create test user for this test
-        userRepository.createUser("testuser", "test@example.com", "password123");
+        // Create test user for this test with hashed password
+        String hashedPassword = passwordService.hashPassword("password123");
+        userService.createUser("testuser", "test@example.com", hashedPassword);
         boolean result = loginService.loginUser("testuser", "");
         assertFalse(result, "Should fail login with empty password");
     }
@@ -166,9 +139,11 @@ public class LoginServiceTest {
 
     @Test
     public void testMultipleUsersLogin() {
-        // Create test users for this test
-        userRepository.createUser("user1", "user1@example.com", "password1");
-        userRepository.createUser("user2", "user2@example.com", "password2");
+        // Create test users for this test with hashed passwords
+        String hashedPassword1 = passwordService.hashPassword("password1");
+        String hashedPassword2 = passwordService.hashPassword("password2");
+        userService.createUser("user1", "user1@example.com", hashedPassword1);
+        userService.createUser("user2", "user2@example.com", hashedPassword2);
         
         // Test login for both users
         assertTrue(loginService.loginUser("user1", "password1"), "User1 should login successfully");
@@ -183,12 +158,13 @@ public class LoginServiceTest {
     public void testPasswordHashing() {
         String plainPassword = "password123";
         
-        // Create test user for this test
-        userRepository.createUser("testuser", "test@example.com", plainPassword);
+        // Create test user for this test with hashed password
+        String hashedPassword = passwordService.hashPassword(plainPassword);
+        userService.createUser("testuser", "test@example.com", hashedPassword);
         assertTrue(loginService.loginUser("testuser", plainPassword), "Should login with original plain password");
         
         // Verify that the stored password is actually hashed (not plain text)
-        var userOpt = userRepository.findByUsernameOrEmail("testuser");
+        var userOpt = userService.findByUsernameOrEmail("testuser");
         assertTrue(userOpt.isPresent(), "User should exist");
         
         String storedPassword = userOpt.get().get("password");

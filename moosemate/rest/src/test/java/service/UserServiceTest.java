@@ -1,10 +1,11 @@
-package impl;
+package service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import repository.UserRepository;
 import java.io.File;
 import java.util.Map;
 import java.util.Optional;
@@ -15,7 +16,7 @@ import java.util.Optional;
 public class UserServiceTest {
     
     private UserService userService;
-    private static final String TEST_DATA_FILE = "test-data.json";
+    private static final String TEST_DATA_FILE = "./target/test-data.json";
     
     @BeforeEach
     public void setUp() {
@@ -25,8 +26,9 @@ public class UserServiceTest {
             testFile.delete();
         }
         
-        // Initialize test service
-        userService = new TestUserService();
+        // Initialize test service with test repository
+        TestUserRepository testRepository = new TestUserRepository();
+        userService = new UserService(testRepository);
     }
     
     @AfterEach
@@ -39,9 +41,9 @@ public class UserServiceTest {
     }
     
     /**
-     * Test-specific UserService that uses a separate test data file
+     * Test-specific UserRepository that uses a separate test data file
      */
-    private static class TestUserService extends UserService {
+    private static class TestUserRepository extends UserRepository {
         @Override
         protected String getDataFilePath() {
             return TEST_DATA_FILE;

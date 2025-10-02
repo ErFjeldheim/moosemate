@@ -25,10 +25,10 @@
             <version>${project.version}</version>
         </dependency>
         
-        <!-- Service module dependency -->
+        <!-- REST module dependency -->
         <dependency>
             <groupId>moosemate</groupId>
-            <artifactId>service</artifactId>
+            <artifactId>rest</artifactId>
             <version>${project.version}</version>
         </dependency>
         

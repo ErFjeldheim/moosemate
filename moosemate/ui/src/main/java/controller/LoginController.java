@@ -6,7 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.event.ActionEvent;
-import impl.LoginService;
+import service.LoginService;
 
 public class LoginController extends BaseController {
 

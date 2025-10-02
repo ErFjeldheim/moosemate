@@ -1,4 +1,4 @@
-package impl;
+package service;
 
 /**
  * Service class for handling user sign-up operations.
