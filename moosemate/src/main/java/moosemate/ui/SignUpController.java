@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.TextField;
 import javafx.scene.control.PasswordField;
 import moosemate.services.SignUpService;
+import moosemate.services.UserService;
 
 public class SignUpController extends BaseController {
     
@@ -30,20 +31,26 @@ public class SignUpController extends BaseController {
         
         try {
             SignUpService signUpService = new SignUpService();
+            UserService userService = new UserService();
+            
+            // Pre-validate before attempting sign up
+            if (userService.userExists(username)) {
+                showError("Username already exists");
+                return;
+            }
+            
+            if (userService.emailExists(email)) {
+                showError("Email already registered");
+                return;
+            }
+            
             boolean signUpSuccess = signUpService.signUpUser(username, email, password);
 
             if (signUpSuccess) {
                 System.out.println("Sign up completed!");
                 navigateToOtherPageWithSuccess(event, "/fxml/loginpage.fxml", "Login", "Sign up successful!");
             } else {
-                // Check specific reasons for failure to sign up
-                if (signUpService.userExists(username)) {
-                    showError("Username already exists");
-                } else if (signUpService.emailExists(email)) {
-                    showError("Email already registered");
-                } else {
-                    showError("Sign up failed. Please try again.");
-                }
+                showError("Sign up failed. Please try again.");
             }
             
         } catch (IllegalArgumentException e) {
