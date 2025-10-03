@@ -11,14 +11,7 @@
     <packaging>pom</packaging>
 
     <name>moosemate</name>
-    <description>A multi-module JavaFX application using Java 21 LTS</description>
-    <modules>
-        <module>core</module>
-        <module>persistence</module>
-        <module>rest</module>
-        <module>ui</module>
-    </modules>
-
+    <description>A JavaFX application using Java 21 LTS</description>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -29,15 +22,9 @@
         <javafx.maven.plugin.version>0.0.8</javafx.maven.plugin.version>
         <jacoco.version>0.8.11</jacoco.version>
         <spotbugs.version>4.9.5.0</spotbugs.version>
-        <junit.version>5.10.1</junit.version>
-        <mockito.version>5.7.0</mockito.version>
-        <jackson.version>2.16.1</jackson.version>
-        <jbcrypt.version>0.4</jbcrypt.version>
-        <testfx.version>4.0.18</testfx.version>
     </properties>
 
-    <dependencyManagement>
-        <dependencies>
+    <dependencies>
         <!-- JavaFX Controls -->
         <dependency>
             <groupId>org.openjfx</groupId>
@@ -122,7 +109,6 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    </dependencyManagement>
 
     <build>
         <plugins>
@@ -178,17 +164,6 @@
                         <goals>
                             <goal>report</goal>
                         </goals>
-                    </execution>
-                    <!-- Aggregate reports from all modules -->
-                    <execution>
-                        <id>report-aggregate</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>report-aggregate</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/site/jacoco-aggregate</outputDirectory>
-                        </configuration>
                     </execution>
                     <!-- Check coverage thresholds -->
                     <execution>
@@ -248,31 +223,21 @@
                 <executions>
                     <execution>
                         <id>coverage-summary</id>
-                        <phase>verify</phase>
+                        <phase>test</phase>
                         <goals>
                             <goal>run</goal>
                         </goals>
                         <configuration>
                             <target>
                                 <echo message="" level="info" />
-                                <echo message="========================================" level="info" />
-                                <echo message="  Test Coverage Report Generated" level="info" />
-                                <echo message="========================================" level="info" />
+                                <echo message="=== Test Coverage Summary ===" level="info" />
+                                <echo message="Report generated: target/site/jacoco/index.html" level="info" />
+                                <echo message="Open the HTML file to view coverage percentage" level="info" />
                                 <echo message="" level="info" />
-                                <echo message="📊 Aggregated Report (All Modules):" level="info" />
-                                <echo message="file://${session.executionRootDirectory}/ui/target/site/jacoco-aggregate/index.html" level="info" />
-                                <echo message="" level="info" />
-                                <echo message="📁 Individual Module Reports:" level="info" />
-                                <echo message="  Core:        file://${session.executionRootDirectory}/core/target/site/jacoco/index.html" level="info" />
-                                <echo message="  REST:        file://${session.executionRootDirectory}/rest/target/site/jacoco/index.html" level="info" />
-                                <echo message="" level="info" />
-                                <echo message="💡 Tip: Command/Ctrl+Click the links above to open in browser" level="info" />
-                                <echo message="========================================" level="info" />
                             </target>
                         </configuration>
                     </execution>
                 </executions>
-                <inherited>false</inherited>
             </plugin>
 
             <!-- Maven Checkstyle Plugin for code style checking -->

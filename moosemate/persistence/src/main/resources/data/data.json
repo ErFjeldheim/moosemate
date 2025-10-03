@@ -1,0 +1,28 @@
+{
+  "users" : [ {
+    "password" : "$2a$12$6s6T0G.OGcLwgLN6QBOqC.IUx.wd.9aAgM9S0JHKTSAQfPU2RyxwW",
+    "userID" : "2c6900f3-27ce-448d-9042-d13f18b4589f",
+    "email" : "ga@tmoe.no",
+    "username" : "test20"
+  }, {
+    "password" : "$2a$12$sDsLGEXoMCtvs3WIzciVf.zqH3afRlW38ESweIFg7P5TS6R1B2QH2",
+    "userID" : "54cee79e-3951-4912-8759-a2893c1eab46",
+    "email" : "haha@haha.haha",
+    "username" : "haha"
+  }, {
+    "password" : "$2a$12$SjhjZLNnXroyz3Om/b92XOXevakr10Cea940RFEn8Pmo5TlFwnUNu",
+    "userID" : "cd2d8a9e-5b87-4b80-ab78-116bbbb88044",
+    "email" : "emfaef@gnoag.nngioe",
+    "username" : "edvarao"
+  }, {
+    "password" : "$2a$12$iGi2QXJQembX8qRmNeGgqOYYQ9tHiMNAWysj/XRX1ueY3p5fFNGiS",
+    "userID" : "04516877-9d08-4a7a-bc35-fb406cb2e0f8",
+    "email" : "erik@ganoign.ngoi",
+    "username" : "erik"
+  }, {
+    "password" : "$2a$12$2km0fdl0IYeFhzyRfSRukOY.SX2zxwLnYprkb/YibqFi6i5mDxcp6",
+    "userID" : "4349f3fc-adb9-41ea-b3da-164e196ffde2",
+    "email" : "testm@gmkag.no",
+    "username" : "kongen"
+  } ]
+}
