@@ -48,7 +48,7 @@ public class SignUpService {
          // Validate email format
         String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
         if (!email.matches(emailRegex)) {
-            throw new IllegalArgumentException("Invalid email format");
+            throw new IllegalArgumentException("Invalid email format: ...@email.com");
         }
 
         //ensures stronger password

@@ -167,7 +167,7 @@ public class UserRepository {
      */
     public boolean userExists(String username) {
         try {
-            if (!dataFile.exists()) {
+            if (username == null || !dataFile.exists()) {
                 return false;
             }
 
@@ -196,7 +196,7 @@ public class UserRepository {
      */
     public boolean emailExists(String email) {
         try {
-            if (!dataFile.exists()) {
+            if (email == null || !dataFile.exists()) {
                 return false;
             }
 
