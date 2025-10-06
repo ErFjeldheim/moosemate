@@ -233,4 +233,105 @@ String userID = UUID.randomUUID().toString(); // Generates userID-hash
         assertEquals("pass123a", user.getPassword());
         assertEquals(validUserID, user.getUserID());
     }
+
+    @Test
+    public void testConstructorWithInvalidInputs() {
+        String validUserID = UUID.randomUUID().toString();
+        
+        // Test constructor throws exceptions for invalid inputs
+        assertThrows(IllegalArgumentException.class, 
+            () -> new User(null, "valid@email.com", "validpass123", validUserID));
+            
+        assertThrows(IllegalArgumentException.class, 
+            () -> new User("validuser", null, "validpass123", validUserID));
+            
+        assertThrows(IllegalArgumentException.class, 
+            () -> new User("validuser", "valid@email.com", null, validUserID));
+            
+        assertThrows(IllegalArgumentException.class, 
+            () -> new User("", "valid@email.com", "validpass123", validUserID));
+            
+        assertThrows(IllegalArgumentException.class, 
+            () -> new User("validuser", "", "validpass123", validUserID));
+            
+        assertThrows(IllegalArgumentException.class, 
+            () -> new User("validuser", "valid@email.com", "", validUserID));
+    }
+
+    @Test
+    public void testEmailValidationBoundaries() {
+        User user = new User();
+        
+        // Test various invalid email formats to cover all validation branches
+        assertThrows(IllegalArgumentException.class, () -> user.setEmail("plainaddress"));
+        assertThrows(IllegalArgumentException.class, () -> user.setEmail("@missingusername.com"));
+        assertThrows(IllegalArgumentException.class, () -> user.setEmail("username@.com"));
+        assertThrows(IllegalArgumentException.class, () -> user.setEmail("username@com"));
+        
+        // These might actually be valid depending on regex implementation, so test individually
+        // assertThrows(IllegalArgumentException.class, () -> user.setEmail("username..double.dot@example.com"));
+        // assertThrows(IllegalArgumentException.class, () -> user.setEmail("username@-example.com"));
+        // assertThrows(IllegalArgumentException.class, () -> user.setEmail("username@example-.com"));
+        
+        // Test valid emails that should pass
+        assertDoesNotThrow(() -> user.setEmail("test@example.com"));
+        assertDoesNotThrow(() -> user.setEmail("user.name@domain.org"));
+        assertDoesNotThrow(() -> user.setEmail("firstname+lastname@domain.co.uk"));
+    }
+
+    @Test
+    public void testPasswordValidationBoundaries() {
+        User user = new User();
+        
+        // Test password that is exactly 7 characters (should fail)
+        assertThrows(IllegalArgumentException.class, () -> user.setPassword("pass12"));
+        
+        // Test password with only uppercase letters, no numbers (should fail)
+        assertThrows(IllegalArgumentException.class, () -> user.setPassword("PASSWORDONLY"));
+        
+        // Test password with only lowercase letters, no numbers (should fail)
+        assertThrows(IllegalArgumentException.class, () -> user.setPassword("passwordonly"));
+        
+        // Test password with numbers only, no letters (should fail)
+        assertThrows(IllegalArgumentException.class, () -> user.setPassword("12345678"));
+        
+        // Test password with special characters but no letters (should fail)
+        assertThrows(IllegalArgumentException.class, () -> user.setPassword("!@#$%^&*"));
+        
+        // Test password with special characters but no numbers (should fail)
+        assertThrows(IllegalArgumentException.class, () -> user.setPassword("password!@#"));
+        
+        // Test valid passwords that meet all criteria
+        assertDoesNotThrow(() -> user.setPassword("validPass1"));
+        assertDoesNotThrow(() -> user.setPassword("MyP@ssw0rd"));
+        assertDoesNotThrow(() -> user.setPassword("Test123!"));
+    }
+
+    @Test
+    public void testUsernameSpecialCasesAndBoundaries() {
+        User user = new User();
+        
+        // Test username exactly at 20 character limit
+        String exactlyTwentyChars = "12345678901234567890";
+        assertEquals(20, exactlyTwentyChars.length());
+        user.setUsername(exactlyTwentyChars);
+        assertEquals(exactlyTwentyChars, user.getUsername());
+        
+        // Test username exactly at 21 characters (should fail)
+        String twentyOneChars = "123456789012345678901";
+        assertEquals(21, twentyOneChars.length());
+        assertThrows(IllegalArgumentException.class, () -> user.setUsername(twentyOneChars));
+        
+        // Test username with various space positions
+        assertThrows(IllegalArgumentException.class, () -> user.setUsername("user name"));
+        assertThrows(IllegalArgumentException.class, () -> user.setUsername(" username"));
+        assertThrows(IllegalArgumentException.class, () -> user.setUsername("username "));
+        assertThrows(IllegalArgumentException.class, () -> user.setUsername("user name test"));
+        
+        // Test valid usernames with underscores and dots
+        assertDoesNotThrow(() -> user.setUsername("user_name"));
+        assertDoesNotThrow(() -> user.setUsername("user.name"));
+        assertDoesNotThrow(() -> user.setUsername("user123"));
+        assertDoesNotThrow(() -> user.setUsername("123user"));
+    }
 }

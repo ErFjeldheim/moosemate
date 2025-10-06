@@ -4,6 +4,9 @@ pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup
 pom.xml.next
+pom.xml.original
+*.original
+*.backup
 release.properties
 dependency-reduced-pom.xml
 buildNumber.properties
@@ -46,3 +49,9 @@ Thumbs.db
 
 # JavaFX
 .fxcache/
+
+# Test data files (production data is in persistence/src/main/resources/data/)
+/moosemate/data.json
+/moosemate/non-existent-file.json
+**/target/test-data/
+test-*.json

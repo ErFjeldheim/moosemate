@@ -33,6 +33,11 @@ public class LoginService {
      */
     public boolean loginUser(String usernameOrEmail, String password) {
         try {
+            // Check for null inputs
+            if (usernameOrEmail == null || password == null) {
+                return false;
+            }
+
             // Find user using UserService
             Optional<Map<String, String>> userOpt = userService.findByUsernameOrEmail(usernameOrEmail);
             

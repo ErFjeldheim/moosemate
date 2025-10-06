@@ -34,6 +34,7 @@ public class SignUpService {
         if (username == null || email == null || password == null) {
             throw new IllegalArgumentException("All fields are required");
         }
+        
 
         // Check if user already exists using UserService
         if (userService.userExists(username)) {
@@ -42,6 +43,23 @@ public class SignUpService {
 
         if (userService.emailExists(email)) {
             throw new IllegalArgumentException("Email already registered");
+        }
+
+         // Validate email format
+        String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+        if (!email.matches(emailRegex)) {
+            throw new IllegalArgumentException("Invalid email format");
+        }
+
+        //ensures stronger password
+        //at least 8 characters/numbers long
+        if (password.length() < 8) {
+            throw new IllegalArgumentException("Password must contain at least 8 characters");
+            
+        }
+        // at least 1 digit
+        if (!password.matches(".*\\d.*")) {
+            throw new IllegalArgumentException("Password must contain at least one digit");
         }
 
         // Hash the password before storing

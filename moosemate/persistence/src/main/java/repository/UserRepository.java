@@ -92,6 +92,12 @@ public class UserRepository {
             Map<String, Object> data = readDataFromFile();
             @SuppressWarnings("unchecked")
             List<Map<String, String>> users = (List<Map<String, String>>) data.get("users");
+            
+            // Handle null users array
+            if (users == null) {
+                System.err.println("Users array is null or missing in data file");
+                return false;
+            }
 
             // Create new user entry with validated data
             Map<String, String> userMap = new HashMap<>();
@@ -124,6 +130,11 @@ public class UserRepository {
      * @return Optional containing the user data if found, empty otherwise
      */
     public Optional<Map<String, String>> findByUsernameOrEmail(String usernameOrEmail) {
+        // Handle null or empty input
+        if (usernameOrEmail == null || usernameOrEmail.isEmpty()) {
+            return Optional.empty();
+        }
+        
         try {
             if (!dataFile.exists()) {
                 return Optional.empty();

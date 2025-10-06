@@ -1,28 +1,28 @@
 {
   "users" : [ {
-    "password" : "$2a$12$6s6T0G.OGcLwgLN6QBOqC.IUx.wd.9aAgM9S0JHKTSAQfPU2RyxwW",
-    "userID" : "2c6900f3-27ce-448d-9042-d13f18b4589f",
-    "email" : "ga@tmoe.no",
-    "username" : "test20"
-  }, {
-    "password" : "$2a$12$sDsLGEXoMCtvs3WIzciVf.zqH3afRlW38ESweIFg7P5TS6R1B2QH2",
-    "userID" : "54cee79e-3951-4912-8759-a2893c1eab46",
-    "email" : "haha@haha.haha",
-    "username" : "haha"
-  }, {
-    "password" : "$2a$12$SjhjZLNnXroyz3Om/b92XOXevakr10Cea940RFEn8Pmo5TlFwnUNu",
-    "userID" : "cd2d8a9e-5b87-4b80-ab78-116bbbb88044",
-    "email" : "emfaef@gnoag.nngioe",
-    "username" : "edvarao"
-  }, {
-    "password" : "$2a$12$iGi2QXJQembX8qRmNeGgqOYYQ9tHiMNAWysj/XRX1ueY3p5fFNGiS",
-    "userID" : "04516877-9d08-4a7a-bc35-fb406cb2e0f8",
-    "email" : "erik@ganoign.ngoi",
-    "username" : "erik"
-  }, {
-    "password" : "$2a$12$2km0fdl0IYeFhzyRfSRukOY.SX2zxwLnYprkb/YibqFi6i5mDxcp6",
-    "userID" : "4349f3fc-adb9-41ea-b3da-164e196ffde2",
-    "email" : "testm@gmkag.no",
+    "password" : "$2a$12$3yUuM1.D4ks5plM5umCeWeUuo3.ccehUfsQr1Lg.cWn4UlB2IEJna",
+    "userID" : "089f0ecf-0928-441f-a7dd-079233a0d3e7",
+    "email" : "ngioang",
     "username" : "kongen"
+  }, {
+    "password" : "$2a$12$iwjl5caaCWrP.lGuL9RV2eGsFuOg/kP35a2sZqieKwgAeuvy1jFHu",
+    "userID" : "28bcf115-cca7-48b6-8d44-cb874089a578",
+    "email" : "gnoangor@gmr.gr",
+    "username" : "dronningen"
+  }, {
+    "password" : "$2a$12$mrMsNYtp4d17i0V43nDsTOX5hHpuWZEohk47na2A7H9DicluFtgna",
+    "userID" : "dd678a65-ed37-4bbc-8fc7-e80426b6247b",
+    "email" : "nofrg@mtl.nov",
+    "username" : "prinsessa"
+  }, {
+    "password" : "$2a$12$nNgd8ayCrLq3KWAHGCZgEuG.72z2PCNVaHuWm/hljB5jmATU7HuNi",
+    "userID" : "1df86395-380e-4ab5-af9e-1097f793d8f9",
+    "email" : "test@example.com",
+    "username" : "user"
+  }, {
+    "password" : "$2a$12$gHmrAcBt5k96qpuXmC5Z1.Mn4/tgz/RLdcT9L088pVkSF/c4J0hK.",
+    "userID" : "c6164f17-be1d-411e-bb7f-eda411eaadcb",
+    "email" : "new@example.com",
+    "username" : "newuser"
   } ]
 }

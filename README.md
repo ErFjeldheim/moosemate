@@ -12,20 +12,29 @@ mvn clean install
 mvn javafx:run
 ~~~
 
-The project is tested by
+The project is tested by: 
 
 ~~~
 mvn clean test
 ~~~
+
+to include javaFX coverage in JaCoCo, run: 
+~~~
+mvn test -Dtest="*TestFX"
+~~~
+
+
 
 HTML-link to test coverage is provided in the terminal.
 
 ## Dependencies
 
 - Java (21.0.8)
-- Maven (3.12.1)
-- JUnit 5 (5.10.1)
-- Jackson (2.16.1)
+- Maven (3.9.11)
+- JUnit 5 (5.12.2)
+- Jackson (2.17.2)
+- JavaFX (21)
+- TestFX (4.0.18)
 
 ## Eclipse Che
 

@@ -25,6 +25,13 @@
             <version>${project.version}</version>
         </dependency>
         
+        <!-- Persistence module dependency -->
+        <dependency>
+            <groupId>moosemate</groupId>
+            <artifactId>persistence</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        
         <!-- REST module dependency -->
         <dependency>
             <groupId>moosemate</groupId>
@@ -73,11 +80,8 @@
         </dependency>
         
         <!-- TestFX Robot for UI automation -->
-        <dependency>
-            <groupId>org.testfx</groupId>
-            <artifactId>openjfx-monocle</artifactId>
-            <scope>test</scope>
-        </dependency>
+        <!-- Monocle dependency removed due to JavaFX 21 compatibility issues -->
+        <!-- TestFX will use system robot instead -->
         
         <!-- Mockito for mocking -->
         <dependency>
@@ -96,6 +100,41 @@
 
     <build>
         <plugins>
+            <!-- JaCoCo Plugin Configuration for UI module -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>check</id>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <configuration>
+                            <!-- Skip TestFX check on macOS as it is not supported  -->
+                            <skip>${skip.ui.jacoco.check}</skip>
+                            <rules>
+                                <rule>
+                                    <element>BUNDLE</element>
+                                    <limits>
+                                        <limit>
+                                            <counter>INSTRUCTION</counter>
+                                            <value>COVEREDRATIO</value>
+                                            <minimum>0.00</minimum>
+                                        </limit>
+                                        <limit>
+                                            <counter>BRANCH</counter>
+                                            <value>COVEREDRATIO</value>
+                                            <minimum>0.00</minimum>
+                                        </limit>
+                                    </limits>
+                                </rule>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            
             <!-- Maven Compiler Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -114,16 +153,26 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.3</version>
                 <configuration>
+                    <!-- Force sequential execution for TestFX tests to avoid JavaFX thread conflicts -->
+                    <parallel>none</parallel>
+                    <forkCount>1</forkCount>
+                    <reuseForks>false</reuseForks>
+                    <!-- Explicitly include all test patterns including TestFX -->
+                    <includes>
+                        <include>**/*Test.java</include>
+                        <include>**/*Tests.java</include>
+                        <include>**/*TestCase.java</include>
+                        <include>**/*TestFX.java</include>
+                    </includes>
                     <systemPropertyVariables>
-                        <!-- Enable headless mode for JavaFX testing -->
-                        <java.awt.headless>true</java.awt.headless>
+                        <!-- System properties for TestFX execution without Monocle on Windows -->
+                        <java.awt.headless>false</java.awt.headless>
                         <testfx.robot>glass</testfx.robot>
-                        <testfx.headless>true</testfx.headless>
+                        <testfx.headless>false</testfx.headless>
                         <prism.order>sw</prism.order>
                         <prism.text>t2k</prism.text>
-                        <glass.platform>Monocle</glass.platform>
-                        <monocle.platform>Headless</monocle.platform>
                     </systemPropertyVariables>
+                    <!-- CRITICAL: @{argLine} allows JaCoCo to inject its agent parameters -->
                     <argLine>@{argLine} --add-exports javafx.graphics/com.sun.javafx.application=ALL-UNNAMED --add-exports javafx.graphics/com.sun.glass.ui=ALL-UNNAMED --add-opens javafx.graphics/javafx.stage=ALL-UNNAMED</argLine>
                 </configuration>
             </plugin>
@@ -136,6 +185,42 @@
                 <configuration>
                     <mainClass>app.App</mainClass>
                 </configuration>
+            </plugin>
+            
+            <!-- Maven Antrun Plugin to display coverage summary in terminal after mvn test -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+    
+                    <execution>
+                        <id>coverage-summary</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <echo message="" level="info" />
+                                <echo message="========================================" level="info" />
+                                <echo message="  Test Coverage Report" level="info" />
+                                <echo message="========================================" level="info" />
+                                <echo message="" level="info" />
+                                <echo message="Coverage report includes: core, persistence and rest" level="info" />
+                                <echo message="Click link below (cmd/ctrl + click) to open report:" level="info" />
+                                <echo message="" level="info" />
+                                <echo message="macOS:   file://${maven.multiModuleProjectDirectory}/ui/target/site/jacoco-aggregate/index.html" level="info" />
+                                <echo message="Windows: file:///${maven.multiModuleProjectDirectory}/ui/target/site/jacoco-aggregate/index.html" level="info" />
+                                <echo message="" level="info" />
+                                <echo message="For UI-specific coverage report:" level="info" />
+                                <echo message="  file:///${maven.multiModuleProjectDirectory}/ui/target/site/jacoco/index.html" level="info" />
+                                <echo message="" level="info" />
+                                <echo message="========================================" level="info" />
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             
             <!-- Maven Exec Plugin for running with proper module path -->

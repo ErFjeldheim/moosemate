@@ -17,8 +17,12 @@ public class BaseController {
     private Label errorLabel; 
     
     protected void navigateToOtherPage(ActionEvent event, String fxmlPath, String title) throws IOException {
-        // Loads the FXML file it want to navigate to
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+        // Loads the FXML file it want to navigate to - using safer resource loading approach
+        java.net.URL resourceUrl = BaseController.class.getResource(fxmlPath);
+        if (resourceUrl == null) {
+            throw new IOException("FXML resource not found: " + fxmlPath);
+        }
+        FXMLLoader loader = new FXMLLoader(resourceUrl);
         Parent root = loader.load();
         
         // Get the current stage 
@@ -32,9 +36,14 @@ public class BaseController {
     }
 
     // Overloaded method to navigate and show success message on target page
-    protected void navigateToOtherPageWithSuccess(ActionEvent event, String fxmlPath, String title, String successMessage) throws IOException {
-        // Loads the FXML file it want to navigate to
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+    protected void navigateToOtherPageWithSuccess(ActionEvent event, String fxmlPath,
+            String title, String successMessage) throws IOException {
+        // Loads the FXML file it want to navigate to - using safer resource loading approach
+        java.net.URL resourceUrl = BaseController.class.getResource(fxmlPath);
+        if (resourceUrl == null) {
+            throw new IOException("FXML resource not found: " + fxmlPath);
+        }
+        FXMLLoader loader = new FXMLLoader(resourceUrl);
         Parent root = loader.load();
         
         // Get the controller of the target page to set success message

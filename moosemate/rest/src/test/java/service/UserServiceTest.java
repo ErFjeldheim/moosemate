@@ -16,7 +16,7 @@ import java.util.Optional;
 public class UserServiceTest {
     
     private UserService userService;
-    private static final String TEST_DATA_FILE = "./target/test-data.json";
+    private static final String TEST_DATA_FILE = "rest/target/test-data/test-data.json";
     
     @BeforeEach
     public void setUp() {
@@ -33,10 +33,21 @@ public class UserServiceTest {
     
     @AfterEach
     void tearDown() {
-        // Clean up test file after each test
+        // Clean up all test files after each test
         File testFile = new File(TEST_DATA_FILE);
         if (testFile.exists()) {
             testFile.delete();
+        }
+        
+        // Clean up special test files used in individual tests
+        File ioTestFile = new File("./target/test-io-exception.json");
+        if (ioTestFile.exists()) {
+            ioTestFile.delete();
+        }
+        
+        File nonExistentTestFile = new File("./target/non-existent-test-file.json");
+        if (nonExistentTestFile.exists()) {
+            nonExistentTestFile.delete();
         }
     }
     
@@ -106,5 +117,52 @@ public class UserServiceTest {
         userService.createUser("testuser", "test@example.com", "Password123");
         assertTrue(userService.emailExists("test@example.com"));
         assertFalse(userService.emailExists("nonexistent@example.com"));
+    }
+
+    @Test
+    void testReadDataFromFileWhenFileDoesNotExist() {
+        // Create a test repository that points to a file that doesn't exist
+        TestUserRepository nonExistentFileRepository = new TestUserRepository() {
+            protected String getDataFilePath() {
+                return "./target/non-existent-test-file.json";
+            }
+        };
+        UserService nonExistentFileService = new UserService(nonExistentFileRepository);
+        
+        // This should trigger the readDataFromFile method's branch where file doesn't exist
+        // and should return an empty Optional
+        Optional<Map<String, String>> result = nonExistentFileService.findByUsernameOrEmail("anyuser");
+        assertFalse(result.isPresent(), "Should return empty when file doesn't exist");
+    }
+
+    @Test
+    void testInitializeDataFileIOException() {
+        // Clean up any existing test-io-exception file first
+        File ioTestFile = new File("./target/test-io-exception.json");
+        if (ioTestFile.exists()) {
+            ioTestFile.delete();
+        }
+        
+        // Create a test repository with a separate test file
+        TestUserRepository ioExceptionRepository = new TestUserRepository() {
+            @Override
+            protected String getDataFilePath() {
+                return "./target/test-io-exception.json";
+            }
+        };
+        UserService ioExceptionService = new UserService(ioExceptionRepository);
+        
+        // This test verifies no exception is thrown during normal operations
+        // Use unique username and email to avoid conflicts
+        String uniqueUsername = "ioexceptionuser_" + System.currentTimeMillis();
+        String uniqueEmail = "ioexception_" + System.currentTimeMillis() + "@example.com";
+        boolean result = ioExceptionService.createUser(uniqueUsername, uniqueEmail, "password123");
+        assertTrue(result, "User creation should succeed with valid data");
+        assertNotNull(ioExceptionService, "Service should be created without throwing exception");
+        
+        // Clean up after test
+        if (ioTestFile.exists()) {
+            ioTestFile.delete();
+        }
     }
 }

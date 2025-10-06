@@ -1,11 +1,10 @@
 package controller;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.event.ActionEvent;
 import service.LoginService;
 
 public class LoginController extends BaseController {
@@ -24,7 +23,7 @@ public class LoginController extends BaseController {
 
     // navigates to sign up page 
     @FXML
-    private void handleSignUpButton(ActionEvent event){
+    private void handleSignUpButton(ActionEvent event) {
         try {
             navigateToOtherPage(event, "/fxml/signuppage.fxml", "Sign Up");
         } catch (Exception e) {

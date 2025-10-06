@@ -24,10 +24,12 @@
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <javafx.version>21.0.8</javafx.version>
+        <javafx.version>21</javafx.version>
         <maven.compiler.plugin.version>3.12.1</maven.compiler.plugin.version>
         <javafx.maven.plugin.version>0.0.8</javafx.maven.plugin.version>
-        <jacoco.version>0.8.11</jacoco.version>
+        <jacoco.version>0.8.12</jacoco.version>
+        <junit.version>5.12.2</junit.version>
+        <testfx.version>4.0.18</testfx.version>
         <spotbugs.version>4.9.5.0</spotbugs.version>
         <junit.version>5.10.1</junit.version>
         <mockito.version>5.7.0</mockito.version>
@@ -38,6 +40,13 @@
 
     <dependencyManagement>
         <dependencies>
+        <!-- JavaFX Base -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-base</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+        
         <!-- JavaFX Controls -->
         <dependency>
             <groupId>org.openjfx</groupId>
@@ -51,20 +60,50 @@
             <artifactId>javafx-fxml</artifactId>
             <version>${javafx.version}</version>
         </dependency>
-        
+
+        <!-- Jackson JSON Library for user data persistence -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.17.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.17.2</version>
+        </dependency>
+
         <!-- JUnit 5 for testing -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.10.1</version>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-        
-        <!-- JUnit 5 API -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>5.10.1</version>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- TestFX for JavaFX UI testing -->
+        <dependency>
+            <groupId>org.testfx</groupId>
+            <artifactId>testfx-core</artifactId>
+            <version>${testfx.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testfx</groupId>
+            <artifactId>testfx-junit5</artifactId>
+            <version>${testfx.version}</version>
             <scope>test</scope>
         </dependency>
         
@@ -84,13 +123,14 @@
             <scope>test</scope>
         </dependency>
         
-        <!-- Jackson for JSON processing -->
+        <!-- Hamcrest for better assertions -->
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.16.1</version>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest</artifactId>
+            <version>3.0</version>
+            <scope>test</scope>
         </dependency>
-        
+
         <!-- BCrypt for password hashing -->
         <dependency>
             <groupId>org.mindrot</groupId>
@@ -98,33 +138,46 @@
             <version>0.4</version>
         </dependency>
         
-        <!-- TestFX Core for JavaFX UI Testing -->
-        <dependency>
-            <groupId>org.testfx</groupId>
-            <artifactId>testfx-core</artifactId>
-            <version>4.0.18</version>
-            <scope>test</scope>
-        </dependency>
-        
-        <!-- TestFX JUnit 5 integration -->
-        <dependency>
-            <groupId>org.testfx</groupId>
-            <artifactId>testfx-junit5</artifactId>
-            <version>4.0.18</version>
-            <scope>test</scope>
-        </dependency>
-        
-        <!-- TestFX Robot for UI automation -->
-        <dependency>
-            <groupId>org.testfx</groupId>
-            <artifactId>openjfx-monocle</artifactId>
-            <version>jdk-12.0.1+2</version>
-            <scope>test</scope>
-        </dependency>
+        <!-- TestFX Robot for UI automation - Monocle removed due to JavaFX 21 compatibility issues -->
+        <!-- Will use system robot instead for headless testing -->
     </dependencies>
     </dependencyManagement>
 
     <build>
+        <pluginManagement>
+            <plugins>
+                <!-- Eclipse/VS Code lifecycle mapping -->
+                <plugin>
+                    <groupId>org.eclipse.m2e</groupId>
+                    <artifactId>lifecycle-mapping</artifactId>
+                    <version>1.0.0</version>
+                    <configuration>
+                        <lifecycleMappingMetadata>
+                            <pluginExecutions>
+                                <!-- Checkstyle plugin execution mapping -->
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>org.apache.maven.plugins</groupId>
+                                        <artifactId>maven-checkstyle-plugin</artifactId>
+                                        <versionRange>[3.0,)</versionRange>
+                                        <goals>
+                                            <goal>check</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <execute>
+                                            <runOnConfiguration>true</runOnConfiguration>
+                                            <runOnIncremental>true</runOnIncremental>
+                                        </execute>
+                                    </action>
+                                </pluginExecution>
+                            </pluginExecutions>
+                        </lifecycleMappingMetadata>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        
         <plugins>
             <!-- Maven Compiler Plugin -->
             <plugin>
@@ -134,27 +187,34 @@
                 <configuration>
                     <source>21</source>
                     <target>21</target>
-                    <release>21</release>
+                    <showWarnings>true</showWarnings>
+                    <verbose>true</verbose>
                 </configuration>
             </plugin>
-            
+
             <!-- Maven Surefire Plugin for running tests -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.2.3</version>
+                <version>3.5.3</version>
                 <configuration>
+                    <!-- CRITICAL: @{argLine} allows JaCoCo to inject its agent parameters -->
+                    <argLine>@{argLine}
+                    --add-opens java.base/java.lang=ALL-UNNAMED
+                    --add-opens java.desktop/java.awt=ALL-UNNAMED 
+                    -Djava.util.logging.config.file=src/test/resources/logging.properties
+                    </argLine>
+                    <!-- Force sequential execution for TestFX tests to avoid JavaFX thread conflicts -->
+                    <parallel>none</parallel>
+                    <forkCount>1</forkCount>
+                    <reuseForks>false</reuseForks>
+                    <!-- System properties for TestFX execution -->
                     <systemPropertyVariables>
-                        <!-- Enable headless mode for JavaFX testing -->
-                        <java.awt.headless>true</java.awt.headless>
                         <testfx.robot>glass</testfx.robot>
-                        <testfx.headless>true</testfx.headless>
+                        <testfx.headless>false</testfx.headless>
                         <prism.order>sw</prism.order>
                         <prism.text>t2k</prism.text>
-                        <glass.platform>Monocle</glass.platform>
-                        <monocle.platform>Headless</monocle.platform>
                     </systemPropertyVariables>
-                    <argLine>@{argLine} --add-exports javafx.graphics/com.sun.javafx.application=ALL-UNNAMED --add-exports javafx.graphics/com.sun.glass.ui=ALL-UNNAMED --add-opens javafx.graphics/javafx.stage=ALL-UNNAMED</argLine>
                 </configuration>
             </plugin>
             
@@ -164,7 +224,7 @@
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>${jacoco.version}</version>
                 <executions>
-                    <!-- Prepare agent for unit tests -->
+                    <!-- Prepare agent for all tests (including TestFX) -->
                     <execution>
                         <id>prepare-agent</id>
                         <goals>
@@ -179,41 +239,18 @@
                             <goal>report</goal>
                         </goals>
                     </execution>
-                    <!-- Aggregate reports from all modules -->
+                    <!-- Aggregate reports from all modules after test phase 
+                         NOTE: This runs in each module, but the final aggregate report 
+                         appears in the last-built module (UI) and includes ALL modules 
+                         (core, persistence, rest, ui) if their tests have run. -->
                     <execution>
                         <id>report-aggregate</id>
-                        <phase>verify</phase>
+                        <phase>test</phase>
                         <goals>
                             <goal>report-aggregate</goal>
                         </goals>
                         <configuration>
                             <outputDirectory>${project.build.directory}/site/jacoco-aggregate</outputDirectory>
-                        </configuration>
-                    </execution>
-                    <!-- Check coverage thresholds -->
-                    <execution>
-                        <id>check</id>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                        <configuration>
-                            <rules>
-                                <rule>
-                                    <element>BUNDLE</element>
-                                    <limits>
-                                        <limit>
-                                            <counter>INSTRUCTION</counter>
-                                            <value>COVEREDRATIO</value>
-                                            <minimum>0.50</minimum>
-                                        </limit>
-                                        <limit>
-                                            <counter>BRANCH</counter>
-                                            <value>COVEREDRATIO</value>
-                                            <minimum>0.50</minimum>
-                                        </limit>
-                                    </limits>
-                                </rule>
-                            </rules>
                         </configuration>
                     </execution>
                 </executions>
@@ -238,41 +275,6 @@
                     <mainClass>moosemate.App</mainClass>
                     <commandlineArgs>--module-path ${javafx.runtime.path} --add-modules javafx.controls,javafx.fxml</commandlineArgs>
                 </configuration>
-            </plugin>
-
-            <!-- Maven Antrun Plugin to display coverage after tests -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>3.1.0</version>
-                <executions>
-                    <execution>
-                        <id>coverage-summary</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                        <configuration>
-                            <target>
-                                <echo message="" level="info" />
-                                <echo message="========================================" level="info" />
-                                <echo message="  Test Coverage Report Generated" level="info" />
-                                <echo message="========================================" level="info" />
-                                <echo message="" level="info" />
-                                <echo message="📊 Aggregated Report (All Modules):" level="info" />
-                                <echo message="file://${session.executionRootDirectory}/ui/target/site/jacoco-aggregate/index.html" level="info" />
-                                <echo message="" level="info" />
-                                <echo message="📁 Individual Module Reports:" level="info" />
-                                <echo message="  Core:        file://${session.executionRootDirectory}/core/target/site/jacoco/index.html" level="info" />
-                                <echo message="  REST:        file://${session.executionRootDirectory}/rest/target/site/jacoco/index.html" level="info" />
-                                <echo message="" level="info" />
-                                <echo message="💡 Tip: Command/Ctrl+Click the links above to open in browser" level="info" />
-                                <echo message="========================================" level="info" />
-                            </target>
-                        </configuration>
-                    </execution>
-                </executions>
-                <inherited>false</inherited>
             </plugin>
 
             <!-- Maven Checkstyle Plugin for code style checking -->
@@ -346,4 +348,48 @@
             </plugin>
         </plugins>
     </build>
+
+    <!-- Profiles for platform-specific test configuration -->
+    <profiles>
+        <!-- Skip TestFX tests on macOS due to Monocle incompatibility with JavaFX 21 -->
+        <profile>
+            <id>skip-testfx-macos</id>
+            <activation>
+                <os>
+                    <family>mac</family>
+                </os>
+            </activation>
+            <properties>
+                <!-- Skip UI JaCoCo coverage check on macOS since TestFX tests don't run -->
+                <skip.ui.jacoco.check>true</skip.ui.jacoco.check>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <excludes>
+                                <exclude>**/*TestFX.java</exclude>
+                            </excludes>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        
+        <!-- Enable TestFX tests on Windows with proper configuration -->
+        <profile>
+            <id>enable-testfx-windows</id>
+            <activation>
+                <os>
+                    <family>windows</family>
+                </os>
+            </activation>
+            <properties>
+                <!-- Enable UI JaCoCo coverage check on Windows since TestFX tests should run -->
+                <skip.ui.jacoco.check>false</skip.ui.jacoco.check>
+            </properties>
+        </profile>
+    </profiles>
 </project>

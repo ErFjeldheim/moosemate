@@ -1,6 +1,6 @@
 package model;
 
-public class User {
+public final class User {
     
     private String username;
     private String email;
@@ -13,10 +13,26 @@ public class User {
 
     // Constructor
     public User(String username, String email, String password, String userID) {
-        setUsername(username);
-        setEmail(email);
-        setPassword(password);
-        setUserID(userID);
+        // Validate parameters first to prevent finalizer attacks
+        if (username == null || email == null || password == null || userID == null) {
+            throw new IllegalArgumentException("User parameters cannot be null");
+        }
+        
+        // Set fields directly to avoid potential issues with setter methods
+        this.username = username.trim();
+        this.email = email.trim();
+        this.password = password;
+        this.userID = userID.trim();
+        
+        // Additional validation after assignment to ensure object is fully constructed
+        validateUserData();
+    }
+    
+    // Private method to validate user data integrity
+    private void validateUserData() {
+        if (this.username.isEmpty() || this.email.isEmpty() || this.password.isEmpty() || this.userID.isEmpty()) {
+            throw new IllegalArgumentException("User parameters cannot be empty");
+        }
     }
 
     public String getUsername() {
