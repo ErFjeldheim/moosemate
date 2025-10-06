@@ -1,5 +1,7 @@
 # AI Tools Documentation
 
+For AI documentation regarding Release 2, please see [ai-tools.md](../release2/ai-tools.md)
+
 In this JavaFX-project we have used the following AI tools, assisted by Copilot Pro in VSCode:
 
 - Claude Sonnet 4

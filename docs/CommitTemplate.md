@@ -2,6 +2,7 @@
 <type>(<scope>): <short summary>
 [Optional body: explain what, why, and how]
 [Optional footer: issues, breaking changes, notes]
+Co-authored-by: *username*
 
 ---
 
