@@ -1,7 +1,13 @@
-.anchor-pane{
-    background-color: #f7eedf;
-    -fx-background-color: #f7eedf;
+/* Set Optima Regular as default font (loaded programmatically) */
+.root {
+    -fx-font-family: "Optima";
+    -fx-font-weight: normal;
     -fx-text-fill: #321d0f;
+}
+
+/* Main background styling */
+.anchor-pane {
+    -fx-background-color: #f7eedf;
 }
 
 /* General button styling */
@@ -26,6 +32,24 @@
     -fx-border-radius: 5px;
 }
 
+/* Primary buttons hover colors */
+#loginButton:hover, #signUpButton:hover, #logoutButton:hover {
+    -fx-background-color: #065d03;
+    -fx-text-fill: #ffffff;
+}
+
+/* Profile button styling */
+#profileButton {
+    -fx-background-color: #a97b075d;
+    -fx-text-fill: #000000;
+    -fx-background-radius: 5px;
+}
+
+#profileButton:hover {
+    -fx-background-color: #a97b07e8;
+    -fx-text-fill: #ffffff;
+}
+
 /* Secondary action buttons (Create Account, Back to Login) */
 #createAccountButton, #returnToLogin {
     -fx-background-color: #8a96065d;
@@ -33,12 +57,6 @@
     -fx-background-radius: 5px;
     -fx-border-width: 1px;
     -fx-border-radius: 5px;
-}
-
-/* Primary buttons hover colors */
-#loginButton:hover, #signUpButton:hover, #logoutButton:hover {
-    -fx-background-color: #065d03;
-    -fx-text-fill: #ffffff;
 }
 
 /* Secondary buttons hover colors */
@@ -61,5 +79,13 @@
     -fx-font-size: 12px;
     -fx-font-weight: normal;
     -fx-padding: 5px 0 0 0;
+}
+#feed{
+    -fx-background-color: #ffffff;
+    -fx-border-color: #000000;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-padding: 10px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 2, 0, 0, 1);
 }
 

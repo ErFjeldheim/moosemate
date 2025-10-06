@@ -166,7 +166,26 @@ public class UserRepository {
      * @return true if username exists, false otherwise
      */
     public boolean userExists(String username) {
-        return findByUsernameOrEmail(username).isPresent();
+        try {
+            if (!dataFile.exists()) {
+                return false;
+            }
+
+            Map<String, Object> data = readDataFromFile();
+            @SuppressWarnings("unchecked")
+            List<Map<String, String>> users = (List<Map<String, String>>) data.get("users");
+
+            if (users == null || users.isEmpty()) {
+                return false;
+            }
+
+            return users.stream()
+                    .anyMatch(user -> username.equals(user.get("username")));
+
+        } catch (IOException e) {
+            System.err.println("Error checking if user exists: " + e.getMessage());
+            return false;
+        }
     }
 
     /**
@@ -176,7 +195,26 @@ public class UserRepository {
      * @return true if email exists, false otherwise
      */
     public boolean emailExists(String email) {
-        return findByUsernameOrEmail(email).isPresent();
+        try {
+            if (!dataFile.exists()) {
+                return false;
+            }
+
+            Map<String, Object> data = readDataFromFile();
+            @SuppressWarnings("unchecked")
+            List<Map<String, String>> users = (List<Map<String, String>>) data.get("users");
+
+            if (users == null || users.isEmpty()) {
+                return false;
+            }
+
+            return users.stream()
+                    .anyMatch(user -> email.equals(user.get("email")));
+
+        } catch (IOException e) {
+            System.err.println("Error checking if email exists: " + e.getMessage());
+            return false;
+        }
     }
 
     /**

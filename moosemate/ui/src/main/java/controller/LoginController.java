@@ -42,7 +42,8 @@ public class LoginController extends BaseController {
             boolean loginSuccess = loginService.loginUser(usernameField.getText(), passwordField.getText());
             
             if (loginSuccess) {
-                navigateToOtherPage(event, "/fxml/homepage.fxml", "Home");
+                // Show splash screen after successful login
+                navigateToOtherPage(event, "/fxml/loadingscreen.fxml", "Loading...");
             } else {
                 showError("Invalid username or password");
             }

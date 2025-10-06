@@ -2,8 +2,13 @@
   "users" : [ {
     "password" : "$2a$12$3yUuM1.D4ks5plM5umCeWeUuo3.ccehUfsQr1Lg.cWn4UlB2IEJna",
     "userID" : "089f0ecf-0928-441f-a7dd-079233a0d3e7",
-    "email" : "ngioang",
+    "email" : "ngioang@com.com",
     "username" : "kongen"
+  }, {
+    "password" : "$2a$12$TxT1A8dYVTITI4Y6how3Ru8SBFXXTv.hjyG198Eo2i38auNp6XOT6",
+    "userID" : "150d157c-447d-444b-a09a-796a72d9ccc1",
+    "email" : "abd@syver.no",
+    "username" : "syver"
   }, {
     "password" : "$2a$12$iwjl5caaCWrP.lGuL9RV2eGsFuOg/kP35a2sZqieKwgAeuvy1jFHu",
     "userID" : "28bcf115-cca7-48b6-8d44-cb874089a578",

@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/21.0.8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="300.0" prefWidth="400.0" styleClass="anchor-pane" stylesheets="@../css/styling.css" VBox.vgrow="ALWAYS">
       <children>
@@ -25,23 +25,18 @@
                   <Font name="Optima Bold" size="37.0" />
                </font>
             </Text>
-            <ImageView fitHeight="200.0" fitWidth="199.0" layoutX="379.0" layoutY="14.0">
-               <image>
-                  <Image url="@../images/Moosemate-logo.png" />
-               </image>
-            </ImageView>
-            <Label fx:id="errorLabel" layoutX="403.0" layoutY="200.0" maxWidth="230.0" minWidth="100.0" text="" visible="false" wrapText="true" styleClass="error-label" />
-            <TextField fx:id="usernameField" layoutX="403.0" layoutY="223.0" promptText="Username / Email" focusTraversable="false">
+            <Label fx:id="errorLabel" layoutX="403.0" layoutY="200.0" maxWidth="230.0" minWidth="100.0" styleClass="error-label" text="" visible="false" wrapText="true" />
+            <TextField fx:id="usernameField" layoutX="403.0" layoutY="223.0" promptText="Username / Email">
                <font>
                   <Font name="Optima Regular" size="12.0" />
                </font>
             </TextField>
-            <PasswordField fx:id="passwordField" layoutX="403.0" layoutY="249.0" promptText="Password" focusTraversable="false">
+            <PasswordField fx:id="passwordField" layoutX="403.0" layoutY="249.0" promptText="Password">
                <font>
                   <Font name="Optima Regular" size="12.0" />
                </font>
             </PasswordField>
-            <Button fx:id="loginButton" layoutX="408.0" layoutY="275.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" text="Login" onAction="#handleLoginButton">
+            <Button fx:id="loginButton" layoutX="408.0" layoutY="275.0" defaultButton="true" mnemonicParsing="false" onAction="#handleLoginButton" prefHeight="25.0" prefWidth="149.0" text="Login">
                <font>
                   <Font name="Optima Regular" size="12.0" />
                </font>
@@ -51,6 +46,16 @@
                   <Font name="Optima Regular" size="12.0" />
                </font>
             </Button>
+            <ImageView fitHeight="200.0" fitWidth="199.0" layoutX="379.0">
+               <image>
+                  <Image url="@../images/Moosemate-logo-transparent.png" />
+               </image>
+            </ImageView>
+            <Text layoutX="386.0" layoutY="188.0" strokeType="OUTSIDE" strokeWidth="0.0" text="MooseMate">
+               <font>
+                  <Font name="Optima Bold" size="36.0" />
+               </font>
+            </Text>
       </children>
     </AnchorPane>
   </children>
