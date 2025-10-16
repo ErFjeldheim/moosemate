@@ -28,7 +28,7 @@ public final class User {
         validateUserData();
     }
     
-    // Private method to validate user data integrity
+    // Private method to validate user data integrity (if cannot create valid user)
     private void validateUserData() {
         if (this.username.isEmpty() || this.email.isEmpty() || this.password.isEmpty() || this.userID.isEmpty()) {
             throw new IllegalArgumentException("User parameters cannot be empty");

@@ -1,11 +1,13 @@
 package service;
 
 import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.stereotype.Service;
 
 /**
  * Service for handling password operations using BCrypt hashing.
  * Provides secure password hashing and verification functionality.
  */
+@Service
 public class PasswordService {
     
     private static final int BCRYPT_ROUNDS = 12;

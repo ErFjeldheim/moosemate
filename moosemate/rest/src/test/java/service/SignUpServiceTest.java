@@ -371,7 +371,7 @@ public class SignUpServiceTest {
     @Test
     public void testRealSignUpServiceNullValidation() {
         // Test the actual SignUpService class directly (not TestSignUpService)
-        SignUpService realSignUpService = new SignUpService();
+        SignUpService realSignUpService = new SignUpService(userService, passwordService);
         
         // Test null username - should throw IllegalArgumentException
         assertThrows(IllegalArgumentException.class, () -> {

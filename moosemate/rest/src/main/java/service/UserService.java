@@ -4,11 +4,14 @@ import repository.UserRepository;
 import java.util.Map;
 import java.util.Optional;
 
+import org.springframework.stereotype.Service;
+
 /**
  * Service class for handling user data operations.
  * Acts as a bridge between other services and the persistence layer.
  * Focuses on user CRUD operations and data validation.
  */
+@Service
 public class UserService {
 
     private final UserRepository userRepository;

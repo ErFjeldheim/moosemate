@@ -3,21 +3,19 @@ package service;
 import java.util.Map;
 import java.util.Optional;
 
+import org.springframework.stereotype.Service;
+
 /**
  * Service class for handling user authentication operations.
  * Handles login business logic and delegates user data operations to UserService.
  */
+@Service
 public class LoginService {
 
     private final UserService userService;
     private final PasswordService passwordService;
 
-    public LoginService() {
-        this.userService = new UserService();
-        this.passwordService = new PasswordService();
-    }
-
-    // Constructor for dependency injection (useful for testing)
+    // Spring Constructor injection
     public LoginService(UserService userService, PasswordService passwordService) {
         this.userService = userService;
         this.passwordService = passwordService;

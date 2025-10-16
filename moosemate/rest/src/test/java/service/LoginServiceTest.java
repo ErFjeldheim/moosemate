@@ -271,8 +271,8 @@ public class LoginServiceTest {
 
     @Test
     public void testLoginServiceCanBeInstantiatedMultipleTimes() {
-        LoginService service1 = new LoginService();
-        LoginService service2 = new LoginService();
+        LoginService service1 = new LoginService(userService, passwordService);
+        LoginService service2 = new LoginService(userService, passwordService);
         
         assertNotNull(service1);
         assertNotNull(service2);
@@ -402,7 +402,7 @@ public class LoginServiceTest {
     @Test
     public void testRealLoginServiceWithNullInputs() {
         // Test the actual LoginService class directly
-        LoginService realLoginService = new LoginService();
+        LoginService realLoginService = new LoginService(userService, passwordService);
         
         // Test null username
         boolean result1 = realLoginService.loginUser(null, "password123");
@@ -420,7 +420,7 @@ public class LoginServiceTest {
     @Test
     public void testRealLoginServiceUserNotFound() {
         // Test the actual LoginService class directly
-        LoginService realLoginService = new LoginService();
+        LoginService realLoginService = new LoginService(userService, passwordService);
         
         // Test with non-existent user (should trigger user not found path)
         boolean result = realLoginService.loginUser("nonexistentuser123456", "password123");

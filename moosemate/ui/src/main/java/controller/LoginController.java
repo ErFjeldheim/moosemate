@@ -1,11 +1,12 @@
 package controller;
 
+import dto.ApiResponse;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import service.LoginService;
+import service.ApiClient;
 
 public class LoginController extends BaseController {
 
@@ -20,6 +21,12 @@ public class LoginController extends BaseController {
 
     @FXML
     private Button signUpButton;
+
+    private final ApiClient apiClient;
+
+    public LoginController() {
+        this.apiClient = new ApiClient();
+    }
 
     // navigates to sign up page 
     @FXML
@@ -36,22 +43,28 @@ public class LoginController extends BaseController {
     private void handleLoginButton(ActionEvent event) {
         try {
             clearError(); // Clear previous errors
-            LoginService loginService = new LoginService();
             
-            // Use LoginService for authentication
-            boolean loginSuccess = loginService.loginUser(usernameField.getText(), passwordField.getText());
+            String username = usernameField.getText();
+            String password = passwordField.getText();
             
-            if (loginSuccess) {
-                // Show splash screen after successful login
+            // Validate input
+            if (username.isEmpty() || password.isEmpty()) {
+                showError("Username and password are required");
+                return;
+            }
+            
+            // Call REST API
+            ApiResponse<?> response = apiClient.login(username, password);
+            
+            if (response.isSuccess()) {
+                // Show loading screen after successful login
                 navigateToOtherPage(event, "/fxml/loadingscreen.fxml", "Loading...");
             } else {
-                showError("Invalid username or password");
+                showError(response.getMessage());
             }
         } catch (Exception e) {
             System.err.println("Error handling login: " + e.getMessage());
+            showError("Unable to connect to server. Please ensure the REST API is running.");
         }
     }
-
- 
-
 }

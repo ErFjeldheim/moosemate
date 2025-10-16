@@ -48,6 +48,7 @@ HTML-link to display test coverage is provided as an echo in the terminal before
 - JaCoCo (0.8.12)
 - Spotbugs (4.9.5.0)
 - Checkstyle (3.3.1)
+- Spring Boot (3.1.5)
 
 ## Eclipse Che
 

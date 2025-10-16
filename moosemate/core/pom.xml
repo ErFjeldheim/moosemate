@@ -18,6 +18,13 @@
     <description>Core domain models and DTOs</description>
 
     <dependencies>
+        <!-- Jackson for JSON annotations -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.15.2</version>
+        </dependency>
+        
         <!-- JUnit 5 for testing -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>

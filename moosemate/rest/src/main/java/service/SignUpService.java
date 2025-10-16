@@ -1,20 +1,18 @@
 package service;
 
+import org.springframework.stereotype.Service;
+
 /**
  * Service class for handling user sign-up operations.
  * Handles sign-up business logic and delegates user creation to UserService.
  */
+@Service
 public class SignUpService {
 
     private final UserService userService;
     private final PasswordService passwordService;
 
-    public SignUpService() {
-        this.userService = new UserService();
-        this.passwordService = new PasswordService();
-    }
-
-    // Constructor for dependency injection (useful for testing)
+    // Spring Constructor injection
     public SignUpService(UserService userService, PasswordService passwordService) {
         this.userService = userService;
         this.passwordService = passwordService;
