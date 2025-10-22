@@ -1,8 +1,7 @@
 package service;
 
-import java.util.Map;
-import java.util.Optional;
-
+import model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -16,60 +15,39 @@ public class LoginService {
     private final PasswordService passwordService;
 
     // Spring Constructor injection
+    @Autowired
     public LoginService(UserService userService, PasswordService passwordService) {
         this.userService = userService;
         this.passwordService = passwordService;
     }
 
-    /**
-     * Authenticates a user by username/email and password.
-     * Uses UserService for user lookup and PasswordService for verification.
-     * 
-     * @param usernameOrEmail username or email to authenticate
-     * @param password plain text password to verify
-     * @return true if authentication is successful, false otherwise
-     */
-    public boolean loginUser(String usernameOrEmail, String password) {
-        try {
-            // Check for null inputs
-            if (usernameOrEmail == null || password == null) {
-                return false;
-            }
-
-            // Find user using UserService
-            Optional<Map<String, String>> userOpt = userService.findByUsernameOrEmail(usernameOrEmail);
-            
-            if (!userOpt.isPresent()) {
-                System.err.println("User not found: " + usernameOrEmail);
-                return false;
-            }
-
-            Map<String, String> user = userOpt.get();
-
-            // Validate password using PasswordService
-            if (validatePassword(user, password)) {
-                System.out.println("Login successful for: " + usernameOrEmail);
-                return true;
-            } else {
-                System.err.println("Invalid password for: " + usernameOrEmail);
-                return false;
-            }
-
-        } catch (Exception e) {
-            System.err.println("Error during login: " + e.getMessage());
-            return false;
+    // Log in user - returns User if successful, otherwise null
+    public User loginUser(String usernameOrEmail, String password) {
+        // Validation
+        if (usernameOrEmail == null || usernameOrEmail.trim().isEmpty()) {
+            throw new IllegalArgumentException("Username/email is required");
         }
-    }
+        if (password == null || password.trim().isEmpty()) {
+            throw new IllegalArgumentException("Password is required");
+        }
 
-    /**
-     * Validates a password against the stored hashed password.
-     * 
-     * @param user the user data containing the hashed password
-     * @param rawPassword the plain text password to validate
-     * @return true if password matches, false otherwise
-     */
-    public boolean validatePassword(Map<String, String> user, String rawPassword) {
-        String storedHashedPassword = user.get("password");
-        return passwordService.verifyPassword(rawPassword, storedHashedPassword);
+        // Find user
+        User user = userService.findByUsernameOrEmail(usernameOrEmail);
+
+        if (user == null) {
+            System.out.println("User not found: " + usernameOrEmail);
+            return null;
+        }
+
+        // Validate password
+        boolean isValidPassword = passwordService.verifyPassword(password, user.getPassword());
+
+        if (isValidPassword) {
+            System.out.println("Login successful for: " + user.getUsername());
+            return user;  // Return User object
+        } else {
+            System.out.println("Invalid password for: " + user.getUsername());
+            return null;
+        }
     }
 }

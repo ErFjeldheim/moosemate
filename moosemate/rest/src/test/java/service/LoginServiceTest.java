@@ -5,12 +5,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.*;
 
+import model.User;
 import repository.UserRepository;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Map;
 
 
 /**
@@ -77,8 +77,10 @@ public class LoginServiceTest {
         // Create test user for this test with hashed password
         String hashedPassword = passwordService.hashPassword("password123");
         userService.createUser("testuser", "test@example.com", hashedPassword);
-        boolean result = loginService.loginUser("testuser", "password123");
-        assertTrue(result, "Should login successfully with valid username and password");
+        
+        User user = loginService.loginUser("testuser", "password123");
+        assertNotNull(user, "Should login successfully with valid username and password");
+        assertEquals("testuser", user.getUsername());
     }
 
     @Test
@@ -86,8 +88,9 @@ public class LoginServiceTest {
         // Create test user for this test with hashed password
         String hashedPassword = passwordService.hashPassword("password123");
         userService.createUser("testuser", "test@example.com", hashedPassword);
-        boolean result = loginService.loginUser("test@example.com", "password123");
-        assertTrue(result, "Should login successfully with valid email and password");
+        User user = loginService.loginUser("test@example.com", "password123");
+        assertNotNull(user, "Should login successfully with valid email and password");
+        assertEquals("testuser", user.getUsername());
     }
 
     @Test
@@ -95,22 +98,22 @@ public class LoginServiceTest {
         // Create test user for this test with hashed password
         String hashedPassword = passwordService.hashPassword("password123");
         userService.createUser("testuser", "test@example.com", hashedPassword);
-        boolean result = loginService.loginUser("testuser", "wrongpassword");
-        assertFalse(result, "Should fail login with invalid password");
+        User user = loginService.loginUser("testuser", "wrongpassword");
+        assertNull(user, "Should fail login with invalid password");
     }
 
     @Test
     public void testLoginUserWithNonExistentUser() {
         // Don't create any users - file is empty after setUp
-        boolean result = loginService.loginUser("nonexistent", "password123");
-        assertFalse(result, "Should fail login with non-existent user");
+        User user = loginService.loginUser("nonexistent", "password123");
+        assertNull(user, "Should fail login with non-existent user");
     }
 
     @Test
     public void testLoginUserWhenDataFileDoesNotExist() {
         // Don't create any users - file remains empty after setUp cleanup
-        boolean result = loginService.loginUser("testuser", "password123");
-        assertFalse(result, "Should fail login when no data file exists");
+        User user = loginService.loginUser("testuser", "password123");
+        assertNull(user, "Should fail login when no data file exists");
     }
 
     @Test
@@ -118,12 +121,11 @@ public class LoginServiceTest {
         // Create test user for this test with hashed password
         String hashedPassword = passwordService.hashPassword("mySecretPassword");
         userService.createUser("testuser2", "test2@example.com", hashedPassword);
-        var userOpt = userService.findByUsernameOrEmail("testuser2");
-        assertTrue(userOpt.isPresent(), "User should exist");
         
-        Map<String, String> user = userOpt.get();
-        boolean result = loginService.validatePassword(user, "mySecretPassword");
-        assertTrue(result, "Should validate correct password");
+        // Test password validation via login
+        User user = loginService.loginUser("testuser2", "mySecretPassword");
+        assertNotNull(user, "Should login successfully with correct password");
+        assertEquals("testuser2", user.getUsername());
     }
 
     @Test
@@ -131,12 +133,10 @@ public class LoginServiceTest {
         // Create test user for this test with hashed password
         String hashedPassword = passwordService.hashPassword("mySecretPassword");
         userService.createUser("testuser2", "test2@example.com", hashedPassword);
-        var userOpt = userService.findByUsernameOrEmail("testuser2");
-        assertTrue(userOpt.isPresent(), "User should exist");
         
-        Map<String, String> user = userOpt.get();
-        boolean result = loginService.validatePassword(user, "wrongPassword");
-        assertFalse(result, "Should not validate incorrect password");
+        // Test password validation via login - should fail with wrong password
+        User user = loginService.loginUser("testuser2", "wrongPassword");
+        assertNull(user, "Should not login with incorrect password");
     }
 
     @Test
@@ -144,15 +144,20 @@ public class LoginServiceTest {
         // Create test user for this test with hashed password
         String hashedPassword = passwordService.hashPassword("password123");
         userService.createUser("testuser", "test@example.com", hashedPassword);
-        boolean result = loginService.loginUser("testuser", "");
-        assertFalse(result, "Should fail login with empty password");
+        
+        // LoginService now throws IllegalArgumentException for empty password
+        assertThrows(IllegalArgumentException.class, () -> {
+            loginService.loginUser("testuser", "");
+        }, "Should throw exception for empty password");
     }
 
     @Test
     public void testLoginWithEmptyUsername() {
         // No need to create users for this test - empty username should fail regardless
-        boolean result = loginService.loginUser("", "password123");
-        assertFalse(result, "Should fail login with empty username");
+        // LoginService now throws IllegalArgumentException for empty username
+        assertThrows(IllegalArgumentException.class, () -> {
+            loginService.loginUser("", "password123");
+        }, "Should throw exception for empty username");
     }
 
     @Test
@@ -164,12 +169,12 @@ public class LoginServiceTest {
         userService.createUser("user2", "user2@example.com", hashedPassword2);
         
         // Test login for both users
-        assertTrue(loginService.loginUser("user1", "password1"), "User1 should login successfully");
-        assertTrue(loginService.loginUser("user2@example.com", "password2"), "User2 should login successfully with email");
+        assertNotNull(loginService.loginUser("user1", "password1"), "User1 should login successfully");
+        assertNotNull(loginService.loginUser("user2@example.com", "password2"), "User2 should login successfully with email");
         
         // Test cross-login failures
-        assertFalse(loginService.loginUser("user1", "password2"), "User1 should not login with user2's password");
-        assertFalse(loginService.loginUser("user2", "password1"), "User2 should not login with user1's password");
+        assertNull(loginService.loginUser("user1", "password2"), "User1 should not login with user2's password");
+        assertNull(loginService.loginUser("user2", "password1"), "User2 should not login with user1's password");
     }
 
     @Test
@@ -179,13 +184,15 @@ public class LoginServiceTest {
         // Create test user for this test with hashed password
         String hashedPassword = passwordService.hashPassword(plainPassword);
         userService.createUser("testuser", "test@example.com", hashedPassword);
-        assertTrue(loginService.loginUser("testuser", plainPassword), "Should login with original plain password");
+        
+        User user = loginService.loginUser("testuser", plainPassword);
+        assertNotNull(user, "Should login with original plain password");
         
         // Verify that the stored password is actually hashed (not plain text)
-        var userOpt = userService.findByUsernameOrEmail("testuser");
-        assertTrue(userOpt.isPresent(), "User should exist");
+        User storedUser = userService.findByUsernameOrEmail("testuser");
+        assertNotNull(storedUser, "User should exist");
         
-        String storedPassword = userOpt.get().get("password");
+        String storedPassword = storedUser.getPassword();
         assertNotEquals(plainPassword, storedPassword, "Stored password should be hashed, not plain text");
         assertTrue(storedPassword.startsWith("$2a$"), "Should be BCrypt hash format");
     }
@@ -194,64 +201,68 @@ public class LoginServiceTest {
     public void testLoginUserWithEmptyCredentials() throws IOException {
         createTestDataFile();
         
-        // Test with empty username
-        boolean result1 = loginService.loginUser("", "password123");
-        assertFalse(result1);
+        // LoginService now throws IllegalArgumentException for empty credentials
+        assertThrows(IllegalArgumentException.class, () -> {
+            loginService.loginUser("", "password123");
+        });
         
-        // Test with empty password
-        boolean result2 = loginService.loginUser("testuser", "");
-        assertFalse(result2);
+        assertThrows(IllegalArgumentException.class, () -> {
+            loginService.loginUser("testuser", "");
+        });
         
-        // Test with both empty
-        boolean result3 = loginService.loginUser("", "");
-        assertFalse(result3);
+        assertThrows(IllegalArgumentException.class, () -> {
+            loginService.loginUser("", "");
+        });
     }
 
     @Test
     public void testLoginUserWithNullCredentials() throws IOException {
         createTestDataFile();
         
-        // Test with null username
-        boolean result1 = loginService.loginUser(null, "password123");
-        assertFalse(result1);
+        // LoginService now throws IllegalArgumentException for null credentials
+        assertThrows(IllegalArgumentException.class, () -> {
+            loginService.loginUser(null, "password123");
+        });
         
-        // Test with null password  
-        boolean result2 = loginService.loginUser("testuser", null);
-        assertFalse(result2);
+        assertThrows(IllegalArgumentException.class, () -> {
+            loginService.loginUser("testuser", null);
+        });
         
-        // Test with both null
-        boolean result3 = loginService.loginUser(null, null);
-        assertFalse(result3);
+        assertThrows(IllegalArgumentException.class, () -> {
+            loginService.loginUser(null, null);
+        });
     }
 
     @Test
     public void testLoginUserWithWhitespaceCredentials() throws IOException {
         createTestDataFile();
         
-        // Test with whitespace username
-        boolean result1 = loginService.loginUser("   ", "password123");
-        assertFalse(result1);
+        // LoginService now throws IllegalArgumentException for whitespace credentials
+        // (whitespace is considered empty after trim)
+        assertThrows(IllegalArgumentException.class, () -> {
+            loginService.loginUser("   ", "password123");
+        });
         
-        // Test with whitespace password
-        boolean result2 = loginService.loginUser("testuser", "   ");
-        assertFalse(result2);
+        assertThrows(IllegalArgumentException.class, () -> {
+            loginService.loginUser("testuser", "   ");
+        });
     }
 
     @Test
     public void testLoginUserCaseSensitivity() throws IOException {
         createTestDataFile();
         
-        // Test case sensitivity for username
-        boolean result1 = loginService.loginUser("TESTUSER", "password123");
-        assertFalse(result1);
+        // Test case sensitivity for username - should fail
+        User user1 = loginService.loginUser("TESTUSER", "password123");
+        assertNull(user1, "Username should be case-sensitive");
         
-        // Test case sensitivity for email
-        boolean result2 = loginService.loginUser("TEST@EXAMPLE.COM", "password123");
-        assertFalse(result2);
+        // Test case sensitivity for email - should fail
+        User user2 = loginService.loginUser("TEST@EXAMPLE.COM", "password123");
+        assertNull(user2, "Email should be case-sensitive");
         
-        // Test case sensitivity for password
-        boolean result3 = loginService.loginUser("testuser", "PASSWORD123");
-        assertFalse(result3);
+        // Test case sensitivity for password - should fail
+        User user3 = loginService.loginUser("testuser", "PASSWORD123");
+        assertNull(user3, "Password should be case-sensitive");
     }
 
     @Test
@@ -285,11 +296,11 @@ public class LoginServiceTest {
         String hashedPassword = passwordService.hashPassword("pass@123!");
         userService.createUser("user@#$%", "special@test.com", hashedPassword);
         
-        boolean result1 = loginService.loginUser("user@#$%", "pass@123!");
-        assertTrue(result1);
+        User user1 = loginService.loginUser("user@#$%", "pass@123!");
+        assertNotNull(user1, "Should login with special characters in username");
         
-        boolean result2 = loginService.loginUser("special@test.com", "pass@123!");
-        assertTrue(result2);
+        User user2 = loginService.loginUser("special@test.com", "pass@123!");
+        assertNotNull(user2, "Should login with special characters in email");
     }
 
     @Test
@@ -327,11 +338,11 @@ public class LoginServiceTest {
                 "}";
         Files.write(Paths.get(testDataFile), incompleteData.getBytes());
         
-        boolean result1 = loginService.loginUser("incompleteuser", "password123");
-        assertFalse(result1);
+        User user1 = loginService.loginUser("incompleteuser", "password123");
+        assertNull(user1, "Should fail login with incomplete user data");
         
-        boolean result2 = loginService.loginUser("incomplete@test.com", "password123");
-        assertFalse(result2);
+        User user2 = loginService.loginUser("incomplete@test.com", "password123");
+        assertNull(user2, "Should fail login with incomplete user data");
     }
 
     @Test
@@ -344,20 +355,20 @@ public class LoginServiceTest {
         }
         
         // Test finding user at the beginning
-        boolean result1 = loginService.loginUser("user0", "password0");
-        assertTrue(result1);
+        User user1 = loginService.loginUser("user0", "password0");
+        assertNotNull(user1, "Should find user at beginning");
         
         // Test finding user in the middle
-        boolean result2 = loginService.loginUser("user2", "password2");
-        assertTrue(result2);
+        User user2 = loginService.loginUser("user2", "password2");
+        assertNotNull(user2, "Should find user in middle");
         
         // Test finding user at the end
-        boolean result3 = loginService.loginUser("user4", "password4");
-        assertTrue(result3);
+        User user3 = loginService.loginUser("user4", "password4");
+        assertNotNull(user3, "Should find user at end");
         
         // Test non-existent user
-        boolean result4 = loginService.loginUser("user5", "password5");
-        assertFalse(result4);
+        User user4 = loginService.loginUser("user5", "password5");
+        assertNull(user4, "Should not find non-existent user");
     }
 
 
@@ -373,30 +384,32 @@ public class LoginServiceTest {
         userService.createUser("successuser", "success@example.com", hashedPassword);
         
         // Test successful login with username
-        boolean result1 = loginService.loginUser("successuser", "password123");
-        assertTrue(result1, "Should successfully login with correct username and password");
+        User user1 = loginService.loginUser("successuser", "password123");
+        assertNotNull(user1, "Should successfully login with correct username and password");
         
         // Test successful login with email
-        boolean result2 = loginService.loginUser("success@example.com", "password123");
-        assertTrue(result2, "Should successfully login with correct email and password");
+        User user2 = loginService.loginUser("success@example.com", "password123");
+        assertNotNull(user2, "Should successfully login with correct email and password");
     }
 
     @Test
     public void testUserNotFoundScenario() {
         // Test with completely non-existent user
-        boolean result = loginService.loginUser("nonexistentuser123", "anypassword");
-        assertFalse(result, "Should return false for non-existent user");
+        User user = loginService.loginUser("nonexistentuser123", "anypassword");
+        assertNull(user, "Should return null for non-existent user");
     }
 
     @Test
     public void testLoginServiceExceptionHandling() {
         // Test error handling with malformed inputs
-        // Empty strings should be handled gracefully
-        boolean result1 = loginService.loginUser("", "password123");
-        assertFalse(result1, "Should handle empty username gracefully");
+        // Empty strings now throw IllegalArgumentException
+        assertThrows(IllegalArgumentException.class, () -> {
+            loginService.loginUser("", "password123");
+        }, "Should throw exception for empty username");
         
-        boolean result2 = loginService.loginUser("testuser", "");
-        assertFalse(result2, "Should handle empty password gracefully");
+        assertThrows(IllegalArgumentException.class, () -> {
+            loginService.loginUser("testuser", "");
+        }, "Should throw exception for empty password");
     }
 
     @Test
@@ -404,17 +417,18 @@ public class LoginServiceTest {
         // Test the actual LoginService class directly
         LoginService realLoginService = new LoginService(userService, passwordService);
         
-        // Test null username
-        boolean result1 = realLoginService.loginUser(null, "password123");
-        assertFalse(result1, "Should return false for null username");
+        // LoginService now throws IllegalArgumentException for null inputs
+        assertThrows(IllegalArgumentException.class, () -> {
+            realLoginService.loginUser(null, "password123");
+        }, "Should throw exception for null username");
         
-        // Test null password
-        boolean result2 = realLoginService.loginUser("testuser", null);
-        assertFalse(result2, "Should return false for null password");
+        assertThrows(IllegalArgumentException.class, () -> {
+            realLoginService.loginUser("testuser", null);
+        }, "Should throw exception for null password");
         
-        // Test both null
-        boolean result3 = realLoginService.loginUser(null, null);
-        assertFalse(result3, "Should return false for both null");
+        assertThrows(IllegalArgumentException.class, () -> {
+            realLoginService.loginUser(null, null);
+        }, "Should throw exception for both null");
     }
 
     @Test
@@ -423,8 +437,8 @@ public class LoginServiceTest {
         LoginService realLoginService = new LoginService(userService, passwordService);
         
         // Test with non-existent user (should trigger user not found path)
-        boolean result = realLoginService.loginUser("nonexistentuser123456", "password123");
-        assertFalse(result, "Should return false for non-existent user");
+        User user = realLoginService.loginUser("nonexistentuser123456", "password123");
+        assertNull(user, "Should return null for non-existent user");
     }
 
     @Test
@@ -435,8 +449,9 @@ public class LoginServiceTest {
         
         // Test login using the same test repository setup
         // Use our test loginService that uses the test repository
-        boolean result = loginService.loginUser("realuser", "password123");
-        assertTrue(result, "Should return true for successful login");
+        User user = loginService.loginUser("realuser", "password123");
+        assertNotNull(user, "Should return user for successful login");
+        assertEquals("realuser", user.getUsername());
     }
 
 

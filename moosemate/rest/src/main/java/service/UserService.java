@@ -1,5 +1,6 @@
 package service;
 
+import model.User;
 import repository.UserRepository;
 import java.util.Map;
 import java.util.Optional;
@@ -41,10 +42,31 @@ public class UserService {
      * Finds a user by username or email.
      * 
      * @param usernameOrEmail the username or email to search for
-     * @return Optional containing the user data if found, empty otherwise
+     * @return User object if found, null otherwise
      */
-    public Optional<Map<String, String>> findByUsernameOrEmail(String usernameOrEmail) {
-        return userRepository.findByUsernameOrEmail(usernameOrEmail);
+    public User findByUsernameOrEmail(String usernameOrEmail) {
+        Optional<Map<String, String>> userDataOptional = userRepository.findByUsernameOrEmail(usernameOrEmail);
+        
+        if (userDataOptional.isPresent()) {
+            Map<String, String> userData = userDataOptional.get();
+            
+            try {
+                // Convert Map to User object
+                User user = new User(
+                    userData.get("username"),
+                    userData.get("email"),
+                    userData.get("password"),
+                    userData.get("userID")
+                );
+                
+                return user;
+            } catch (IllegalArgumentException e) {
+                // User data is incomplete or invalid, return null
+                return null;
+            }
+        }
+        
+        return null;
     }
 
     /**

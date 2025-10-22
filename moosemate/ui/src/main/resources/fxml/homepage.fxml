@@ -39,7 +39,15 @@
                         <Image url="@../images/Moosemate-logo-transparent.png" />
                      </image>
                   </ImageView>
-                  <BorderPane prefHeight="61.0" prefWidth="408.0" />
+                  <Label fx:id="welcomeLabel" text="Welcome" textFill="#333333">
+                     <font>
+                        <Font name="Optima Bold" size="16.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="15.0" />
+                     </HBox.margin>
+                  </Label>
+                  <BorderPane prefHeight="61.0" prefWidth="280.0" />
                   <Button fx:id="profileButton" focusTraversable="false" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" text="Profile">
                      <font>
                         <Font name="Optima" size="12.0" />

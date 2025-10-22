@@ -1,10 +1,13 @@
 package service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dto.ApiResponse;
 import dto.LoginRequest;
+import dto.LoginResponse;
 import dto.SignUpRequest;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -22,7 +25,7 @@ public class ApiClient {
     }
 
     // HTTP-POST request for login to API
-    public ApiResponse<?> login(String username, String password) throws Exception {
+    public ApiResponse<LoginResponse> login(String username, String password) throws IOException, InterruptedException {
         LoginRequest loginRequest = new LoginRequest(username, password);
         String requestBody = objectMapper.writeValueAsString(loginRequest);
 
@@ -33,11 +36,29 @@ public class ApiClient {
                 .build();
 
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-        return objectMapper.readValue(response.body(), ApiResponse.class);
+        
+        TypeReference<ApiResponse<LoginResponse>> typeRef = new TypeReference<ApiResponse<LoginResponse>>() {};
+        return objectMapper.readValue(response.body(), typeRef);
     }
 
+    // Logout user by terminating session on server
+    public ApiResponse<String> logout(String sessionToken) throws IOException, InterruptedException {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(BASE_URL + "/auth/logout"))
+                .header("Content-Type", "application/json")
+                .header("Session-Token", sessionToken)
+                .POST(HttpRequest.BodyPublishers.noBody())
+                .build();
+
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        
+        TypeReference<ApiResponse<String>> typeRef = new TypeReference<ApiResponse<String>>() {};
+        return objectMapper.readValue(response.body(), typeRef);
+    }
+    
+
     // HTTP-POST request for signup to API
-    public ApiResponse<?> signUp(String username, String email, String password) throws Exception {
+    public ApiResponse<String> signUp(String username, String email, String password) throws Exception {
         SignUpRequest signUpRequest = new SignUpRequest(username, password, email);
         String requestBody = objectMapper.writeValueAsString(signUpRequest);
 
@@ -48,6 +69,8 @@ public class ApiClient {
                 .build();
 
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-        return objectMapper.readValue(response.body(), ApiResponse.class);
+        
+        TypeReference<ApiResponse<String>> typeRef = new TypeReference<ApiResponse<String>>() {};
+        return objectMapper.readValue(response.body(), typeRef);
     }
 }

@@ -5,10 +5,9 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import model.User;
 import repository.UserRepository;
 import java.io.File;
-import java.util.Map;
-import java.util.Optional;
 
 /**
  * Unit tests for UserService.
@@ -89,18 +88,18 @@ public class UserServiceTest {
     void testFindByUsername() {
         // Create test user
         userService.createUser("testuser", "test@example.com", "Password123");
-        Optional<Map<String, String>> userOpt = userService.findByUsernameOrEmail("testuser");
-        assertTrue(userOpt.isPresent(), "Should find user by username");
-        assertEquals("testuser", userOpt.get().get("username"));
+        User user = userService.findByUsernameOrEmail("testuser");
+        assertNotNull(user, "Should find user by username");
+        assertEquals("testuser", user.getUsername());
     }
     
     @Test
     void testFindByEmail() {
         // Create test user
         userService.createUser("testuser", "test@example.com", "Password123");
-        Optional<Map<String, String>> userOpt = userService.findByUsernameOrEmail("test@example.com");
-        assertTrue(userOpt.isPresent(), "Should find user by email");
-        assertEquals("test@example.com", userOpt.get().get("email"));
+        User user = userService.findByUsernameOrEmail("test@example.com");
+        assertNotNull(user, "Should find user by email");
+        assertEquals("test@example.com", user.getEmail());
     }
     
     @Test
@@ -130,9 +129,9 @@ public class UserServiceTest {
         UserService nonExistentFileService = new UserService(nonExistentFileRepository);
         
         // This should trigger the readDataFromFile method's branch where file doesn't exist
-        // and should return an empty Optional
-        Optional<Map<String, String>> result = nonExistentFileService.findByUsernameOrEmail("anyuser");
-        assertFalse(result.isPresent(), "Should return empty when file doesn't exist");
+        // and should return null
+        User result = nonExistentFileService.findByUsernameOrEmail("anyuser");
+        assertNull(result, "Should return null when file doesn't exist");
     }
 
     @Test

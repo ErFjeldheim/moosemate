@@ -1,13 +1,22 @@
 package controller;
 
+import org.springframework.boot.autoconfigure.web.ServerProperties.Reactive.Session;
+
 import dto.ApiResponse;
+import dto.LoginResponse;
+
 import javafx.event.ActionEvent;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import service.ApiClient;
+import javafx.scene.control.Label;
 
+import service.ApiClient;
+import service.SessionManager;
+
+// controller for login view
 public class LoginController extends BaseController {
 
     @FXML
@@ -28,7 +37,7 @@ public class LoginController extends BaseController {
         this.apiClient = new ApiClient();
     }
 
-    // navigates to sign up page 
+    // navigates to sign up page
     @FXML
     private void handleSignUpButton(ActionEvent event) {
         try {
@@ -39,24 +48,28 @@ public class LoginController extends BaseController {
     }
 
     // handles login button and navigates to home page if user exists
-    @FXML 
+    @FXML
     private void handleLoginButton(ActionEvent event) {
+        String username = usernameField.getText();
+        String password = passwordField.getText();
+
+        // clear previous errors
+        clearError();
+
+        // validate input
+        if (username.isEmpty() || password.isEmpty()) {
+            showError("Username and password are required");
+            return;
+        }
+
         try {
-            clearError(); // Clear previous errors
-            
-            String username = usernameField.getText();
-            String password = passwordField.getText();
-            
-            // Validate input
-            if (username.isEmpty() || password.isEmpty()) {
-                showError("Username and password are required");
-                return;
-            }
-            
-            // Call REST API
-            ApiResponse<?> response = apiClient.login(username, password);
-            
+            // call API
+            ApiResponse<LoginResponse> response = apiClient.login(username, password);
+
             if (response.isSuccess()) {
+                // store session
+                SessionManager.getInstance().login(response.getData());
+                
                 // Show loading screen after successful login
                 navigateToOtherPage(event, "/fxml/loadingscreen.fxml", "Loading...");
             } else {
