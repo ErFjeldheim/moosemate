@@ -1,9 +1,8 @@
 package repository;
 
 import model.User;
+import util.JsonFileHandler;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,28 +21,22 @@ public class UserRepository {
     
     private static final String DATA_FILE_PATH = "persistence/src/main/resources/data/data.json";
     
-    private final ObjectMapper objectMapper;
+    private final JsonFileHandler fileHandler;
     private final File dataFile;
 
     public UserRepository() {
-        this.objectMapper = new ObjectMapper();
-        this.objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
-        this.dataFile = new File(getDataFilePath());
-        initializeDataFile();
+        this(new JsonFileHandler());
     }
 
     /**
-     * Gets the data file path. Can be overridden by subclasses when testing.
+     * Constructor for testing that accepts a custom JsonFileHandler.
      * 
-     * @return the path to the data file
+     * @param fileHandler the JsonFileHandler to use
      */
-    protected String getDataFilePath() {
-        // Find project root by walking up until we find the persistence directory
-        File dir = new File(System.getProperty("user.dir"));
-        while (dir != null && !new File(dir, "persistence").exists()) {
-            dir = dir.getParentFile();
-        }
-        return new File(dir != null ? dir : new File("."), DATA_FILE_PATH).getAbsolutePath();
+    protected UserRepository(JsonFileHandler fileHandler) {
+        this.fileHandler = fileHandler;
+        this.dataFile = new File(fileHandler.getDataFilePath(DATA_FILE_PATH));
+        initializeDataFile();
     }
 
     /**
@@ -51,12 +44,9 @@ public class UserRepository {
      */
     private void initializeDataFile() {
         try {
-            if (!dataFile.exists() || dataFile.length() == 0) {
-                dataFile.getParentFile().mkdirs();
-                Map<String, Object> initialData = new HashMap<>();
-                initialData.put("users", new ArrayList<Map<String, String>>());
-                objectMapper.writeValue(dataFile, initialData);
-            }
+            Map<String, Object> initialData = new HashMap<>();
+            initialData.put("users", new ArrayList<Map<String, String>>());
+            fileHandler.initializeDataFile(dataFile, initialData);
         } catch (IOException e) {
             System.err.println("Initializing the data file failed: " + e.getMessage());
         }
@@ -110,7 +100,7 @@ public class UserRepository {
             users.add(userMap);
 
             // Write to file to store user in json
-            objectMapper.writeValue(dataFile, data);
+            fileHandler.writeJsonToFile(dataFile, data);
             System.out.println("User successfully registered: " + username);
             return true;
 
@@ -230,6 +220,6 @@ public class UserRepository {
             return emptyData;
         }
         TypeReference<Map<String, Object>> typeReference = new TypeReference<Map<String, Object>>() {};
-        return objectMapper.readValue(dataFile, typeReference);
+        return fileHandler.readJsonFromFile(dataFile, typeReference);
     }
 }
