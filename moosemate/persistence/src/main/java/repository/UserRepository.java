@@ -3,8 +3,6 @@ package repository;
 import model.User;
 import util.JsonFileHandler;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.stereotype.Repository;
 
 import java.io.File;
@@ -16,8 +14,10 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
- // Repository class for managing User data persistence using JSON files.
- // Handles CRUD operations for User objects using the same pattern as UserService.
+/**
+ * Repository class for managing User data persistence using JSON files.
+ * Handles CRUD operations for User objects using the same pattern as UserService.
+ */
 @Repository
 public class UserRepository {
     
@@ -27,42 +27,24 @@ public class UserRepository {
     private final File dataFile;
 
     public UserRepository() {
-        this(null);
+        this(new JsonFileHandler());
     }
 
-    public UserRepository(String dataFilePath) {
-        this.objectMapper = new ObjectMapper();
-        this.objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
-        // Use provided path for testing, otherwise use getDataFilePath()
-        if (dataFilePath != null && !dataFilePath.equals(DATA_FILE_PATH)) {
-            // Test mode: use provided path directly
-            this.dataFile = new File(dataFilePath);
-        } else {
-            // Production mode: find correct path
-            this.dataFile = new File(getDataFilePath());
-        }
+    /**
+     * Constructor for testing that accepts a custom JsonFileHandler.
+     * Package-visible to allow test customization across modules.
+     * 
+     * @param fileHandler the JsonFileHandler to use
+     */
+    public UserRepository(JsonFileHandler fileHandler) {
+        this.fileHandler = fileHandler;
+        this.dataFile = new File(fileHandler.getDataFilePath(DATA_FILE_PATH));
         initializeDataFile();
     }
 
-     // Gets the data file path.
-    protected String getDataFilePath() {
-        // Find project root by walking up until we find the persistence directory
-        File dir = new File(System.getProperty("user.dir")).getAbsoluteFile();
-        while (dir != null && !new File(dir, "persistence").exists()) {
-            dir = dir.getParentFile();
-        }
-        // Once we find the moosemate root, construct path directly to persistence module
-        if (dir != null) {
-            File persistenceDir = new File(dir, "persistence");
-            File dataFile = new File(persistenceDir, "src/main/resources/data/data.json");
-            return dataFile.getAbsolutePath();
-        }
-        return new File(DATA_FILE_PATH).getAbsolutePath();
-    }
-
-
-
-    // Initializes the data file if it doesn't exist or is empty
+    /**
+     * Initializes the data file if it doesn't exist or is empty.
+     */
     private void initializeDataFile() {
         try {
             Map<String, Object> initialData = new HashMap<>();
@@ -73,7 +55,14 @@ public class UserRepository {
         }
     }
 
-    // Creates a new user in the repository.
+    /**
+     * Creates a new user in the repository.
+     * 
+     * @param username the username
+     * @param email the email address
+     * @param password the password (should be hashed before calling this method)
+     * @return true if user was created successfully, false otherwise
+     */
     public boolean createUser(String username, String email, String password) {
         try {
             // Check if user already exists
@@ -127,7 +116,12 @@ public class UserRepository {
         }
     }
 
-    // Finds a user by username or email.
+    /**
+     * Finds a user by username or email.
+     * 
+     * @param usernameOrEmail the username or email to search for
+     * @return Optional containing the user data if found, empty otherwise
+     */
     public Optional<Map<String, String>> findByUsernameOrEmail(String usernameOrEmail) {
         // Handle null or empty input
         if (usernameOrEmail == null || usernameOrEmail.isEmpty()) {
@@ -158,7 +152,13 @@ public class UserRepository {
         }
     }
 
-    // Finds a user by userID, so that MoosageRepository can convert authorID (String UUID) to User object when a moosage loads
+    /**
+     * Finds a user by userID, so that MoosageRepository can convert authorID (String UUID) 
+     * to User object when a moosage loads.
+     * 
+     * @param userId the user ID to search for
+     * @return Optional containing the User object if found, empty otherwise
+     */
     public Optional<User> getUserById(String userId) {
         if (userId == null || userId.isEmpty()) {
             return Optional.empty();
@@ -193,7 +193,12 @@ public class UserRepository {
         }
     }
 
-    // Checks if a username already exists
+    /**
+     * Checks if a username already exists.
+     * 
+     * @param username the username to check
+     * @return true if username exists, false otherwise
+     */
     public boolean userExists(String username) {
         try {
             if (username == null || !dataFile.exists()) {
@@ -217,7 +222,12 @@ public class UserRepository {
         }
     }
 
-    // Checks if an email already exists
+    /**
+     * Checks if an email already exists.
+     * 
+     * @param email the email to check
+     * @return true if email exists, false otherwise
+     */
     public boolean emailExists(String email) {
         try {
             if (email == null || !dataFile.exists()) {
@@ -241,7 +251,12 @@ public class UserRepository {
         }
     }
 
-    // Reads data from the JSON file
+    /**
+     * Reads data from the JSON file.
+     * 
+     * @return the data map
+     * @throws IOException if file reading fails
+     */
     private Map<String, Object> readDataFromFile() throws IOException {
         if (!dataFile.exists()) {
             Map<String, Object> emptyData = new HashMap<>();
