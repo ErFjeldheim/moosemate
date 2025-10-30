@@ -2,9 +2,9 @@ package repository;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import dto.MoosageDto;
+import util.JsonFileHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -14,50 +14,48 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
-// Repository class for managing Moosage data persistence using JSON files.
+/**
+ * Repository class for managing Moosage data persistence using JSON files.
+ */
 @Repository
 public class MoosageRepository {
     
     private static final String DATA_FILE_PATH = "persistence/src/main/resources/data/moosages.json";
     
-    private final ObjectMapper objectMapper;
+    private final JsonFileHandler fileHandler;
     private final File dataFile;
     private final UserRepository userRepository;
 
     @Autowired
     public MoosageRepository(UserRepository userRepository) {
-        this.userRepository = userRepository;
-        this.objectMapper = new ObjectMapper();
-        this.objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
-        this.objectMapper.registerModule(new JavaTimeModule());
-        this.dataFile = new File(getDataFilePath());
-        initializeDataFile();
-    }
-    
-    // Gets the data file path.
-    protected String getDataFilePath() {
-        // Find project root by walking up until we find the persistence directory
-        File dir = new File(System.getProperty("user.dir")).getAbsoluteFile();
-        while (dir != null && !new File(dir, "persistence").exists()) {
-            dir = dir.getParentFile();
-        }
-        // Once we find the moosemate root, construct path directly to persistence module
-        if (dir != null) {
-            File persistenceDir = new File(dir, "persistence");
-            File dataFile = new File(persistenceDir, "src/main/resources/data/moosages.json");
-            return dataFile.getAbsolutePath();
-        }
-        return new File(DATA_FILE_PATH).getAbsolutePath();
+        this(userRepository, new JsonFileHandler());
     }
 
-    // Initializes the data file if it doesn't exist.
+    /**
+     * Constructor for testing that accepts a custom JsonFileHandler.
+     * 
+     * @param userRepository the UserRepository to use
+     * @param fileHandler the JsonFileHandler to use
+     */
+    public MoosageRepository(UserRepository userRepository, JsonFileHandler fileHandler) {
+        this.userRepository = userRepository;
+        this.fileHandler = fileHandler;
+        
+        // Register JavaTimeModule for LocalDateTime serialization
+        ObjectMapper mapper = fileHandler.getObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+        
+        this.dataFile = new File(fileHandler.getDataFilePath(DATA_FILE_PATH));
+        initializeDataFile();
+    }
+
+    /**
+     * Initializes the data file if it doesn't exist.
+     */
     private void initializeDataFile() {
         try {
-            if (!dataFile.exists() || dataFile.length() == 0) {
-                dataFile.getParentFile().mkdirs();
-                MoosageStorage storage = new MoosageStorage();
-                objectMapper.writeValue(dataFile, storage);
-            }
+            MoosageStorage storage = new MoosageStorage();
+            fileHandler.initializeDataFile(dataFile, storage);
         } catch (IOException e) {
             System.err.println("Initializing moosages data file failed: " + e.getMessage());
         }
@@ -66,7 +64,7 @@ public class MoosageRepository {
     // Loads the moosage storage from file.
     private MoosageStorage loadStorage() {
         try {
-            return objectMapper.readValue(dataFile, MoosageStorage.class);
+            return fileHandler.readJsonFromFile(dataFile, new TypeReference<MoosageStorage>() {});
         } catch (IOException e) {
             System.err.println("Error loading moosages: " + e.getMessage());
             return new MoosageStorage();
@@ -76,7 +74,7 @@ public class MoosageRepository {
     // Saves the moosage storage to file
     private void saveStorage(MoosageStorage storage) {
         try {
-            objectMapper.writeValue(dataFile, storage);
+            fileHandler.writeJsonToFile(dataFile, storage);
         } catch (IOException e) {
             System.err.println("Error saving moosages: " + e.getMessage());
         }
