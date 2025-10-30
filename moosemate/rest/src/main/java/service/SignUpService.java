@@ -2,10 +2,8 @@ package service;
 
 import org.springframework.stereotype.Service;
 
-/**
- * Service class for handling user sign-up operations.
- * Handles sign-up business logic and delegates user creation to UserService.
- */
+// Service class for handling user sign-up operations.
+// Handles sign-up business logic and delegates user creation to UserService.
 @Service
 public class SignUpService {
 
@@ -18,15 +16,7 @@ public class SignUpService {
         this.passwordService = passwordService;
     }
 
-    /**
-     * Registers a new user by handling validation, password hashing, and user creation.
-     * 
-     * @param username the username
-     * @param email the email address
-     * @param password the plain text password (will be hashed)
-     * @return true if user was successfully registered, false otherwise
-     * @throws IllegalArgumentException if input validation fails
-     */
+    //Registers a new user by handling validation, password hashing, and user creation.
     public boolean signUpUser(String username, String email, String password) throws IllegalArgumentException {
         // Validate inputs
         if (username == null || email == null || password == null) {

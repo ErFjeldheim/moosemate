@@ -10,25 +10,37 @@
 
 <StackPane fx:id="rootPane" xmlns="http://javafx.com/javafx/21.0.8" xmlns:fx="http://javafx.com/fxml/1" 
            fx:controller="controller.LoadingScreenController"
-           prefHeight="400.0" prefWidth="640.0" 
+           prefHeight="700.0" prefWidth="900.0" 
            styleClass="anchor-pane" 
-           stylesheets="@../css/styling.css">
+           stylesheets="@../css/common.css">
    <children>
       <VBox alignment="CENTER" spacing="20.0">
          <children>
-            <ImageView fitHeight="300.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="400.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/Moosemate-logo-v2.png" />
                </image>
             </ImageView>
             <Label fx:id="loadingLabel" text="Loading" textAlignment="CENTER">
                <font>
-                  <Font size="24.0" />
+                  <Font size="28.0" />
                </font>
             </Label>
          </children>
          <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+      </VBox>
+      <VBox alignment="BOTTOM_CENTER" StackPane.alignment="BOTTOM_CENTER">
+         <children>
+            <Label alignment="CENTER" text="™ MooseMate 2025" textFill="#9f9f9f">
+               <font>
+                  <Font name="Optima Regular" size="10.0" />
+               </font>
+            </Label>
+         </children>
+         <padding>
+            <Insets bottom="10.0" />
          </padding>
       </VBox>
    </children>

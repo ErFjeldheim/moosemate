@@ -1,0 +1,75 @@
+/* Styles for moosage cell */
+
+/* Post cell styling */
+.post-cell {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 8px;
+    -fx-border-color: #d0c4b0;
+    -fx-border-width: 1px;
+    -fx-border-radius: 8px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 3, 0, 0, 1);
+}
+
+.post-username {
+    -fx-text-fill: #321d0f;
+    -fx-font-weight: bold;
+}
+
+.post-content {
+    -fx-fill: #4a4a4a;
+    -fx-line-spacing: 2px;
+}
+
+/* Like button styling */
+.like-button {
+    -fx-background-color: transparent;
+    -fx-border-color: #8d7864;
+    -fx-border-width: 1px;
+    -fx-border-radius: 15px;
+    -fx-background-radius: 15px;
+    -fx-text-fill: #5B8C5A;
+    -fx-padding: 3px 12px;
+    -fx-font-size: 11px;
+}
+
+.like-button:hover {
+    -fx-background-color: #E3B23C;
+    -fx-text-fill: #ffffff;
+    -fx-border-color: #9b7c27;
+}
+
+/* Delete button styling */
+.delete-button {
+    -fx-background-color: transparent;
+    -fx-border-color: #8d7864;
+    -fx-border-width: 1px;
+    -fx-border-radius: 15px;
+    -fx-background-radius: 15px;
+    -fx-text-fill: #c94a4a;
+    -fx-padding: 3px 12px;
+    -fx-font-size: 11px;
+}
+
+.delete-button:hover {
+    -fx-background-color: #d94a4a;
+    -fx-text-fill: #ffffff;
+    -fx-border-color: #a03030;
+}
+
+/* Edit button styling */
+.edit-button {
+    -fx-background-color: transparent;
+    -fx-border-color: #8d7864;
+    -fx-border-width: 1px;
+    -fx-border-radius: 15px;
+    -fx-background-radius: 15px;
+    -fx-text-fill: #5a7a8c;
+    -fx-padding: 3px 12px;
+    -fx-font-size: 11px;
+}
+
+.edit-button:hover {
+    -fx-background-color: #5a7a8c;
+    -fx-text-fill: #ffffff;
+    -fx-border-color: #3a5a6c;
+}

@@ -13,12 +13,11 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Test class for UserRepository.
- * Tests persistence layer operations for user data.
- */
+//Test class for UserRepository.
+// Tests persistence layer operations for user data.
 class UserRepositoryTest {
 
+    private UserRepository repository;
     private UserRepository repository;
     private Path testDataFile;
 

@@ -16,11 +16,8 @@ import org.junit.jupiter.api.Test;
 import java.lang.reflect.Method;
 import java.net.URL;
 
-/**
- * Comprehensive tests for App class to achieve better code coverage without TestFX dependency.
- * Uses reflection to test methods that can't be tested due to JavaFX initialization issues.
- * Credits: Claude Sonnet 4
- */
+ // Comprehensive tests for App class to achieve better code coverage without TestFX dependency.
+ // Uses reflection to test methods that can't be tested due to JavaFX initialization issues.
 public class AppTest {
 
     @BeforeAll
@@ -42,7 +39,7 @@ public class AppTest {
                 "Login page FXML should be accessible");
         
         // Test other resources that might be used
-        assertNotNull(App.class.getResource("/css/styling.css"), 
+        assertNotNull(App.class.getResource("/css/common.css"), 
                 "CSS file should be accessible");
     }
 
@@ -124,7 +121,7 @@ public class AppTest {
             "/fxml/loginpage.fxml",
             "/fxml/homepage.fxml", 
             "/fxml/signuppage.fxml",
-            "/css/styling.css"
+            "/css/common.css"
         };
         
         for (String resourcePath : expectedResources) {

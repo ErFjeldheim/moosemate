@@ -18,11 +18,8 @@ import org.testfx.framework.junit5.Start;
 import java.lang.reflect.Method;
 import java.net.URL;
 
-/**
- * TestFX-compatible tests for App class to achieve better code coverage.
- * This version will be included when running mvn test -Dtest="*TestFX"
- * Credits: Claude Sonnet 4
- */
+ // TestFX-compatible tests for App class to achieve better code coverage.
+ // This version will be included when running mvn test -Dtest="*TestFX"
 @ExtendWith(ApplicationExtension.class)
 public class AppTestFX extends FxRobot {
 

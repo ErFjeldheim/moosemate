@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<VBox xmlns="http://javafx.com/javafx/23.0.1"
+      xmlns:fx="http://javafx.com/fxml/1"
+      spacing="8"
+      styleClass="post-cell"
+      stylesheets="@../css/common.css, @../css/moosagecell.css"
+      prefWidth="480">
+
+    <padding>
+        <Insets top="12" right="12" bottom="12" left="12"/>
+    </padding>
+
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label fx:id="usernameLabel" styleClass="post-username" text="Username">
+            <font>
+                <Font name="Optima Bold" size="14.0" />
+            </font>
+        </Label>
+        <Label fx:id="dateLabel" text="Date" textFill="#9f9f9f">
+            <font>
+                <Font name="Optima Regular" size="10.0" />
+            </font>
+        </Label>
+        <Label fx:id="editedLabel" text="(edited)" textFill="#9f9f9f" visible="false" managed="false">
+            <font>
+                <Font name="Optima Italic" size="10.0" />
+            </font>
+        </Label>
+    </HBox>
+
+    <!-- Content -->
+    <Text fx:id="contentText" wrappingWidth="456" text="Moosage content..." styleClass="post-content">
+        <font>
+            <Font name="Optima Regular" size="13.0" />
+        </font>
+    </Text>
+
+    <!-- Footer: Like button and count -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Button fx:id="likeButton" text="♥ Like" styleClass="like-button">
+            <font>
+                <Font name="Optima Regular" size="11.0" />
+            </font>
+        </Button>
+        <Label fx:id="likeCountLabel" text="0" textFill="#666666">
+            <font>
+                <Font name="Optima Regular" size="11.0" />
+            </font>
+        </Label>
+        <Button fx:id="editButton" text="✏ Edit" styleClass="edit-button">
+            <font>
+                <Font name="Optima Regular" size="11.0" />
+            </font>
+        </Button>
+        <Button fx:id="deleteButton" text="🗑 Delete" styleClass="delete-button">
+            <font>
+                <Font name="Optima Regular" size="11.0" />
+            </font>
+        </Button>
+    </HBox>
+</VBox>

@@ -4,9 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Unit tests for PasswordService.
- */
+// Unit tests for PasswordService.
 public class PasswordServiceTest {
     
     private PasswordService passwordService;
