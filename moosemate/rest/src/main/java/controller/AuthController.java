@@ -6,9 +6,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import service.LoginService;
 import service.SignUpService;
+import service.SessionService;
 import dto.LoginRequest;
 import dto.SignUpRequest;
 import dto.ApiResponse;
+import dto.LoginResponse;
+import model.User;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -19,6 +22,9 @@ public class AuthController {
     
     @Autowired
     private SignUpService signUpService;
+
+    @Autowired
+    private SessionService sessionService;
     
     @GetMapping("/test")
     public ResponseEntity<ApiResponse<String>> test() {
@@ -26,18 +32,31 @@ public class AuthController {
     }
     
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse<String>> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<ApiResponse<LoginResponse>> login(@RequestBody LoginRequest request) {
         try {
-            boolean success = loginService.loginUser(request.getUsername(), request.getPassword());
-            if (success) {
-                return ResponseEntity.ok(new ApiResponse<>(true, "Login successful", "User authenticated"));
+            // validate and login
+            User user = loginService.loginUser(request.getUsername(), request.getPassword());
+            
+            if (user != null) {
+                // creates session and get UUID token
+                String sessionToken = sessionService.createSession(user);
+            
+                LoginResponse loginResponse = new LoginResponse(
+                    user.getUsername(),
+                    user.getEmail(),
+                    sessionToken
+                );
+
+                return ResponseEntity.ok(
+                    new ApiResponse<>(true, "Login successful", loginResponse)
+                );
             } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new ApiResponse<>(false, "Invalid credentials"));
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ApiResponse<>(false, "Invalid username or password"));
             }
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse<>(false, e.getMessage()));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(new ApiResponse<>(false, "Login failed: " + e.getMessage()));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse<>(false, "Login failed: " + e.getMessage()));
         }
     }
     
@@ -50,18 +69,42 @@ public class AuthController {
                 request.getPassword()
             );
             if (success) {
-                return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(new ApiResponse<>(true, "User created successfully", "Registration complete"));
+                return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse<>(true, "User registered successfully", "Registration complete"));
             } else {
-                return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body(new ApiResponse<>(false, "User already exists"));
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(new ApiResponse<>(false, "User already exists"));
             }
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(new ApiResponse<>(false, e.getMessage()));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse<>(false, e.getMessage()));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(new ApiResponse<>(false, "Signup failed: " + e.getMessage()));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse<>(false, "Signup failed: " + e.getMessage()));
         }
     }
+
+    @PostMapping("/logout")
+    public ResponseEntity<ApiResponse<String>> logout(
+        @RequestHeader("Session-Token") String sessionToken) {
+
+        try {
+            System.out.println("Logout endpoint called with token: " + sessionToken);
+            sessionService.terminateSession(sessionToken);
+            return ResponseEntity.ok(new ApiResponse<>(true, "Logged out succesfully"));
+        } catch (Exception e) {
+            System.out.println("Logout failed with error: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse<>(false, "Logout failed"));
+        }
+    }
+
+    @GetMapping("/verify")
+    public ResponseEntity<ApiResponse<Boolean>> verifySession(
+        @RequestHeader("Session-Token") String sessionToken) {
+            boolean valid = sessionService.isValidSession(sessionToken);
+
+            if (valid) {
+                User user = sessionService.getUser(sessionToken);
+                System.out.println("Session verified for: " + user.getUsername());
+                return ResponseEntity.ok(new ApiResponse<>(true, "Session valid", true));
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ApiResponse<>(false, "Invalid session", false));
+            }
+        }    
 }
