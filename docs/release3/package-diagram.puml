@@ -1,0 +1,58 @@
+@startuml
+
+package "core" {
+  package "dto" {
+    class LoginResponse
+    class UserDto
+    class SignUpRequest
+    class LoginRequest
+    class ApiResponse
+  }
+  package "model" {
+    class User
+  }
+}
+
+package "persistence" {
+  package "repository" {
+    class UserRepository
+  }
+}
+
+package "rest" {
+  package "app" {
+    class RestApplication
+  }
+  package "config" {
+    class CorsConfig
+  }
+  package "controller" {
+    class AuthController
+  }
+  package "service" {
+    class SignUpService
+    class UserService
+    class LoginService
+    class SessionService
+    class PasswordService
+  }
+}
+
+package "ui" {
+  package "app" {
+    class App
+  }
+  package "controller" {
+    class LoginController
+    class SignUpController
+    class BaseController
+    class HomePageController
+    class LoadingScreenController
+  }
+  package "service" {
+    class SessionManager
+    class ApiClient
+  }
+}
+
+@enduml

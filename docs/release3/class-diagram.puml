@@ -1,0 +1,83 @@
+@startuml
+' Core domain classes
+class User {
+  - username: String
+  - email: String
+  - password: String
+}
+
+class UserDto {
+  - username: String
+  - email: String
+}
+
+class LoginRequest {
+  - username: String
+  - password: String
+}
+
+class LoginResponse {
+  - username: String
+  - email: String
+  - sessionToken: String
+}
+
+class ApiResponse {
+  - success: boolean
+  - message: String
+  - data: T
+}
+
+' UI classes
+class LoginController {
+  + handleLoginButton()
+}
+class SessionManager {
+  - sessionToken: String
+  - username: String
+  - email: String
+  + login(LoginResponse)
+}
+class ApiClient {
+  + login(username, password)
+}
+
+' REST classes
+class AuthController {
+  + login(LoginRequest)
+}
+class LoginService {
+  + loginUser(usernameOrEmail, password)
+}
+class UserService {
+  + findByUsernameOrEmail(usernameOrEmail)
+}
+class PasswordService {
+  + verifyPassword(password, hash)
+}
+class SessionService {
+  + createSession(User)
+}
+
+' Persistence
+class UserRepository {
+  + findByUsernameOrEmail(usernameOrEmail)
+}
+
+' Relationships
+LoginController --> ApiClient
+LoginController --> SessionManager
+ApiClient --> AuthController
+AuthController --> LoginService
+LoginService --> UserService
+LoginService --> PasswordService
+LoginService --> UserRepository
+AuthController --> SessionService
+SessionService --> User
+UserService --> UserRepository
+UserRepository --> User
+SessionManager --> LoginResponse
+ApiClient --> LoginResponse
+ApiClient --> ApiResponse
+
+@enduml
