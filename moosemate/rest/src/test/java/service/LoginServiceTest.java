@@ -7,14 +7,17 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import model.User;
 import repository.UserRepository;
+import util.JsonFileHandler;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 
-// Test class for LoginService
-// Tests the LoginService that delegates to UserService and PasswordService
+/**
+ * Test class for LoginService.
+ * Tests the LoginService that delegates to UserService and PasswordService.
+ */
 public class LoginServiceTest {
 
     private LoginService loginService;
@@ -23,12 +26,29 @@ public class LoginServiceTest {
     private UserRepository userRepository;
     private final String testDataFile = "rest/target/test-data/test-login-data.json";
 
+    /**
+     * Test implementation of JsonFileHandler that uses a custom file path.
+     */
+    private static class TestJsonFileHandler extends JsonFileHandler {
+        private final String testFilePath;
+
+        TestJsonFileHandler(String testFilePath) {
+            super();
+            this.testFilePath = testFilePath;
+        }
+
+        @Override
+        public String getDataFilePath(String relativePath) {
+            return testFilePath;
+        }
+    }
+
     @BeforeEach
     public void setUp() {
         // Clean up any existing test data
         cleanupTestFile();
         // Initialize services with test isolation
-        userRepository = new UserRepository(testDataFile);
+        userRepository = new UserRepository(new TestJsonFileHandler(testDataFile));
         userService = new UserService(userRepository);
         passwordService = new PasswordService();
         loginService = new LoginService(userService, passwordService);

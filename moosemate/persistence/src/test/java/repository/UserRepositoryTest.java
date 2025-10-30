@@ -18,7 +18,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class UserRepositoryTest {
 
     private UserRepository repository;
-    private UserRepository repository;
     private Path testDataFile;
 
     /**

@@ -6,13 +6,16 @@ import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.*;
 
 import repository.UserRepository;
+import util.JsonFileHandler;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
- // Test class for SignUpService
- // Tests the SignUpService that delegates to UserService for user creation
+/**
+ * Test class for SignUpService.
+ * Tests the SignUpService that delegates to UserService for user creation.
+ */
 public class SignUpServiceTest {
 
     private SignUpService signUpService;
@@ -20,12 +23,29 @@ public class SignUpServiceTest {
     private PasswordService passwordService;
     private final String testDataFile = "rest/target/test-data/test-signup-data.json";
 
+    /**
+     * Test implementation of JsonFileHandler that uses a custom file path.
+     */
+    private static class TestJsonFileHandler extends JsonFileHandler {
+        private final String testFilePath;
+
+        TestJsonFileHandler(String testFilePath) {
+            super();
+            this.testFilePath = testFilePath;
+        }
+
+        @Override
+        public String getDataFilePath(String relativePath) {
+            return testFilePath;
+        }
+    }
+
     @BeforeEach
     public void setUp() {
         // Clean up any existing test data
         cleanupTestFile();
         // Initialize services with test repository
-        UserRepository testRepository = new UserRepository(testDataFile);
+        UserRepository testRepository = new UserRepository(new TestJsonFileHandler(testDataFile));
         userService = new UserService(testRepository);
         passwordService = new PasswordService();
         signUpService = new SignUpService(userService, passwordService);
@@ -242,8 +262,8 @@ public class SignUpServiceTest {
     @Test
     public void testSignUpServiceInstanceCanBeCreatedMultipleTimes() {
         // Create test services with test repository to avoid writing to production data
-        UserRepository testRepo1 = new UserRepository(testDataFile);
-        UserRepository testRepo2 = new UserRepository(testDataFile);
+        UserRepository testRepo1 = new UserRepository(new TestJsonFileHandler(testDataFile));
+        UserRepository testRepo2 = new UserRepository(new TestJsonFileHandler(testDataFile));
         UserService userService1 = new UserService(testRepo1);
         UserService userService2 = new UserService(testRepo2);
         PasswordService passwordService = new PasswordService();
