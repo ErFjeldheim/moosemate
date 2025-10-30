@@ -4,10 +4,8 @@ import model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**
- * Service class for handling user authentication operations.
- * Handles login business logic and delegates user data operations to UserService.
- */
+// Service class for handling user authentication operations.
+// Handles login business logic and delegates user data operations to UserService.
 @Service
 public class LoginService {
 

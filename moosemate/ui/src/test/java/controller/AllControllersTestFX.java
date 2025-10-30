@@ -18,10 +18,8 @@ import org.testfx.framework.junit5.Start;
 
 import java.io.IOException;
 
-/**
- * Optimized single TestFX class testing all controllers to minimize JavaFX application startup overhead.
- * This replaces individual TestFX files for maximum performance.
- */
+ // Optimized single TestFX class testing all controllers to minimize JavaFX application startup overhead.
+ // This replaces individual TestFX files for maximum performance.
 @ExtendWith(ApplicationExtension.class)
 class AllControllersTestFX extends FxRobot {
 

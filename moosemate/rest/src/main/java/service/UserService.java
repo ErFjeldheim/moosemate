@@ -7,11 +7,9 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-/**
- * Service class for handling user data operations.
- * Acts as a bridge between other services and the persistence layer.
- * Focuses on user CRUD operations and data validation.
- */
+// Service class for handling user data operations.
+// Acts as a bridge between other services and the persistence layer.
+// Focuses on user CRUD operations and data validation.
 @Service
 public class UserService {
 
@@ -26,24 +24,12 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    /**
-     * Creates a new user with hashed password.
-     * 
-     * @param username the username
-     * @param email the email address
-     * @param hashedPassword the already hashed password
-     * @return true if user was created successfully, false otherwise
-     */
+    // Creates a new user with hashed password.
     public boolean createUser(String username, String email, String hashedPassword) {
         return userRepository.createUser(username, email, hashedPassword);
     }
 
-    /**
-     * Finds a user by username or email.
-     * 
-     * @param usernameOrEmail the username or email to search for
-     * @return User object if found, null otherwise
-     */
+    // Finds a user by username or email.
     public User findByUsernameOrEmail(String usernameOrEmail) {
         Optional<Map<String, String>> userDataOptional = userRepository.findByUsernameOrEmail(usernameOrEmail);
         
@@ -69,22 +55,12 @@ public class UserService {
         return null;
     }
 
-    /**
-     * Checks if a username already exists.
-     * 
-     * @param username the username to check
-     * @return true if username exists, false otherwise
-     */
+    // Checks if a username already exists.
     public boolean userExists(String username) {
         return userRepository.userExists(username);
     }
 
-    /**
-     * Checks if an email already exists.
-     * 
-     * @param email the email to check
-     * @return true if email exists, false otherwise
-     */
+    // Checks if an email already exists.
     public boolean emailExists(String email) {
         return userRepository.emailExists(email);
     }

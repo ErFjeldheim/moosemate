@@ -1,11 +1,12 @@
 package service;
 
-import model.User;
-import org.springframework.stereotype.Service;
-
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+
+import org.springframework.stereotype.Service;
+
+import model.User;
 
 @Service
 public class SessionService {
@@ -16,13 +17,19 @@ public class SessionService {
     public String createSession(User user) {
         String sessionToken = UUID.randomUUID().toString();
         activeSessions.put(sessionToken, user);
-        System.out.println("Created session for user " + user.getUsername() + sessionToken);
+        System.out.println("Created session for user " + user.getUsername() + " with sessionID: " + sessionToken);
         return sessionToken;
     }
 
     // returns user from session token
     public User getUser(String sessionToken) {
         return activeSessions.get(sessionToken);
+    }
+
+    // returns user ID from session token
+    public String getUserIdByToken(String sessionToken) {
+        User user = activeSessions.get(sessionToken);
+        return (user != null) ? user.getUserID() : null;
     }
 
     // checks if session is valid

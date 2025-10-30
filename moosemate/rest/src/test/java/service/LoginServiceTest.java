@@ -13,16 +13,14 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 
-/**
- * Test class for LoginService
- * Tests the LoginService that delegates to UserService and PasswordService
- */
+// Test class for LoginService
+// Tests the LoginService that delegates to UserService and PasswordService
 public class LoginServiceTest {
 
     private LoginService loginService;
     private UserService userService;
     private PasswordService passwordService;
-    private TestUserRepository userRepository;
+    private UserRepository userRepository;
     private final String testDataFile = "rest/target/test-data/test-login-data.json";
 
     @BeforeEach
@@ -30,7 +28,7 @@ public class LoginServiceTest {
         // Clean up any existing test data
         cleanupTestFile();
         // Initialize services with test isolation
-        userRepository = new TestUserRepository();
+        userRepository = new UserRepository(testDataFile);
         userService = new UserService(userRepository);
         passwordService = new PasswordService();
         loginService = new LoginService(userService, passwordService);
@@ -39,16 +37,6 @@ public class LoginServiceTest {
     @AfterEach
     public void tearDown() {
         cleanupTestFile();
-    }
-
-    /**
-     * Test UserRepository that uses separate test data file
-     */
-    private class TestUserRepository extends UserRepository {
-        @Override
-        protected String getDataFilePath() {
-            return testDataFile;
-        }
     }
 
     private void cleanupTestFile() {

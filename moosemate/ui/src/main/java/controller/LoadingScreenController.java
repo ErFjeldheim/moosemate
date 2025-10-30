@@ -13,9 +13,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-/**
- * Controller for the splash screen that shows while the app loads.
- */
+//Controller for the splash screen that shows while the app loads.
 public class LoadingScreenController {
 
     @FXML
@@ -32,7 +30,7 @@ public class LoadingScreenController {
         startLoadingAnimation();
         
         // Automatically transition to the homepage after 3 seconds
-        PauseTransition pause = new PauseTransition(Duration.seconds(3));
+        PauseTransition pause = new PauseTransition(Duration.seconds(1));
         pause.setOnFinished(event -> {
             // Stop the animation
             if (dotAnimation != null) {
@@ -41,9 +39,9 @@ public class LoadingScreenController {
             
             Platform.runLater(() -> {
                 try {
-                    loadLoginPage();
+                    loadHomePage();
                 } catch (Exception e) {
-                    System.err.println("Error loading login page: " + e.getMessage());
+                    System.err.println("Error loading Home Page: " + e.getMessage());
                 }
             });
         });
@@ -56,7 +54,7 @@ public class LoadingScreenController {
 
         // Create a timeline that updates every 300ms
         dotAnimation = new Timeline(new KeyFrame(Duration.millis(300), event -> {
-            loadingLabel.setText("Loading" + dots[index[0]]);
+            loadingLabel.setText("Luring moose" + dots[index[0]]);
             index[0] = (index[0] + 1) % dots.length;
         }));
         
@@ -64,7 +62,7 @@ public class LoadingScreenController {
         dotAnimation.play();
     }
 
-    private void loadLoginPage() throws Exception {
+    private void loadHomePage() throws Exception {
         // Load the homepage
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/homepage.fxml"));
         Scene homeScene = new Scene(loader.load());

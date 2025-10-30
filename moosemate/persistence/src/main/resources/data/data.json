@@ -29,5 +29,15 @@
     "userID" : "c6164f17-be1d-411e-bb7f-eda411eaadcb",
     "email" : "new@example.com",
     "username" : "newuser"
+  }, {
+    "password" : "$2a$12$rvmUw6mcB7RwJLXKveGj1.7lf3Tgk5IgKwYVzk8aZR93NW4S9y98S",
+    "userID" : "1997f80e-ba86-490b-b0ec-ed34df9ad344",
+    "email" : "ed@ed.ed",
+    "username" : "edvard"
+  }, {
+    "password" : "$2a$12$wW4uaoeJmHYQjlB9Qijoee4quWJ0fOzaB4XoNH7isVcbeYA0WDqpK",
+    "userID" : "4b5bbee6-5c71-43d3-b301-c5e53506ed4e",
+    "email" : "test@erik.no",
+    "username" : "erikhjelmen"
   } ]
 }
