@@ -73,7 +73,6 @@ public class MoosageListCell extends ListCell<MoosageDto> {
                     cellContent = loader.load();
                 } catch (IOException e) {
                     System.err.println("Error loading moosagecell.fxml: " + e.getMessage());
-                    e.printStackTrace();
                     return;
                 }
             }
@@ -173,7 +172,6 @@ public class MoosageListCell extends ListCell<MoosageDto> {
                 
             } catch (Exception e) {
                 System.err.println("Error toggling like: " + e.getMessage());
-                e.printStackTrace();
             }
         }).start();
     }
@@ -212,7 +210,6 @@ public class MoosageListCell extends ListCell<MoosageDto> {
                             
                         } catch (Exception e) {
                             System.err.println("Error updating moosage: " + e.getMessage());
-                            e.printStackTrace();
                         }
                     }).start();
                 }
@@ -241,7 +238,6 @@ public class MoosageListCell extends ListCell<MoosageDto> {
                 
             } catch (Exception e) {
                 System.err.println("Error deleting moosage: " + e.getMessage());
-                e.printStackTrace();
             }
         }).start();
     }

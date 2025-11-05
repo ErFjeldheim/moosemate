@@ -72,7 +72,6 @@ public class HomePageController extends BaseController {
             
         } catch (Exception e) {
             System.err.println("Error loading moosages: " + e.getMessage());
-            e.printStackTrace();
         }
     }
 
@@ -112,7 +111,6 @@ public class HomePageController extends BaseController {
                 }
             } catch (Exception e) {
                 System.err.println("Error posting moosage: " + e.getMessage());
-                e.printStackTrace();
             } finally {
                 javafx.application.Platform.runLater(() -> postButton.setDisable(false));
             }
@@ -158,8 +156,6 @@ public class HomePageController extends BaseController {
             
         } catch (Exception e) {
             System.err.println("Error occurred when trying to logout: " + e.getMessage());
-            e.printStackTrace();
-            e.printStackTrace();
         }
     }
     
