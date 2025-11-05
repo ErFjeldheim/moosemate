@@ -1,6 +1,7 @@
 package repository;
 
 import model.User;
+import util.IdGenerator;
 import util.JsonFileHandler;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.springframework.stereotype.Repository;
@@ -12,7 +13,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 
 /**
  * Repository class for managing User data persistence using JSON files.
@@ -76,7 +76,7 @@ public class UserRepository {
                 return false;
             }
 
-            String userID = UUID.randomUUID().toString();
+            String userID = IdGenerator.generateUserId();
 
             // Validate input using User class (this will throw exceptions for invalid data)
             User newUser = new User(username, email, password, userID);
