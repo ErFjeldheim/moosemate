@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import util.ResponseUtils;
 import util.ValidationUtils;
 
 // REST Controller for moosage-related endpoints.
@@ -38,10 +39,8 @@ public class MoosageController {
             @RequestHeader("Session-Token") String sessionToken) {
 
         // Verify session
-        String userId = sessionService.getUserIdByToken(sessionToken);
-        if (userId == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new ApiResponse<>(false, "Invalid session token", null));
+        if (ValidationUtils.isNullOrEmpty(sessionService.getUserIdByToken(sessionToken))) {
+            return ResponseUtils.unauthorized("Invalid session token");
         }
 
         try {
@@ -49,10 +48,9 @@ public class MoosageController {
             List<MoosageDto> moosageDtos = moosages.stream()
                     .map(MoosageDto::fromMoosage)
                     .collect(Collectors.toList());
-            return ResponseEntity.ok(new ApiResponse<>(true, "Moosages retrieved successfully", moosageDtos));
+            return ResponseUtils.ok("Moosages retrieved successfully", moosageDtos);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ApiResponse<>(false, "Error retrieving moosages: " + e.getMessage(), null));
+            return ResponseUtils.internalError("Error retrieving moosages: " + e.getMessage());
         }
     }
 
@@ -63,19 +61,17 @@ public class MoosageController {
             @RequestHeader("Session-Token") String sessionToken) {
 
         // Verify session
-        String userId = sessionService.getUserIdByToken(sessionToken);
-        if (userId == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new ApiResponse<>(false, "Invalid session token", null));
+        if (ValidationUtils.isNullOrEmpty(sessionService.getUserIdByToken(sessionToken))) {
+            return ResponseUtils.unauthorized("Invalid session token");
         }
 
         Optional<Moosage> moosage = moosageService.getMoosageById(id);
+
         if (moosage.isPresent()) {
             MoosageDto dto = MoosageDto.fromMoosage(moosage.get());
-            return ResponseEntity.ok(new ApiResponse<>(true, "Moosage found", dto));
+            return ResponseUtils.ok("Moosage found", dto);
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new ApiResponse<>(false, "Moosage not found", null));
+            return ResponseUtils.notFound("Moosage not found");
         }
     }
 
@@ -85,32 +81,28 @@ public class MoosageController {
             @RequestBody CreateMoosageRequest request,
             @RequestHeader("Session-Token") String sessionToken) {
 
-        // Verify session and get user ID
+        // Get userID and verify session
         String userId = sessionService.getUserIdByToken(sessionToken);
-        if (userId == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new ApiResponse<>(false, "Invalid session token", null));
+
+        if (ValidationUtils.isNullOrEmpty(userId)) {
+            return ResponseUtils.unauthorized("Invalid session token");
         }
 
         // Validate content
         try {
             ValidationUtils.requireNonEmpty(request.getContent(), "Content");
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new ApiResponse<>(false, e.getMessage(), null));
+            return ResponseUtils.badRequest(e.getMessage());
         }
 
         try {
             Moosage moosage = moosageService.createMoosage(request.getContent(), userId);
             MoosageDto dto = MoosageDto.fromMoosage(moosage);
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(new ApiResponse<>(true, "Moosage created successfully", dto));
+            return ResponseUtils.created("Moosage created successfully", dto);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new ApiResponse<>(false, e.getMessage(), null));
+            return ResponseUtils.badRequest(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ApiResponse<>(false, "Error creating moosage: " + e.getMessage(), null));
+            return ResponseUtils.internalError("Error creating moosage: " + e.getMessage());
         }
     }
 
@@ -120,28 +112,24 @@ public class MoosageController {
             @PathVariable Long id,
             @RequestHeader("Session-Token") String sessionToken) {
 
-        // Verify session and get user ID
+        // Get userID and verify session
         String userId = sessionService.getUserIdByToken(sessionToken);
-        if (userId == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new ApiResponse<>(false, "Invalid session token", null));
+        if (ValidationUtils.isNullOrEmpty(userId)) {
+            return ResponseUtils.unauthorized("Invalid session token");
         }
 
         try {
             Optional<Moosage> moosage = moosageService.toggleLike(id, userId);
             if (moosage.isPresent()) {
                 MoosageDto dto = MoosageDto.fromMoosage(moosage.get());
-                return ResponseEntity.ok(new ApiResponse<>(true, "Like toggled successfully", dto));
+                return ResponseUtils.ok("Like toggled successfully", dto);
             } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body(new ApiResponse<>(false, "Moosage not found", null));
+                return ResponseUtils.notFound("Moosage not found");
             }
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new ApiResponse<>(false, e.getMessage(), null));
+            return ResponseUtils.badRequest(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ApiResponse<>(false, "Error toggling like: " + e.getMessage(), null));
+            return ResponseUtils.internalError("Error toggling like: " + e.getMessage());
         }
     }
 
@@ -152,45 +140,39 @@ public class MoosageController {
             @RequestBody UpdateMoosageRequest request,
             @RequestHeader("Session-Token") String sessionToken) {
 
-        // Verify session
+        // Get userID and verify session
         String userId = sessionService.getUserIdByToken(sessionToken);
-        if (userId == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new ApiResponse<>(false, "Invalid session token", null));
+        if (ValidationUtils.isNullOrEmpty(userId)) {
+            return ResponseUtils.unauthorized("Invalid session token");
         }
 
         // Validate content
         try {
             ValidationUtils.requireNonEmpty(request.getContent(), "Content");
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new ApiResponse<>(false, e.getMessage(), null));
+            return ResponseUtils.badRequest(e.getMessage());
         }
 
         // Check if user is the author of the moosage
         Optional<Moosage> moosage = moosageService.getMoosageById(id);
         if (moosage.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new ApiResponse<>(false, "Moosage not found", null));
+            return ResponseUtils.notFound("Moosage not found");
         }
 
         if (!moosage.get().getAuthor().getUserID().equals(userId)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                    .body(new ApiResponse<>(false, "You can only edit your own moosages", null));
+            return ResponseUtils.forbidden("You can only edit your own moosage");
         }
 
         try {
             Optional<Moosage> updatedMoosage = moosageService.updateMoosage(id, request.getContent().trim());
             if (updatedMoosage.isPresent()) {
                 MoosageDto dto = MoosageDto.fromMoosage(updatedMoosage.get());
-                return ResponseEntity.ok(new ApiResponse<>(true, "Moosage updated successfully", dto));
+                return ResponseUtils.ok("Moosage updated successfully", dto);
             } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body(new ApiResponse<>(false, "Moosage not found", null));
+                return ResponseUtils.notFound("Moosage not found");
             }
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ApiResponse<>(false, "Error updating moosage: " + e.getMessage(), null));
+            return ResponseUtils.internalError("Error updating moosage: " + e.getMessage());
         }
     }
 
@@ -200,31 +182,27 @@ public class MoosageController {
             @PathVariable Long id,
             @RequestHeader("Session-Token") String sessionToken) {
 
-        // Verify session
+        // Get userID and verify session
         String userId = sessionService.getUserIdByToken(sessionToken);
-        if (userId == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new ApiResponse<>(false, "Invalid session token", null));
+        if (ValidationUtils.isNullOrEmpty(userId)) {
+            return ResponseUtils.unauthorized("Invalid session token");
         }
 
-        // Check if user is the author of the moosage
+        // Check if user is moosage author
         Optional<Moosage> moosage = moosageService.getMoosageById(id);
         if (moosage.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new ApiResponse<>(false, "Moosage not found", null));
+            return ResponseUtils.notFound("Moosage not found");
         }
 
         if (!moosage.get().getAuthor().getUserID().equals(userId)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                    .body(new ApiResponse<>(false, "You can only delete your own moosages", null));
+            return ResponseUtils.forbidden("You can only delete your own moosage");
         }
 
         boolean deleted = moosageService.deleteMoosage(id);
         if (deleted) {
-            return ResponseEntity.ok(new ApiResponse<>(true, "Moosage deleted successfully", null));
+            return ResponseUtils.ok("Moosage deleted successfully");
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new ApiResponse<>(false, "Moosage not found", null));
+            return ResponseUtils.notFound("Moosage not found");
         }
     }
 }
