@@ -1,7 +1,5 @@
 package controller;
 
-import org.springframework.boot.autoconfigure.web.ServerProperties.Reactive.Session;
-
 import dto.ApiResponse;
 import dto.LoginResponse;
 
@@ -11,7 +9,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Label;
 
 import service.ApiClient;
 import service.SessionManager;
