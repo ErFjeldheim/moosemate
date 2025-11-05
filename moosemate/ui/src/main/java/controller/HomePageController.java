@@ -40,7 +40,7 @@ public class HomePageController extends BaseController {
         String username = SessionManager.getInstance().getUsername();
         
         // Set the welcome message
-        if (username != null && !username.isEmpty()) {
+        if (!ValidationUtils.isNullOrEmpty(username)) {
             welcomeLabel.setText("Welcome " + username);
         } else {
             welcomeLabel.setText("Welcome");

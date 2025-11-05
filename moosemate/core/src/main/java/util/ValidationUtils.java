@@ -55,9 +55,47 @@ public class ValidationUtils {
         return value == null || value.trim().isEmpty();
     }
 
+    // Check if ANY of the values is null or empty (returns true if at least one is null/empty)
+    public static boolean anyNullOrEmpty(String... values) {
+        if (values == null) {
+            return true;
+        }
+        for (String value : values) {
+            if (isNullOrEmpty(value)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Check if ALL values are null or empty (returns true only if all are null/empty)
+    public static boolean allNullOrEmpty(String... values) {
+        if (values == null || values.length == 0) {
+            return true;
+        }
+        for (String value : values) {
+            if (!isNullOrEmpty(value)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public static void requireNonEmpty(String value, String fieldName) { // fieldname for error logging
         if (isNullOrEmpty(value)) {
             throw new IllegalArgumentException(fieldName + " cannot be empty");
+        }
+    }
+
+    // Require multiple values to be non-empty
+    public static void requireAllNonEmpty(String... values) {
+        if (values == null) {
+            throw new IllegalArgumentException("Values cannot be null");
+        }
+        for (int i = 0; i < values.length; i++) {
+            if (isNullOrEmpty(values[i])) {
+                throw new IllegalArgumentException("Value at index " + i + " cannot be empty");
+            }
         }
     }
 }

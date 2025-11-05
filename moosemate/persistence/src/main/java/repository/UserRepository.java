@@ -3,6 +3,7 @@ package repository;
 import model.User;
 import util.IdGenerator;
 import util.JsonFileHandler;
+import util.ValidationUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.springframework.stereotype.Repository;
 
@@ -124,7 +125,7 @@ public class UserRepository {
      */
     public Optional<Map<String, String>> findByUsernameOrEmail(String usernameOrEmail) {
         // Handle null or empty input
-        if (usernameOrEmail == null || usernameOrEmail.isEmpty()) {
+        if (ValidationUtils.isNullOrEmpty(usernameOrEmail)) {
             return Optional.empty();
         }
         
@@ -160,7 +161,7 @@ public class UserRepository {
      * @return Optional containing the User object if found, empty otherwise
      */
     public Optional<User> getUserById(String userId) {
-        if (userId == null || userId.isEmpty()) {
+        if (ValidationUtils.isNullOrEmpty(userId)) {
             return Optional.empty();
         }
         

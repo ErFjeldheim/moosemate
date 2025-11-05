@@ -12,6 +12,7 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import service.ApiClient;
+import util.ValidationUtils;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -188,7 +189,7 @@ public class MoosageListCell extends ListCell<MoosageDto> {
             
             Optional<String> result = dialog.showAndWait();
             result.ifPresent(newContent -> {
-                if (newContent != null && !newContent.trim().isEmpty()) {
+                if (!ValidationUtils.isNullOrEmpty(newContent)) {
                     // Call backend to update moosage
                     new Thread(() -> {
                         try {

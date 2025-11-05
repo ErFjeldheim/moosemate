@@ -15,6 +15,7 @@ import javafx.scene.control.Label;
 
 import service.ApiClient;
 import service.SessionManager;
+import util.ValidationUtils;
 
 // controller for login view
 public class LoginController extends BaseController {
@@ -57,7 +58,7 @@ public class LoginController extends BaseController {
         clearError();
 
         // validate input
-        if (username.isEmpty() || password.isEmpty()) {
+        if (ValidationUtils.anyNullOrEmpty(username, password)) {
             showError("Username and password are required");
             return;
         }

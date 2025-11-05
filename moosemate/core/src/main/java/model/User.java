@@ -21,8 +21,8 @@ public final class User {
     // Constructor
     public User(String username, String email, String password, String userID) {
         // Validate parameters first to prevent finalizer attacks
-        if (username == null || email == null || password == null || userID == null) {
-            throw new IllegalArgumentException("User parameters cannot be null");
+        if (ValidationUtils.anyNullOrEmpty(username, email, password, userID)) {
+            throw new IllegalArgumentException("User parameters cannot be null or empty");
         }
         
         // Set fields directly to avoid potential issues with setter methods
@@ -37,7 +37,7 @@ public final class User {
     
     // Private method to validate user data integrity (if cannot create valid user)
     private void validateUserData() {
-        if (this.username.isEmpty() || this.email.isEmpty() || this.password.isEmpty() || this.userID.isEmpty()) {
+        if (ValidationUtils.anyNullOrEmpty(this.username, this.email, this.password, this.userID)) {
             throw new IllegalArgumentException("User parameters cannot be empty");
         }
     }

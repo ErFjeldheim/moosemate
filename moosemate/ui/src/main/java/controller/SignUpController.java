@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import service.ApiClient;
+import util.ValidationUtils;
 
 public class SignUpController extends BaseController {
     
@@ -35,7 +36,7 @@ public class SignUpController extends BaseController {
         
         try {
             // Validate input
-            if (username.isEmpty() || email.isEmpty() || password.isEmpty()) {
+            if (ValidationUtils.anyNullOrEmpty(username, email, password)) {
                 showError("All fields are required");
                 return;
             }
