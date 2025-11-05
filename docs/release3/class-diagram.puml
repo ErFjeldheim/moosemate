@@ -4,6 +4,7 @@ class User {
   - username: String
   - email: String
   - password: String
+  - userID: String
 }
 
 class UserDto {
@@ -20,9 +21,10 @@ class LoginResponse {
   - username: String
   - email: String
   - sessionToken: String
+  - userId: String
 }
 
-class ApiResponse {
+class ApiResponse<T> {
   - success: boolean
   - message: String
   - data: T
@@ -36,6 +38,7 @@ class SessionManager {
   - sessionToken: String
   - username: String
   - email: String
+  - userId: String
   + login(LoginResponse)
 }
 class ApiClient {
@@ -71,10 +74,10 @@ ApiClient --> AuthController
 AuthController --> LoginService
 LoginService --> UserService
 LoginService --> PasswordService
-LoginService --> UserRepository
 AuthController --> SessionService
 SessionService --> User
 UserService --> UserRepository
+UserService --> User
 UserRepository --> User
 SessionManager --> LoginResponse
 ApiClient --> LoginResponse
