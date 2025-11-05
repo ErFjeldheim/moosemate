@@ -1,0 +1,107 @@
+/* Styles for homepage */
+
+#feed {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #000000;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-padding: 10px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 2, 0, 0, 1);
+}
+
+/* ListView styling */
+.list-view {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.list-view .list-cell {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.list-view .list-cell:filled:selected {
+    -fx-background-color: rgba(91, 140, 90, 0.1);
+}
+
+.list-view .list-cell:filled:hover {
+    -fx-background-color: rgba(227, 178, 60, 0.05);
+}
+
+/* Post input container styling */
+.post-input-container {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 8px;
+    -fx-border-color: #d0c4b0;
+    -fx-border-width: 1px;
+    -fx-border-radius: 8px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 3, 0, 0, 1);
+}
+
+.post-prompt {
+    -fx-fill: #666666;
+}
+
+/* Moosage input text area */
+.moosage-input {
+    -fx-background-color: #f9f9f9;
+    -fx-border-color: #d0c4b0;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-text-fill: #321d0f;
+    -fx-font-family: "Optima";
+    -fx-padding: 8px;
+}
+
+.moosage-input:focused {
+    -fx-border-color: #5B8C5A;
+    -fx-border-width: 2px;
+}
+
+/* Post button styling */
+.post-button {
+    -fx-background-color: #5B8C5A;
+    -fx-text-fill: #ffffff;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+    -fx-padding: 8px 20px;
+    -fx-cursor: hand;
+}
+
+.post-button:hover {
+    -fx-background-color: #4a7549;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 4, 0, 0, 2);
+}
+
+/* Hide arrow in menu button */
+.menu-button-no-arrow .arrow-button {
+    -fx-padding: 0;
+    -fx-pref-width: 0;
+    -fx-min-width: 0;
+    -fx-max-width: 0;
+}
+
+.menu-button-no-arrow .arrow {
+    -fx-shape: "";
+    visibility: hidden;
+}
+
+/* Menu button hover effect */
+#menuButton:hover {
+    -fx-background-color: #E3B23C;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+}
+
+/* Profile button styling */
+#profileButton {
+    -fx-background-color: #E3B23C;
+    -fx-text-fill: #000000;
+    -fx-background-radius: 5px;
+}
+
+#profileButton:hover {
+    -fx-background-color: #9b7c27;
+    -fx-text-fill: #ffffff;
+}

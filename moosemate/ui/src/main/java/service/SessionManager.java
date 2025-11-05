@@ -11,6 +11,7 @@ public class SessionManager {
     private String sessionToken;
     private String username;
     private String email;
+    private String userId;
 
     // private constructor to prevent multiple instances
     private SessionManager() {} 
@@ -27,6 +28,7 @@ public class SessionManager {
         this.sessionToken = loginResponse.getSessionToken();
         this.username = loginResponse.getUsername();
         this.email = loginResponse.getEmail();
+        this.userId = loginResponse.getUserId();
     }
 
     // clear session data on logout
@@ -34,6 +36,7 @@ public class SessionManager {
         this.sessionToken = null;
         this.username = null;
         this.email = null;
+        this.userId = null;
     }
 
     // checks if user is currently logged in
@@ -52,5 +55,9 @@ public class SessionManager {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getUserId() {
+        return userId;
     }
 }

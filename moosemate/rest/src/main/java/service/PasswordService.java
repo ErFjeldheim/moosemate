@@ -3,22 +3,14 @@ package service;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
-/**
- * Service for handling password operations using BCrypt hashing.
- * Provides secure password hashing and verification functionality.
- */
+// Service for handling password operations using BCrypt hashing.
+// Provides secure password hashing and verification functionality.
 @Service
 public class PasswordService {
     
     private static final int BCRYPT_ROUNDS = 12;
     
-    /**
-     * Hashes the password using BCrypt.
-     * 
-     * @param plainPassword the plain password
-     * @return the BCrypt hashed password
-     * @throws IllegalArgumentException if plainPassword is null or empty
-     */
+    // Hashes the password using BCrypt.
     public String hashPassword(String plainPassword) {
         if (plainPassword == null || plainPassword.trim().isEmpty()) {
             throw new IllegalArgumentException("Password cannot be null or empty");
@@ -26,13 +18,7 @@ public class PasswordService {
         return BCrypt.hashpw(plainPassword, BCrypt.gensalt(BCRYPT_ROUNDS));
     }
     
-    /**
-     * Verifies a raw password against a hashed password.
-     * 
-     * @param plainPassword the non-encrypted password to be verified
-     * @param hashedPassword the BCrypt hashed password to compare against
-     * @return true if the passwords match, false otherwise
-     */
+    // Verifies a raw password against a hashed password.
     public boolean verifyPassword(String plainPassword, String hashedPassword) {
         if (plainPassword == null || hashedPassword == null) {
             return false;

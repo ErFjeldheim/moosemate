@@ -10,14 +10,9 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
 
-import java.util.Map;
-
-/**
- * Test class for SignUpService
- * Tests the SignUpService that delegates to UserService for user creation
- */
+ // Test class for SignUpService
+ // Tests the SignUpService that delegates to UserService for user creation
 public class SignUpServiceTest {
 
     private SignUpService signUpService;
@@ -30,7 +25,7 @@ public class SignUpServiceTest {
         // Clean up any existing test data
         cleanupTestFile();
         // Initialize services with test repository
-        TestUserRepository testRepository = new TestUserRepository();
+        UserRepository testRepository = new UserRepository(testDataFile);
         userService = new UserService(testRepository);
         passwordService = new PasswordService();
         signUpService = new SignUpService(userService, passwordService);
@@ -41,45 +36,7 @@ public class SignUpServiceTest {
         cleanupTestFile();
     }
 
-    /**
-     * Test UserRepository that uses separate test data file
-     */
-    private class TestUserRepository extends UserRepository {
-        @Override
-        protected String getDataFilePath() {
-            return testDataFile;
-        }
-        
-        @SuppressWarnings("unused")
-        public List<String> getAllUsernames() {
-            try {
-                // Use the same readDataFromFile pattern as the parent class
-                File file = new File(getDataFilePath());
-                if (!file.exists()) {
-                    return List.of();
-                }
-                
-                com.fasterxml.jackson.databind.ObjectMapper objectMapper = new com.fasterxml.jackson.databind.ObjectMapper();
-                com.fasterxml.jackson.core.type.TypeReference<Map<String, Object>> typeRef =
-                    new com.fasterxml.jackson.core.type.TypeReference<Map<String, Object>>() {};
-                Map<String, Object> data = objectMapper.readValue(file, typeRef);
-                
-                @SuppressWarnings("unchecked")
-                List<Map<String, String>> users = (List<Map<String, String>>) data.get("users");
-                
-                if (users == null) {
-                    return List.of();
-                }
-                
-                return users.stream()
-                    .map(user -> user.get("username"))
-                    .filter(username -> username != null)
-                    .collect(java.util.stream.Collectors.toList());
-            } catch (Exception e) {
-                return List.of(); // Return empty list on error
-            }
-        }
-    }    private void cleanupTestFile() {
+    private void cleanupTestFile() {
         File file = new File(testDataFile);
         if (file.exists()) {
             file.delete();
@@ -285,8 +242,8 @@ public class SignUpServiceTest {
     @Test
     public void testSignUpServiceInstanceCanBeCreatedMultipleTimes() {
         // Create test services with test repository to avoid writing to production data
-        TestUserRepository testRepo1 = new TestUserRepository();
-        TestUserRepository testRepo2 = new TestUserRepository();
+        UserRepository testRepo1 = new UserRepository(testDataFile);
+        UserRepository testRepo2 = new UserRepository(testDataFile);
         UserService userService1 = new UserService(testRepo1);
         UserService userService2 = new UserService(testRepo2);
         PasswordService passwordService = new PasswordService();

@@ -9,9 +9,7 @@ import model.User;
 import repository.UserRepository;
 import java.io.File;
 
-/**
- * Unit tests for UserService.
- */
+// Unit tests for UserService.
 public class UserServiceTest {
     
     private UserService userService;
@@ -26,7 +24,7 @@ public class UserServiceTest {
         }
         
         // Initialize test service with test repository
-        TestUserRepository testRepository = new TestUserRepository();
+        UserRepository testRepository = new UserRepository(TEST_DATA_FILE);
         userService = new UserService(testRepository);
     }
     
@@ -47,16 +45,6 @@ public class UserServiceTest {
         File nonExistentTestFile = new File("./target/non-existent-test-file.json");
         if (nonExistentTestFile.exists()) {
             nonExistentTestFile.delete();
-        }
-    }
-    
-    /**
-     * Test-specific UserRepository that uses a separate test data file
-     */
-    private static class TestUserRepository extends UserRepository {
-        @Override
-        protected String getDataFilePath() {
-            return TEST_DATA_FILE;
         }
     }
     
@@ -121,11 +109,7 @@ public class UserServiceTest {
     @Test
     void testReadDataFromFileWhenFileDoesNotExist() {
         // Create a test repository that points to a file that doesn't exist
-        TestUserRepository nonExistentFileRepository = new TestUserRepository() {
-            protected String getDataFilePath() {
-                return "./target/non-existent-test-file.json";
-            }
-        };
+        UserRepository nonExistentFileRepository = new UserRepository("./target/non-existent-test-file.json");
         UserService nonExistentFileService = new UserService(nonExistentFileRepository);
         
         // This should trigger the readDataFromFile method's branch where file doesn't exist
@@ -143,12 +127,7 @@ public class UserServiceTest {
         }
         
         // Create a test repository with a separate test file
-        TestUserRepository ioExceptionRepository = new TestUserRepository() {
-            @Override
-            protected String getDataFilePath() {
-                return "./target/test-io-exception.json";
-            }
-        };
+        UserRepository ioExceptionRepository = new UserRepository("./target/test-io-exception.json");
         UserService ioExceptionService = new UserService(ioExceptionRepository);
         
         // This test verifies no exception is thrown during normal operations

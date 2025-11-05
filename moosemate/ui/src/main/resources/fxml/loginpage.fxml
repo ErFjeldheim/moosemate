@@ -11,51 +11,56 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
+<VBox prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
   <children>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="300.0" prefWidth="400.0" styleClass="anchor-pane" stylesheets="@../css/styling.css" VBox.vgrow="ALWAYS">
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="700.0" prefWidth="900.0" styleClass="anchor-pane" stylesheets="@../css/common.css, @../css/auth.css" VBox.vgrow="ALWAYS">
       <children>
         <Label alignment="CENTER" layoutX="155.0" layoutY="177.0" style="&#10;" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
           <font>
             <Font size="18.0" />
           </font>
         </Label>
-            <Text layoutX="54.0" layoutY="167.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Connect with your friends using MooseMate" wrappingWidth="298.0">
+            <Text fill="#7e6552" layoutX="33.0" layoutY="271.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Connect with your friends using MooseMate" wrappingWidth="417.0">
                <font>
-                  <Font name="Optima Bold" size="37.0" />
+                  <Font name="Optima Bold" size="52.0" />
                </font>
             </Text>
-            <Label fx:id="errorLabel" layoutX="403.0" layoutY="200.0" maxWidth="230.0" minWidth="100.0" styleClass="error-label" text="" visible="false" wrapText="true" />
-            <TextField fx:id="usernameField" layoutX="403.0" layoutY="223.0" promptText="Username / Email">
+            <Label fx:id="errorLabel" layoutX="566.0" layoutY="280.0" maxWidth="230.0" minWidth="100.0" styleClass="error-label" text="" visible="false" wrapText="true" />
+            <TextField fx:id="usernameField" layoutX="644.0" layoutY="360.0" promptText="Username / Email">
                <font>
-                  <Font name="Optima Regular" size="12.0" />
+                  <Font name="Optima Regular" size="14.0" />
                </font>
             </TextField>
-            <PasswordField fx:id="passwordField" layoutX="403.0" layoutY="249.0" promptText="Password">
+            <PasswordField fx:id="passwordField" layoutX="644.0" layoutY="395.0" promptText="Password">
                <font>
-                  <Font name="Optima Regular" size="12.0" />
+                  <Font name="Optima Regular" size="14.0" />
                </font>
             </PasswordField>
-            <Button fx:id="loginButton" layoutX="408.0" layoutY="275.0" defaultButton="true" mnemonicParsing="false" onAction="#handleLoginButton" prefHeight="25.0" prefWidth="149.0" text="Login">
+            <Button fx:id="loginButton" defaultButton="true" layoutX="663.0" layoutY="430.0" mnemonicParsing="false" onAction="#handleLoginButton" prefHeight="25.0" prefWidth="149.0" text="Login">
                <font>
-                  <Font name="Optima Regular" size="12.0" />
+                  <Font name="Optima Regular" size="14.0" />
                </font>
             </Button>
-            <Button id="createAccountButton" layoutX="423.0" layoutY="305.0" mnemonicParsing="false" onAction="#handleSignUpButton" prefHeight="25.0" prefWidth="120.0" text="Create Account">
+            <Button id="createAccountButton" layoutX="678.0" layoutY="465.0" mnemonicParsing="false" onAction="#handleSignUpButton" prefHeight="25.0" prefWidth="120.0" text="Create Account">
                <font>
-                  <Font name="Optima Regular" size="12.0" />
+                  <Font name="Optima Regular" size="14.0" />
                </font>
             </Button>
-            <ImageView fitHeight="200.0" fitWidth="199.0" layoutX="379.0">
+            <ImageView fitHeight="290.0" fitWidth="323.0" layoutX="591.0" layoutY="75.0" preserveRatio="true">
                <image>
                   <Image url="@../images/Moosemate-logo-transparent.png" />
                </image>
             </ImageView>
-            <Text layoutX="386.0" layoutY="188.0" strokeType="OUTSIDE" strokeWidth="0.0" text="MooseMate">
+            <Text fill="#331c0d" layoutX="634.0" layoutY="340.0" strokeType="OUTSIDE" strokeWidth="0.0" text="MooseMate">
                <font>
-                  <Font name="Optima Bold" size="36.0" />
+                  <Font name="Optima Bold" size="40.0" />
                </font>
             </Text>
+            <Label alignment="CENTER" text="™ MooseMate 2025" textFill="#9f9f9f" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <font>
+                  <Font name="Optima Regular" size="10.0" />
+               </font>
+            </Label>
       </children>
     </AnchorPane>
   </children>

@@ -1,0 +1,42 @@
+/* Common styles shared across all pages */
+
+/* Set Optima Regular as default font (loaded programmatically) */
+.root {
+    -fx-font-family: "Optima";
+    -fx-font-weight: normal;
+    -fx-text-fill: #331C0D;
+}
+
+/* Main background styling */
+.anchor-pane {
+    -fx-background-color: #f7eedf;
+}
+
+/* General button styling */
+.button {
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 2, 0, 0, 1);
+}
+
+/* General button hover effect for all buttons */
+.button:hover {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 4, 0, 0, 2);
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
+}
+
+/* Error message styling */
+.error-label {
+    -fx-text-fill: #d32f2f;
+    -fx-font-size: 12px;
+    -fx-font-weight: normal;
+    -fx-padding: 5px 0 0 0;
+}
+
+/* Success message styling */
+.success-label {
+    -fx-text-fill: #5B8C5A;
+    -fx-font-size: 12px;
+    -fx-font-weight: normal;
+    -fx-padding: 5px 0 0 0;
+}

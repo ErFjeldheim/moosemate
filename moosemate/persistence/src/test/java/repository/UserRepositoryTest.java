@@ -12,41 +12,18 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Test class for UserRepository.
- * Tests persistence layer operations for user data.
- */
+//Test class for UserRepository.
+// Tests persistence layer operations for user data.
 class UserRepositoryTest {
 
-    private TestUserRepository repository;
+    private UserRepository repository;
     private Path testDataFile;
-
-    /**
-     * Test implementation of UserRepository that uses a temporary test file.
-     */
-    private static class TestUserRepository extends UserRepository {
-        private static String staticTestFilePath;
-
-        TestUserRepository() {
-            // Constructor uses the static field set before instantiation
-        }
-
-        static void setTestFilePath(String path) {
-            staticTestFilePath = path;
-        }
-
-        @Override
-        protected String getDataFilePath() {
-            return staticTestFilePath;
-        }
-    }
 
     @BeforeEach
     void setUp() throws IOException {
         // Create a temporary file for test data
         testDataFile = Files.createTempFile("test-data-", ".json");
-        TestUserRepository.setTestFilePath(testDataFile.toString());
-        repository = new TestUserRepository();
+        repository = new UserRepository(testDataFile.toString());
     }
 
     @AfterEach
@@ -200,7 +177,7 @@ class UserRepositoryTest {
         repository.createUser("persistentuser", "persistent@example.com", "hashedPassword123");
         
         // Create new repository instance with same file
-        TestUserRepository newRepository = new TestUserRepository();
+        UserRepository newRepository = new UserRepository(testDataFile.toString());
         
         // Verify user persists across repository instances
         assertTrue(newRepository.userExists("persistentuser"), 
