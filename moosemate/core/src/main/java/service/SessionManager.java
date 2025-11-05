@@ -5,23 +5,26 @@ import dto.LoginResponse;
 // singleton class for managing user session in application. 
 // stores session token and user information for current user.
 
+// Bill Pugh singleton pattern - safe when multiple threads call getInstance() at once.
+
 public class SessionManager {
-    private static SessionManager instance;
+    
+    // Private constructor to prevent instantiation
+    private SessionManager() {} 
+    
+    // Singleton holder (Bill Pugh pattern - thread-safe without synchronization)
+    private static class SingletonHolder {
+        private static final SessionManager INSTANCE = new SessionManager();
+    }
+    
+    public static SessionManager getInstance() {
+        return SingletonHolder.INSTANCE;
+    }
 
     private String sessionToken;
     private String username;
     private String email;
     private String userId;
-
-    // private constructor to prevent multiple instances
-    private SessionManager() {} 
-
-    public static SessionManager getInstance() {
-        if (instance == null) {
-            instance = new SessionManager();
-        }
-        return instance;
-    }
 
     // initialize session with login response data
     public void login(LoginResponse loginResponse) {
