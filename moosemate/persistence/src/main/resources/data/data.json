@@ -39,5 +39,10 @@
     "userID" : "4b5bbee6-5c71-43d3-b301-c5e53506ed4e",
     "email" : "test@erik.no",
     "username" : "erikhjelmen"
+  }, {
+    "password" : "$2a$12$ZHkiskZSOkoALeQjrioFku3hwu11KjXcKjaGGrRi6G3b621a.v9Rm",
+    "userID" : "79472179-e218-4ce6-a672-8f850115436f",
+    "email" : "holger@setten.com",
+    "username" : "holger"
   } ]
 }

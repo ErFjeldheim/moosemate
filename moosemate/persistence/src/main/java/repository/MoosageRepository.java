@@ -3,7 +3,8 @@ package repository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import dto.MoosageDto;
+import model.Moosage;
+import model.User;
 import util.JsonFileHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -14,9 +15,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/**
- * Repository class for managing Moosage data persistence using JSON files.
- */
+//Repository class for managing Moosage data persistence using JSON files.
 @Repository
 public class MoosageRepository {
     
@@ -31,12 +30,7 @@ public class MoosageRepository {
         this(userRepository, new JsonFileHandler());
     }
 
-    /**
-     * Constructor for testing that accepts a custom JsonFileHandler.
-     * 
-     * @param userRepository the UserRepository to use
-     * @param fileHandler the JsonFileHandler to use
-     */
+    //Constructor for testing that accepts a custom JsonFileHandler.
     public MoosageRepository(UserRepository userRepository, JsonFileHandler fileHandler) {
         this.userRepository = userRepository;
         this.fileHandler = fileHandler;
@@ -81,15 +75,15 @@ public class MoosageRepository {
     }
 
     // Gets all moosages sorted by time (newest first)
-    public List<MoosageDto> getAllMoosages() {
+    public List<Moosage> getAllMoosages() {
         MoosageStorage storage = loadStorage();
         return storage.moosages.stream()
-            .sorted(Comparator.comparing(MoosageDto::getTime).reversed())
+            .sorted(Comparator.comparing(Moosage::getTime).reversed())
             .collect(Collectors.toList());
     }
 
     // Gets a moosage by moosageID.
-    public Optional<MoosageDto> getMoosageById(Long id) {
+    public Optional<Moosage> getMoosageById(Long id) {
         MoosageStorage storage = loadStorage();
         return storage.moosages.stream()
             .filter(m -> m.getId().equals(id))
@@ -97,16 +91,21 @@ public class MoosageRepository {
     }
 
     // Creates a new moosage
-    public MoosageDto createMoosage(String content, String authorId, String authorUsername) {
+    public Moosage createMoosage(String content, String authorId, String authorUsername) {
         MoosageStorage storage = loadStorage();
         
-        MoosageDto moosage = new MoosageDto();
-        moosage.setId(storage.nextId++);
-        moosage.setContent(content);
-        moosage.setAuthorId(authorId);
-        moosage.setAuthorUsername(authorUsername);
-        moosage.setTime(LocalDateTime.now());
-        moosage.setLikedByUserIds(new HashSet<>());
+        // Find the User object from repository
+        Optional<User> authorOpt = userRepository.getUserById(authorId);
+        if (!authorOpt.isPresent()) {
+            throw new IllegalArgumentException("Author user not found: " + authorId);
+        }
+        
+        Moosage moosage = new Moosage(
+            storage.nextId++,
+            content,
+            authorOpt.get(),
+            LocalDateTime.now()
+        );
         
         storage.moosages.add(moosage);
         saveStorage(storage);
@@ -115,21 +114,21 @@ public class MoosageRepository {
     }
 
     // Toggles like on a moosage. Returns the updated moosage.
-    public Optional<MoosageDto> toggleLike(Long moosageId, String userId) {
+    public Optional<Moosage> toggleLike(Long moosageId, String userId) {
         MoosageStorage storage = loadStorage();
         
-        Optional<MoosageDto> moosageOpt = storage.moosages.stream()
+        Optional<Moosage> moosageOpt = storage.moosages.stream()
             .filter(m -> m.getId().equals(moosageId))
             .findFirst();
             
         if (moosageOpt.isPresent()) {
-            MoosageDto moosage = moosageOpt.get();
+            Moosage moosage = moosageOpt.get();
             Set<String> likes = moosage.getLikedByUserIds();
             
             if (likes.contains(userId)) {
-                likes.remove(userId);
+                moosage.removeLike(userId);
             } else {
-                likes.add(userId);
+                moosage.addLike(userId);
             }
             
             saveStorage(storage);
@@ -140,17 +139,16 @@ public class MoosageRepository {
     }
 
     // Updates the content of a moosage by ID. Returns the updated moosage.
-    public Optional<MoosageDto> updateMoosage(Long id, String newContent) {
+    public Optional<Moosage> updateMoosage(Long id, String newContent) {
         MoosageStorage storage = loadStorage();
         
-        Optional<MoosageDto> moosageOpt = storage.moosages.stream()
+        Optional<Moosage> moosageOpt = storage.moosages.stream()
             .filter(m -> m.getId().equals(id))
             .findFirst();
             
         if (moosageOpt.isPresent()) {
-            MoosageDto moosage = moosageOpt.get();
+            Moosage moosage = moosageOpt.get();
             moosage.setContent(newContent);
-            moosage.setEdited(true);
             saveStorage(storage);
             return Optional.of(moosage);
         }
@@ -170,7 +168,7 @@ public class MoosageRepository {
 
     // Storage class for JSON serialization.
     private static class MoosageStorage {
-        public List<MoosageDto> moosages = new ArrayList<>();
+        public List<Moosage> moosages = new ArrayList<>();
         public Long nextId = 1L;
     }
 }

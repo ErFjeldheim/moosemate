@@ -4,6 +4,7 @@ import dto.ApiResponse;
 import dto.CreateMoosageRequest;
 import dto.MoosageDto;
 import dto.UpdateMoosageRequest;
+import model.Moosage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import service.SessionService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 // REST Controller for moosage-related endpoints.
 @RestController
@@ -41,8 +43,11 @@ public class MoosageController {
         }
         
         try {
-            List<MoosageDto> moosages = moosageService.getAllMoosages();
-            return ResponseEntity.ok(new ApiResponse<>(true, "Moosages retrieved successfully", moosages));
+            List<Moosage> moosages = moosageService.getAllMoosages();
+            List<MoosageDto> moosageDtos = moosages.stream()
+                .map(MoosageDto::fromMoosage)
+                .collect(Collectors.toList());
+            return ResponseEntity.ok(new ApiResponse<>(true, "Moosages retrieved successfully", moosageDtos));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new ApiResponse<>(false, "Error retrieving moosages: " + e.getMessage(), null));
@@ -62,9 +67,10 @@ public class MoosageController {
                 .body(new ApiResponse<>(false, "Invalid session token", null));
         }
         
-        Optional<MoosageDto> moosage = moosageService.getMoosageById(id);
+        Optional<Moosage> moosage = moosageService.getMoosageById(id);
         if (moosage.isPresent()) {
-            return ResponseEntity.ok(new ApiResponse<>(true, "Moosage found", moosage.get()));
+            MoosageDto dto = MoosageDto.fromMoosage(moosage.get());
+            return ResponseEntity.ok(new ApiResponse<>(true, "Moosage found", dto));
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(new ApiResponse<>(false, "Moosage not found", null));
@@ -91,9 +97,10 @@ public class MoosageController {
         }
         
         try {
-            MoosageDto moosage = moosageService.createMoosage(request.getContent(), userId);
+            Moosage moosage = moosageService.createMoosage(request.getContent(), userId);
+            MoosageDto dto = MoosageDto.fromMoosage(moosage);
             return ResponseEntity.status(HttpStatus.CREATED)
-                .body(new ApiResponse<>(true, "Moosage created successfully", moosage));
+                .body(new ApiResponse<>(true, "Moosage created successfully", dto));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ApiResponse<>(false, e.getMessage(), null));
@@ -103,7 +110,7 @@ public class MoosageController {
         }
     }
     
-    //Toggle like on a moosage. (POST /api/moosages/{id}/like)
+    // Toggle like on a moosage. (POST /api/moosages/{id}/like)
     @PostMapping("/{id}/like")
     public ResponseEntity<ApiResponse<MoosageDto>> toggleLike(
             @PathVariable Long id,
@@ -117,9 +124,10 @@ public class MoosageController {
         }
         
         try {
-            Optional<MoosageDto> moosage = moosageService.toggleLike(id, userId);
+            Optional<Moosage> moosage = moosageService.toggleLike(id, userId);
             if (moosage.isPresent()) {
-                return ResponseEntity.ok(new ApiResponse<>(true, "Like toggled successfully", moosage.get()));
+                MoosageDto dto = MoosageDto.fromMoosage(moosage.get());
+                return ResponseEntity.ok(new ApiResponse<>(true, "Like toggled successfully", dto));
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new ApiResponse<>(false, "Moosage not found", null));
@@ -133,7 +141,7 @@ public class MoosageController {
         }
     }
     
-    // Update a moosage's content. (PUT /api/moosages/{id})
+    // Update content in a Moosage. (PUT /api/moosages/{id})
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<MoosageDto>> updateMoosage(
             @PathVariable Long id,
@@ -154,21 +162,22 @@ public class MoosageController {
         }
         
         // Check if user is the author of the moosage
-        Optional<MoosageDto> moosage = moosageService.getMoosageById(id);
+        Optional<Moosage> moosage = moosageService.getMoosageById(id);
         if (moosage.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(new ApiResponse<>(false, "Moosage not found", null));
         }
         
-        if (!moosage.get().getAuthorId().equals(userId)) {
+        if (!moosage.get().getAuthor().getUserID().equals(userId)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN)
                 .body(new ApiResponse<>(false, "You can only edit your own moosages", null));
         }
         
         try {
-            Optional<MoosageDto> updatedMoosage = moosageService.updateMoosage(id, request.getContent().trim());
+            Optional<Moosage> updatedMoosage = moosageService.updateMoosage(id, request.getContent().trim());
             if (updatedMoosage.isPresent()) {
-                return ResponseEntity.ok(new ApiResponse<>(true, "Moosage updated successfully", updatedMoosage.get()));
+                MoosageDto dto = MoosageDto.fromMoosage(updatedMoosage.get());
+                return ResponseEntity.ok(new ApiResponse<>(true, "Moosage updated successfully", dto));
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new ApiResponse<>(false, "Moosage not found", null));
@@ -193,13 +202,13 @@ public class MoosageController {
         }
         
         // Check if user is the author of the moosage
-        Optional<MoosageDto> moosage = moosageService.getMoosageById(id);
+        Optional<Moosage> moosage = moosageService.getMoosageById(id);
         if (moosage.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(new ApiResponse<>(false, "Moosage not found", null));
         }
         
-        if (!moosage.get().getAuthorId().equals(userId)) {
+        if (!moosage.get().getAuthor().getUserID().equals(userId)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN)
                 .body(new ApiResponse<>(false, "You can only delete your own moosages", null));
         }

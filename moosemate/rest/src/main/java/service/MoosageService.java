@@ -1,6 +1,6 @@
 package service;
 
-import dto.MoosageDto;
+import model.Moosage;
 import model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,15 +23,15 @@ public class MoosageService {
         this.userRepository = userRepository;
     }
     
-    public List<MoosageDto> getAllMoosages() {
+    public List<Moosage> getAllMoosages() {
         return moosageRepository.getAllMoosages();
     }
     
-    public Optional<MoosageDto> getMoosageById(Long id) {
+    public Optional<Moosage> getMoosageById(Long id) {
         return moosageRepository.getMoosageById(id);
     }
     
-    public MoosageDto createMoosage(String content, String authorId) {
+    public Moosage createMoosage(String content, String authorId) {
         // Get author username
         Optional<User> userOpt = userRepository.getUserById(authorId);
         if (userOpt.isEmpty()) {
@@ -42,7 +42,7 @@ public class MoosageService {
         return moosageRepository.createMoosage(content, authorId, authorUsername);
     }
     
-    public Optional<MoosageDto> toggleLike(Long moosageId, String userId) {
+    public Optional<Moosage> toggleLike(Long moosageId, String userId) {
         // Verify user exists
         if (userRepository.getUserById(userId).isEmpty()) {
             throw new IllegalArgumentException("User not found with ID: " + userId);
@@ -51,7 +51,7 @@ public class MoosageService {
         return moosageRepository.toggleLike(moosageId, userId);
     }
     
-    public Optional<MoosageDto> updateMoosage(Long id, String newContent) {
+    public Optional<Moosage> updateMoosage(Long id, String newContent) {
         return moosageRepository.updateMoosage(id, newContent);
     }
     

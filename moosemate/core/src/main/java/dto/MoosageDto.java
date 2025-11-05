@@ -33,6 +33,23 @@ public class MoosageDto {
         this.edited = false;
     }
     
+    // Factory method for converting from Moosage model
+    public static MoosageDto fromMoosage(model.Moosage moosage) {
+        if (moosage == null) {
+            return null;
+        }
+        MoosageDto dto = new MoosageDto();
+        dto.setId(moosage.getId());
+        dto.setContent(moosage.getContent());
+        dto.setAuthorId(moosage.getAuthor().getUserID());
+        dto.setAuthorUsername(moosage.getAuthor().getUsername());
+        dto.setTime(moosage.getTime());
+        dto.setLikedByUserIds(new HashSet<>(moosage.getLikedByUserIds()));
+        // Note: edited flag is not stored in model.Moosage, defaulting to false
+        dto.setEdited(false);
+        return dto;
+    }
+    
     public Long getId() {
         return id;
     }

@@ -1,10 +1,15 @@
 package model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public final class User {
     
     private String username;
     private String email;
+    
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)  // Only deserialize, never serialize
     private String password;
+    
     private String userID;
 
     // Default constructor for setting values later
@@ -69,6 +74,7 @@ public final class User {
         this.email = email;
     }
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)  // password is hidden
     public String getPassword() {
         return password;
     }
