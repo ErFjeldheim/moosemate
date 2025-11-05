@@ -1,6 +1,3 @@
-reflekter om hvordan har planlagt og koordinert teamet ditt prosjektarbeidet underveis i prosjektet so langt, og hva lærte dere av denne erfaringen? (200–300 ord)
-
-
 ## Teamwork
 
 When release 3 was published the group met up to get an overview of the requirements and organize the project. We created a new view in the Git project board, and divided the release's requirements into smaller issues. This made it easy to monitor progress and time, while ensuring that all requirements were met. 
