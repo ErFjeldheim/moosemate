@@ -4,7 +4,7 @@ import dto.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-// utility class for creating standarized REST API responses
+// utility class for creating standarized REST API responses used in rest controllers
 
 public class ResponseUtils {
 

@@ -86,11 +86,9 @@ public class AuthController {
             @RequestHeader("Session-Token") String sessionToken) {
 
         try {
-            System.out.println("Logout endpoint called with token: " + sessionToken); // logging for testing purposes
             sessionService.terminateSession(sessionToken);
             return ResponseUtils.ok("Logged out successfully");
         } catch (Exception e) {
-            System.out.println("Logout failed with error: " + e.getMessage()); // logging for testing purposes
             return ResponseUtils.internalError("Logout failed");
         }
     }

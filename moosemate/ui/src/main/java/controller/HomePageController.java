@@ -52,14 +52,9 @@ public class HomePageController extends BaseController {
 
     // Loads moosages from the backend API and displays them in the list view
     private void loadMoosages() {
-        System.out.println("=== Starting to load moosages ===");
         try {
             ApiClient apiClient = new ApiClient();
             ApiResponse<List<MoosageDto>> response = apiClient.getMoosages();
-            
-            System.out.println("API Response - Success: " + response.isSuccess());
-            System.out.println("API Response - Message: " + response.getMessage());
-            System.out.println("API Response - Data null? " + (response.getData() == null));
             
             if (response.isSuccess() && response.getData() != null) {
                 moosages = FXCollections.observableArrayList(response.getData());
@@ -71,11 +66,6 @@ public class HomePageController extends BaseController {
                     cell.setOnDeleteCallback(this::handleMoosageDeleted);
                     return cell;
                 });
-                
-                System.out.println("Successfully loaded " + moosages.size() + " moosages");
-                for (MoosageDto m : moosages) {
-                    System.out.println("  - " + m.getAuthorUsername() + ": " + m.getContent());
-                }
             } else {
                 System.err.println("Failed to load moosages: " + response.getMessage());
             }
@@ -90,7 +80,6 @@ public class HomePageController extends BaseController {
     private void handlePostButton(ActionEvent event) {
         String content = postTextArea.getText();
         if (ValidationUtils.isNullOrEmpty(content)) {
-            System.out.println("Nothing to post");
             return;
         }
 
@@ -134,7 +123,6 @@ public class HomePageController extends BaseController {
     private void handleMoosageDeleted(MoosageDto deletedMoosage) {
         if (moosages != null) {
             moosages.remove(deletedMoosage);
-            System.out.println("Removed moosage from list: " + deletedMoosage.getId());
         }
     }
 
@@ -148,12 +136,10 @@ public class HomePageController extends BaseController {
                 // Call logout endpoint on server
                 ApiClient apiClient = new ApiClient();
                 apiClient.logout(sessionToken);
-                System.out.println("Logout request sent to server");
             }
             
             // Clear local session data
             SessionManager.getInstance().logout();
-            System.out.println("Local session cleared");
             
             // Load and navigate to login page
             java.net.URL resourceUrl = getClass().getResource("/fxml/loginpage.fxml");

@@ -59,21 +59,17 @@ public class MoosageListCell extends ListCell<MoosageDto> {
     protected void updateItem(MoosageDto moosage, boolean empty) {
         super.updateItem(moosage, empty);
         
-        System.out.println("MoosageListCell.updateItem called - empty: " + empty + ", moosage: " + (moosage != null ? moosage.getContent() : "null"));
-        
         if (empty || moosage == null) {
             setText(null);
             setGraphic(null);
         } else {
             // Load FXML each time (or reuse if already loaded for this cell)
             if (cellContent == null) {
-                System.out.println("Loading FXML for cell...");
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/moosagecell.fxml"));
                 loader.setController(this);
                 
                 try {
                     cellContent = loader.load();
-                    System.out.println("FXML loaded successfully");
                 } catch (IOException e) {
                     System.err.println("Error loading moosagecell.fxml: " + e.getMessage());
                     e.printStackTrace();
@@ -118,7 +114,6 @@ public class MoosageListCell extends ListCell<MoosageDto> {
                 deleteButton.setManaged(false);
             }
             
-            System.out.println("Setting graphic for moosage: " + moosage.getContent().substring(0, Math.min(20, moosage.getContent().length())));
             setGraphic(cellContent);
         }
     }
@@ -170,7 +165,6 @@ public class MoosageListCell extends ListCell<MoosageDto> {
                     // Update UI on JavaFX thread
                     Platform.runLater(() -> {
                         likeCountLabel.setText(String.valueOf(updatedMoosage.getLikeCount()));
-                        System.out.println("Like toggled successfully for moosage: " + moosage.getId());
                     });
                 } else {
                     System.err.println("Failed to toggle like: " + response.getMessage());
@@ -199,10 +193,7 @@ public class MoosageListCell extends ListCell<MoosageDto> {
                     new Thread(() -> {
                         try {
                             ApiClient apiClient = new ApiClient();
-                            System.out.println("Attempting to update moosage ID: " + moosage.getId() + " with content: " + newContent.trim());
                             ApiResponse<MoosageDto> response = apiClient.updateMoosage(moosage.getId(), newContent.trim());
-                            
-                            System.out.println("Update response - Success: " + response.isSuccess() + ", Message: " + response.getMessage() + ", Data: " + (response.getData() != null ? "present" : "null"));
                             
                             if (response.isSuccess() && response.getData() != null) {
                                 MoosageDto updatedMoosage = response.getData();
@@ -213,7 +204,6 @@ public class MoosageListCell extends ListCell<MoosageDto> {
                                     // Show "(edited)" label
                                     editedLabel.setVisible(true);
                                     editedLabel.setManaged(true);
-                                    System.out.println("Moosage updated successfully: " + moosage.getId());
                                 });
                             } else {
                                 System.err.println("Failed to update moosage: " + response.getMessage());
@@ -243,7 +233,6 @@ public class MoosageListCell extends ListCell<MoosageDto> {
                         if (onDeleteCallback != null) {
                             onDeleteCallback.accept(moosage);
                         }
-                        System.out.println("Moosage deleted successfully: " + moosage.getId());
                     });
                 } else {
                     System.err.println("Failed to delete moosage: " + response.getMessage());

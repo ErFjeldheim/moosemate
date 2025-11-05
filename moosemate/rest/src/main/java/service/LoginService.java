@@ -31,7 +31,6 @@ public class LoginService {
         User user = userService.findByUsernameOrEmail(usernameOrEmail);
 
         if (user == null) {
-            System.out.println("User not found: " + usernameOrEmail);
             return null;
         }
 
@@ -42,7 +41,6 @@ public class LoginService {
             System.out.println("Login successful for: " + user.getUsername());
             return user;  // Return User object
         } else {
-            System.out.println("Invalid password for: " + user.getUsername());
             return null;
         }
     }

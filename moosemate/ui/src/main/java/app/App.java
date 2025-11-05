@@ -40,8 +40,6 @@ public class App extends Application {
             Font.loadFont(getClass().getResourceAsStream("/fonts/Optima-Italic.ttf"), 12);
             Font.loadFont(getClass().getResourceAsStream("/fonts/Optima-BoldItalic.ttf"), 12);
             Font.loadFont(getClass().getResourceAsStream("/fonts/Optima-ExtraBlack.ttf"), 12);
-            
-            System.out.println("Custom fonts loaded successfully");
         } catch (Exception e) {
             System.err.println("Failed to load custom fonts: " + e.getMessage());
         }
@@ -54,11 +52,9 @@ public class App extends Application {
         
         if (sessionToken != null) {
             try {
-                System.out.println("Application closing - logging out user");
                 ApiClient apiClient = new ApiClient();
                 apiClient.logout(sessionToken);
                 SessionManager.getInstance().logout();
-                System.out.println("User logged out successfully on application close");
             } catch (Exception e) {
                 System.err.println("Failed to logout on application close: " + e.getMessage());
                 // Clear local session even if server logout fails
