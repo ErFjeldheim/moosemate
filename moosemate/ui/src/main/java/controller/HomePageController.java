@@ -13,6 +13,8 @@ import service.SessionManager;
 
 import java.util.List;
 
+import util.ValidationUtils;
+
 public class HomePageController extends BaseController {
 
     @FXML
@@ -87,7 +89,7 @@ public class HomePageController extends BaseController {
     @FXML
     private void handlePostButton(ActionEvent event) {
         String content = postTextArea.getText();
-        if (content == null || content.trim().isEmpty()) {
+        if (ValidationUtils.isNullOrEmpty(content)) {
             System.out.println("Nothing to post");
             return;
         }

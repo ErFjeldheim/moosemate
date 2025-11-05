@@ -17,9 +17,7 @@ public class ValidationUtils {
     }
 
     public static void validateEmail(String email) {
-        if (email == null || email.isEmpty()) {
-            throw new IllegalArgumentException("Email cannot be empty");
-        }
+        requireNonEmpty(email, "Email");
         if (!email.matches(EMAIL_REGEX)) {
             throw new IllegalArgumentException("Invalid email format: example@email.com");
         }
@@ -28,9 +26,7 @@ public class ValidationUtils {
     // password validation
 
     public static void validatePassword(String password) {
-        if (password == null || password.isEmpty()) {
-            throw new IllegalArgumentException("Password cannot be empty");
-        }
+        requireNonEmpty(password, "Password");
         if (password.length() < 8) {
             throw new IllegalArgumentException("Password must be at least 8 characters long");
         }
@@ -45,9 +41,7 @@ public class ValidationUtils {
     // username validation
 
     public static void validateUsername(String username) {
-        if (username == null || username.isEmpty()) {
-            throw new IllegalArgumentException("Username cannot be empty");
-        }
+        requireNonEmpty(username, "Username");
         if (username.length() > 20) {
             throw new IllegalArgumentException("Username must be less than 20 characters");
         }
@@ -56,4 +50,14 @@ public class ValidationUtils {
         }
     }
 
+    // null/empty validation
+    public static boolean isNullOrEmpty(String value) {
+        return value == null || value.trim().isEmpty();
+    }
+
+    public static void requireNonEmpty(String value, String fieldName) { // fieldname for error logging
+        if (isNullOrEmpty(value)) {
+            throw new IllegalArgumentException(fieldName + " cannot be empty");
+        }
+    }
 }

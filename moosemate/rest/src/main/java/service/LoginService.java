@@ -3,6 +3,7 @@ package service;
 import model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import util.ValidationUtils;
 
 // Service class for handling user authentication operations.
 // Handles login business logic and delegates user data operations to UserService.
@@ -21,13 +22,10 @@ public class LoginService {
 
     // Log in user - returns User if successful, otherwise null
     public User loginUser(String usernameOrEmail, String password) {
-        // Validation
-        if (usernameOrEmail == null || usernameOrEmail.trim().isEmpty()) {
-            throw new IllegalArgumentException("Username/email is required");
-        }
-        if (password == null || password.trim().isEmpty()) {
-            throw new IllegalArgumentException("Password is required");
-        }
+        
+        // Validation if input is null or empty
+        ValidationUtils.requireNonEmpty(usernameOrEmail, "Username/email");
+        ValidationUtils.requireNonEmpty(password, "Password");
 
         // Find user
         User user = userService.findByUsernameOrEmail(usernameOrEmail);
