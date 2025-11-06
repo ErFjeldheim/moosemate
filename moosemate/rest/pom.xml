@@ -22,21 +22,21 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <version>3.1.5</version>
+            <version>3.4.0</version>
         </dependency>
 
         <!-- Spring Boot Starter Logging -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-logging</artifactId>
-            <version>3.1.5</version>
+            <version>3.4.0</version>
         </dependency>
 
         <!-- Jackson for JSON -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.15.2</version>
+            <version>2.18.1</version>
         </dependency>
 
         <!-- Core module dependency -->
@@ -63,7 +63,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <version>3.1.5</version>
+            <version>3.4.0</version>
             <scope>test</scope>
         </dependency>
         
@@ -102,7 +102,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>3.1.5</version>
+                <version>3.4.0</version>
                 <configuration>
                     <mainClass>app.RestApplication</mainClass>
                 </configuration>
@@ -117,6 +117,7 @@
                     <source>21</source>
                     <target>21</target>
                     <release>21</release>
+                    <parameters>true</parameters>
                 </configuration>
             </plugin>
             

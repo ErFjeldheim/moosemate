@@ -1,43 +1,13 @@
 {
   "users" : [ {
-    "password" : "$2a$12$3yUuM1.D4ks5plM5umCeWeUuo3.ccehUfsQr1Lg.cWn4UlB2IEJna",
-    "userID" : "089f0ecf-0928-441f-a7dd-079233a0d3e7",
-    "email" : "ngioang@com.com",
-    "username" : "kongen"
-  }, {
     "password" : "$2a$12$TxT1A8dYVTITI4Y6how3Ru8SBFXXTv.hjyG198Eo2i38auNp6XOT6",
-    "userID" : "150d157c-447d-444b-a09a-796a72d9ccc1",
+    "userID" : "USER-150d157c-447d-444b-a09a-796a72d9ccc1",
     "email" : "abd@syver.no",
     "username" : "syver"
   }, {
-    "password" : "$2a$12$iwjl5caaCWrP.lGuL9RV2eGsFuOg/kP35a2sZqieKwgAeuvy1jFHu",
-    "userID" : "28bcf115-cca7-48b6-8d44-cb874089a578",
-    "email" : "gnoangor@gmr.gr",
-    "username" : "dronningen"
-  }, {
-    "password" : "$2a$12$mrMsNYtp4d17i0V43nDsTOX5hHpuWZEohk47na2A7H9DicluFtgna",
-    "userID" : "dd678a65-ed37-4bbc-8fc7-e80426b6247b",
-    "email" : "nofrg@mtl.nov",
-    "username" : "prinsessa"
-  }, {
-    "password" : "$2a$12$nNgd8ayCrLq3KWAHGCZgEuG.72z2PCNVaHuWm/hljB5jmATU7HuNi",
-    "userID" : "1df86395-380e-4ab5-af9e-1097f793d8f9",
-    "email" : "test@example.com",
-    "username" : "user"
-  }, {
-    "password" : "$2a$12$gHmrAcBt5k96qpuXmC5Z1.Mn4/tgz/RLdcT9L088pVkSF/c4J0hK.",
-    "userID" : "c6164f17-be1d-411e-bb7f-eda411eaadcb",
-    "email" : "new@example.com",
-    "username" : "newuser"
-  }, {
-    "password" : "$2a$12$rvmUw6mcB7RwJLXKveGj1.7lf3Tgk5IgKwYVzk8aZR93NW4S9y98S",
-    "userID" : "1997f80e-ba86-490b-b0ec-ed34df9ad344",
-    "email" : "ed@ed.ed",
-    "username" : "edvard"
-  }, {
-    "password" : "$2a$12$wW4uaoeJmHYQjlB9Qijoee4quWJ0fOzaB4XoNH7isVcbeYA0WDqpK",
-    "userID" : "4b5bbee6-5c71-43d3-b301-c5e53506ed4e",
-    "email" : "test@erik.no",
-    "username" : "erikhjelmen"
+    "password" : "$2a$12$XzqBgAMrYJZicyiKPE38KOs1W8.OH2kz32anP.HnT3rQOL9Resr7.",
+    "userID" : "USER-10ae788e-75cc-470c-9846-4ad7d8db6545",
+    "email" : "holgersetten@me.com",
+    "username" : "holgersetten"
   } ]
 }

@@ -38,7 +38,7 @@ HTML-link to display test coverage is provided as an echo in the terminal before
 ## Dependencies
 
 - Java (21)
-- JavaFX (21)
+- JavaFX (23.0.1)
 - TestFX (4.0.18)
 - JUnit 5 (5.12.2)
 - Maven Surefire (3.12.1)

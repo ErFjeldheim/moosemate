@@ -1,0 +1,54 @@
+/* Dialog styling */
+.dialog-title {
+    -fx-text-fill: #3d3d3d; /* dark-grey */
+    -fx-font-weight: bold;
+}
+
+.char-count-label {
+    -fx-text-fill: #3d3d3dda; /* dark-grey */
+}
+
+/* Primary button (Save) */
+.saveButton {
+    -fx-background-color: #6b8f71; /* main-green */
+    -fx-text-fill: #f3efe8; /* light-beige */
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-padding: 10px 20px;
+    -fx-cursor: hand;
+}
+
+.saveButton:hover {
+    -fx-text-fill: #3d3d3d; /* dark-grey */
+}
+
+/* Secondary button (Cancel) */
+.cancel-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #3d3d3d; /* dark-grey */
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-padding: 10px 20px;
+    -fx-cursor: hand;
+}
+
+.cancel-button:hover {
+    -fx-background-color: rgba(61, 61, 61, 0.1);
+}
+
+/* Text area styling */
+.text-area {
+    -fx-background-color: #ffffff; /* white */
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-padding: 8px;
+}
+
+.text-area:focused {
+    -fx-border-width: 2px;
+}
+
+.text-area .content {
+    -fx-background-color: #ffffff; /* white */
+}

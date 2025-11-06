@@ -4,85 +4,99 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.HomePageController">
-  <children>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="300.0" prefWidth="400.0" styleClass="anchor-pane" stylesheets="@../css/common.css, @../css/homepage.css" VBox.vgrow="ALWAYS">
-      <children>
-        <Label alignment="CENTER" layoutX="155.0" layoutY="177.0" style="&#10;" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
-          <font>
-            <Font size="18.0" />
-          </font>
-        </Label>
-         <ListView fx:id="moosageList" focusTraversable="false" layoutX="20.0" layoutY="177.0" prefHeight="337.0" prefWidth="500.0" styleClass="list-view" />
-            <HBox alignment="CENTER_LEFT" centerShape="false" nodeOrientation="LEFT_TO_RIGHT" prefHeight="56.0" spacing="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <children>
-                  <ImageView fitHeight="61.0" fitWidth="61.0" preserveRatio="true">
+<VBox maxHeight="-Infinity" maxWidth="900.0" prefHeight="700.0" prefWidth="900.0" stylesheets="@../css/common.css, @../css/homepage.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.HomePageController">
+   <children>
+      <VBox styleClass="sticky-topbar">
+         <children>
+            <BorderPane prefHeight="72.0" prefWidth="900.0" style="-fx-background-color: #3d3d3d;" styleClass="topbar">
+               <right>
+                  <ImageView fx:id="logoutIcon" fitHeight="32.0" fitWidth="40.0" onMouseClicked="#handleLogoutButton" pickOnBounds="true" preserveRatio="true" styleClass="logout-icon" BorderPane.alignment="CENTER">
                      <image>
-                        <Image url="@../images/Moosemate-logo-transparent.png" />
+                        <Image url="@../images/logout.png" />
                      </image>
-                     <HBox.margin>
-                        <Insets left="10.0" />
-                     </HBox.margin>
+                     <BorderPane.margin>
+                        <Insets left="5.0" right="20.0" />
+                     </BorderPane.margin>
                   </ImageView>
-                  <Label fx:id="welcomeLabel" text="Welcome" textFill="#333333">
-                     <font>
-                        <Font name="Optima Bold" size="16.0" />
-                     </font>
-                     <HBox.margin>
+               </right>
+               <left>
+                  <ImageView fitHeight="59.0" fitWidth="224.0" preserveRatio="true" BorderPane.alignment="CENTER">
+                     <image>
+                        <Image url="@../images/MooseMate-logo-white-transparent-withtext-v2.png" />
+                     </image>
+                     <BorderPane.margin>
                         <Insets left="15.0" />
-                     </HBox.margin>
-                  </Label>
-                  <BorderPane prefHeight="61.0" prefWidth="280.0" />
-                  <MenuButton fx:id="profileButton" alignment="CENTER_RIGHT" focusTraversable="false" mnemonicParsing="false" prefHeight="69.0" prefWidth="0.0" text="Profile">
-                     <font>
-                        <Font size="32.0" />
-                     </font>
-                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#handleLogoutButton" text="Logout" />
-                     </items>
-                  </MenuButton>
-               </children>
-               <padding>
-                  <Insets bottom="5.0" top="5.0" />
-               </padding>
-            </HBox>
-            <Separator style="-fx-background-color: #cccccc;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="61.0" />
-
-            <!-- Post composer area -->
-            <VBox spacing="8.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="72.0">
+                     </BorderPane.margin>
+                  </ImageView>
+               </left>
+            </BorderPane>
+            <Separator focusTraversable="false" prefWidth="900.0">
+               <VBox.margin>
+                  <Insets top="1.0" />
+               </VBox.margin>
+            </Separator>
+         </children>
+      </VBox>
+      <VBox alignment="TOP_CENTER" style="-fx-background-image: url('/images/Moosemate-background.png'); -fx-background-size: cover; -fx-background-position: center; -fx-background-repeat: no-repeat;" VBox.vgrow="ALWAYS">
+         <children>
+            <VBox prefWidth="563.0" styleClass="post-section">
                <children>
-                  <Label text="Share a moosage" textFill="#333333">
+                  <TextArea fx:id="postTextArea" focusTraversable="false" prefHeight="95.0" prefRowCount="3" prefWidth="419.0" promptText="What's between your antlers?" styleClass="moosage-input" wrapText="true">
                      <font>
-                        <Font name="Optima Bold" size="12.0" />
+                        <Font name="Poppins Medium" size="12.0" />
                      </font>
-                  </Label>
-                  <TextArea fx:id="postTextArea" prefHeight="71.0" prefRowCount="3" prefWidth="729.0" promptText="What's on your mind?" wrapText="true" />
-                  <HBox alignment="CENTER_RIGHT" spacing="8.0">
+                  </TextArea>
+                  <HBox prefHeight="41.0" prefWidth="563.0">
                      <children>
-                        <Button fx:id="postButton" mnemonicParsing="false" onAction="#handlePostButton" styleClass="primary-button" text="Post" />
+                        <Label fx:id="postCharCountLabel" alignment="TOP_LEFT" prefHeight="16.0" prefWidth="65.0" styleClass="char-count-label" text="0/280">
+                           <font>
+                              <Font name="Poppins Medium" size="11.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="7.0" top="7.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Region prefHeight="33.0" HBox.hgrow="ALWAYS" />
+                        <Button fx:id="postButton" graphicTextGap="0.0" minHeight="16.0" mnemonicParsing="false" onAction="#handleCreatePost" prefHeight="32.0" prefWidth="82.0" styleClass="post-button" text="Moose it!" textAlignment="CENTER">
+                           <font>
+                              <Font name="Poppins Medium" size="10.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets top="7.0" />
+                           </HBox.margin>
+                        </Button>
                      </children>
                   </HBox>
                </children>
+               <VBox.margin>
+                  <Insets bottom="10.0" left="169.0" right="168.0" top="20.0" />
+               </VBox.margin>
             </VBox>
-
-            <Label alignment="CENTER" text="™ MooseMate 2025" textFill="#9f9f9f" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <ListView fx:id="moosageList" focusTraversable="false" prefWidth="716.0" styleClass="list-view" VBox.vgrow="ALWAYS">
+               <VBox.margin>
+                  <Insets bottom="20.0" left="92.0" right="92.0" />
+               </VBox.margin>
+            </ListView>
+            <Separator focusTraversable="false" prefWidth="900.0" />
+            <Label alignment="CENTER" styleClass="footer-label" text="™ MooseMate 2025">
                <font>
-                  <Font name="Optima Regular" size="10.0" />
+                  <Font name="Poppins Medium" size="10.0" />
                </font>
+               <VBox.margin>
+                  <Insets bottom="5.0" top="5.0" />
+               </VBox.margin>
             </Label>
-      </children>
-    </AnchorPane>
-  </children>
+         </children>
+      </VBox>
+   </children>
 </VBox>

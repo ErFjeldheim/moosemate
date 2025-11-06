@@ -1,35 +1,37 @@
 /* Styles for login and signup pages */
+.footer-label {
+    -fx-text-fill: #f3efe8; /* light-beige */
+}
 
-/* Primary action buttons (Login, Sign Up, Logout) */
-#loginButton, #signUpButton, #logoutButton {
-    -fx-background-color: #5B8C5A;
-    -fx-text-fill: #000000;
+/* Primary action buttons (Login, Sign Up) */
+#loginButton, #signUpButton {
+    -fx-background-color: #336659; /* green */
+    -fx-text-fill: #f3efe8; /* light-beige */
     -fx-background-radius: 5px;
     -fx-border-width: 1px;
     -fx-border-radius: 5px;
 }
 
 /* Primary buttons hover colors */
-#loginButton:hover, #signUpButton:hover, #logoutButton:hover {
-    -fx-background-color: #5B8C5A;
-    -fx-text-fill: #ffffff;
+#loginButton:hover, #signUpButton:hover {
+    -fx-text-fill: #3d3d3d; /* dark-grey */
+    -fx-cursor: hand;
+    cursor: pointer;
 }
 
 /* Secondary action buttons (Create Account, Back to Login) */
-#createAccountButton, #returnToLogin {
-    -fx-background-color: #E3B23C;
-    -fx-text-fill: #000000;
+#goToSignupButton, #returnToLogin {
+    -fx-text-fill: #3d3d3d; /* dark-grey */
     -fx-background-radius: 5px;
     -fx-border-width: 1px;
     -fx-border-radius: 5px;
+
 }
 
 /* Secondary buttons hover colors */
-#createAccountButton:hover, #returnToLogin:hover {
-    -fx-background-color: #9b7c27; 
-    -fx-text-fill: #ffffff;
-}
-
-#front-text {
-    -fx-text-fill: #7E6552;
+#goToSignupButton:hover, #returnToLogin:hover {
+    -fx-background-color: #6b8f71; /* main-green */
+    -fx-text-fill: #f3efe8; /* light-beige */
+    -fx-cursor:hand;
+    cursor:pointer;
 }

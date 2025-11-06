@@ -2,74 +2,100 @@
 
 /* Post cell styling */
 .post-cell {
-    -fx-background-color: #ffffff;
+    -fx-background-color: #ffffff; /* white */
     -fx-background-radius: 8px;
-    -fx-border-color: #d0c4b0;
+    -fx-border-color: #f3efe8; /* light-beige */
     -fx-border-width: 1px;
     -fx-border-radius: 8px;
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 3, 0, 0, 1);
+    -fx-padding: 12px;
+    -fx-spacing: 5px;
 }
 
 .post-username {
-    -fx-text-fill: #321d0f;
+    -fx-text-fill: #3d3d3d; /* dark-grey */
     -fx-font-weight: bold;
+    -fx-font-family: "Poppins Medium";
+    -fx-font-size: 18px;
 }
 
-.post-content {
-    -fx-fill: #4a4a4a;
+.post-date {
+    -fx-text-fill: #3d3d3d; /* dark-grey */
+}
+
+.post-edited {
+    -fx-text-fill: #3d3d3d; /* dark-grey */
+}
+
+/* Moosage content text - consistent font size */
+.moosage-content {
+    -fx-font-family: "Poppins Medium";
+    -fx-font-size: 14px;
+    -fx-fill: #3d3d3d; /* dark-grey */
     -fx-line-spacing: 2px;
 }
 
 /* Like button styling */
 .like-button {
     -fx-background-color: transparent;
-    -fx-border-color: #8d7864;
+    -fx-border-color: #3d3d3d; /* dark-grey */
     -fx-border-width: 1px;
     -fx-border-radius: 15px;
     -fx-background-radius: 15px;
-    -fx-text-fill: #5B8C5A;
+    -fx-text-fill: #336659; /* green */
     -fx-padding: 3px 12px;
     -fx-font-size: 11px;
+    -fx-min-width: 60px;
+    -fx-pref-width: 60px;
+    -fx-max-width: 60px;
 }
 
 .like-button:hover {
-    -fx-background-color: #E3B23C;
-    -fx-text-fill: #ffffff;
-    -fx-border-color: #9b7c27;
+    -fx-background-color: #6b8f71ad; /* main-green with opacity */
+    -fx-text-fill: #ffffff; /* white */
+    -fx-border-color: #6b8f71; /* main-green */
+    -fx-cursor: hand;
+    cursor:pointer;
 }
 
-/* Delete button styling */
-.delete-button {
+/* Liked state styling */
+.like-button.liked {
+    -fx-background-color: #6b8f71; /* main-green */
+    -fx-text-fill: #f3efe8; /* light-beige */
+    -fx-border-color: #3d3d3d; /* dark-grey */
+}
+
+.like-button.liked:hover {
+    -fx-background-color: #6b8f71; /* main-green */
+    -fx-border-color: #336659; /* green */
+}
+
+/* Menu button styling */
+.menu-button {
     -fx-background-color: transparent;
-    -fx-border-color: #8d7864;
-    -fx-border-width: 1px;
-    -fx-border-radius: 15px;
-    -fx-background-radius: 15px;
-    -fx-text-fill: #c94a4a;
-    -fx-padding: 3px 12px;
-    -fx-font-size: 11px;
+    -fx-border-color: transparent;
+    -fx-text-fill: #3d3d3d; /* dark-grey */
+    -fx-font-size: 16px;
+    -fx-padding: 0px 4px;
+    -fx-font-weight: bold;
 }
 
-.delete-button:hover {
-    -fx-background-color: #d94a4a;
-    -fx-text-fill: #ffffff;
-    -fx-border-color: #a03030;
+.menu-button:hover {
+    -fx-background-color: rgba(61, 61, 61, 0.15); /* dark-grey with opacity */
 }
 
-/* Edit button styling */
-.edit-button {
+.menu-button .arrow {
     -fx-background-color: transparent;
-    -fx-border-color: #8d7864;
-    -fx-border-width: 1px;
-    -fx-border-radius: 15px;
-    -fx-background-radius: 15px;
-    -fx-text-fill: #5a7a8c;
-    -fx-padding: 3px 12px;
-    -fx-font-size: 11px;
 }
 
-.edit-button:hover {
-    -fx-background-color: #5a7a8c;
-    -fx-text-fill: #ffffff;
-    -fx-border-color: #3a5a6c;
+.menu-button:showing {
+    -fx-background-color: rgba(61, 61, 61, 0.2); /* dark-grey with opacity */
+}
+
+/* Remove arrow from dropdown menu */
+.menu-button .arrow-button {
+    -fx-padding: 0;
+    -fx-pref-width: 0;
+    -fx-min-width: 0;
+    -fx-max-width: 0;
 }

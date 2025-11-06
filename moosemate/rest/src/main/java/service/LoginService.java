@@ -41,7 +41,6 @@ public class LoginService {
         boolean isValidPassword = passwordService.verifyPassword(password, user.getPassword());
 
         if (isValidPassword) {
-            System.out.println("Login successful for: " + user.getUsername());
             return user;  // Return User object
         } else {
             System.out.println("Invalid password for: " + user.getUsername());

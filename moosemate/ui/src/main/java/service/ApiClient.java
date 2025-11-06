@@ -18,19 +18,25 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
 
-// HTTP client for communicating with the REST API.
 public class ApiClient {
     private static final String BASE_URL = "http://localhost:8080/api";
     private final HttpClient httpClient;
     private final ObjectMapper objectMapper;
 
-    public ApiClient() {
+    private ApiClient() {
         this.httpClient = HttpClient.newHttpClient();
         this.objectMapper = new ObjectMapper();
-        this.objectMapper.registerModule(new JavaTimeModule()); // Register module for Java 8 date/time type support (LocalDateTime)
+        this.objectMapper.registerModule(new JavaTimeModule());
     }
 
-    // HTTP-POST request for login to API
+    private static class SingletonHolder {
+        private static final ApiClient INSTANCE = new ApiClient();
+    }
+
+    public static ApiClient getInstance() {
+        return SingletonHolder.INSTANCE;
+    }
+
     public ApiResponse<LoginResponse> login(String username, String password) throws IOException, InterruptedException {
         LoginRequest loginRequest = new LoginRequest(username, password);
         String requestBody = objectMapper.writeValueAsString(loginRequest);
@@ -76,7 +82,7 @@ public class ApiClient {
 
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         
-        TypeReference<ApiResponse<String>> typeRef = new TypeReference<ApiResponse<String>>() {};
+        TypeReference<ApiResponse<String>> typeRef = new TypeReference<ApiResponse<String>>() { };
         return objectMapper.readValue(response.body(), typeRef);
     }
 
@@ -93,7 +99,8 @@ public class ApiClient {
 
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         
-        TypeReference<ApiResponse<List<MoosageDto>>> typeRef = new TypeReference<ApiResponse<List<MoosageDto>>>() {};
+        TypeReference<ApiResponse<List<MoosageDto>>> typeRef =
+                new TypeReference<ApiResponse<List<MoosageDto>>>() { };
         return objectMapper.readValue(response.body(), typeRef);
     }
 
@@ -112,7 +119,7 @@ public class ApiClient {
 
         HttpResponse<String> response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
         
-        TypeReference<ApiResponse<MoosageDto>> typeRef = new TypeReference<ApiResponse<MoosageDto>>() {};
+        TypeReference<ApiResponse<MoosageDto>> typeRef = new TypeReference<ApiResponse<MoosageDto>>() { };
         return objectMapper.readValue(response.body(), typeRef);
     }
 
@@ -129,12 +136,13 @@ public class ApiClient {
 
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         
-        TypeReference<ApiResponse<MoosageDto>> typeRef = new TypeReference<ApiResponse<MoosageDto>>() {};
+        TypeReference<ApiResponse<MoosageDto>> typeRef = new TypeReference<ApiResponse<MoosageDto>>() { };
         return objectMapper.readValue(response.body(), typeRef);
     }
 
     // HTTP-PUT request to update a moosage
-    public ApiResponse<MoosageDto> updateMoosage(Long moosageId, String newContent) throws IOException, InterruptedException {
+    public ApiResponse<MoosageDto> updateMoosage(Long moosageId, String newContent)
+            throws IOException, InterruptedException {
         String sessionToken = SessionManager.getInstance().getSessionToken();
         UpdateMoosageRequest request = new UpdateMoosageRequest(newContent);
         String requestBody = objectMapper.writeValueAsString(request);
@@ -148,7 +156,7 @@ public class ApiClient {
 
         HttpResponse<String> response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
         
-        TypeReference<ApiResponse<MoosageDto>> typeRef = new TypeReference<ApiResponse<MoosageDto>>() {};
+        TypeReference<ApiResponse<MoosageDto>> typeRef = new TypeReference<ApiResponse<MoosageDto>>() { };
         return objectMapper.readValue(response.body(), typeRef);
     }
 
@@ -165,7 +173,7 @@ public class ApiClient {
 
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         
-        TypeReference<ApiResponse<Void>> typeRef = new TypeReference<ApiResponse<Void>>() {};
+        TypeReference<ApiResponse<Void>> typeRef = new TypeReference<ApiResponse<Void>>() { };
         return objectMapper.readValue(response.body(), typeRef);
     }
 }
