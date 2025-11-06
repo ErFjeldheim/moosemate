@@ -1,58 +1,109 @@
-@startuml
+@startuml package-diagram
 
-package "core" {
-  package "dto" {
-    class LoginResponse
-    class UserDto
-    class SignUpRequest
-    class LoginRequest
-    class ApiResponse
-  }
-  package "model" {
-    class User
-  }
+!define CORE_COLOR #E8F5E9
+!define PERSIST_COLOR #E3F2FD
+!define REST_COLOR #FFF3E0
+!define UI_COLOR #F3E5F5
+
+skinparam packageStyle rectangle
+skinparam linetype ortho
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+
+skinparam package {
+    BackgroundColor<<core>> CORE_COLOR
+    BackgroundColor<<persistence>> PERSIST_COLOR
+    BackgroundColor<<rest>> REST_COLOR
+    BackgroundColor<<ui>> UI_COLOR
+    BorderColor #424242
+    BorderThickness 2
+    FontName Arial
+    FontSize 12
+    FontStyle bold
 }
 
-package "persistence" {
-  package "repository" {
-    class UserRepository
-  }
+skinparam arrow {
+    Color #424242
+    FontSize 10
+    Thickness 2
 }
 
-package "rest" {
-  package "app" {
-    class RestApplication
-  }
-  package "config" {
-    class CorsConfig
-  }
-  package "controller" {
-    class AuthController
-  }
-  package "service" {
-    class SignUpService
-    class UserService
-    class LoginService
-    class SessionService
-    class PasswordService
-  }
+' Core module packages
+package "core" <<core>> {
+    package "dto" as core.dto {
+    }
+    package "model" as core.model {
+    }
+    package "service" as core.service {
+    }
+    package "util" as core.util {
+    }
 }
 
-package "ui" {
-  package "app" {
-    class App
-  }
-  package "controller" {
-    class LoginController
-    class SignUpController
-    class BaseController
-    class HomePageController
-    class LoadingScreenController
-  }
-  package "service" {
-    class SessionManager
-    class ApiClient
-  }
+' Persistence module packages
+package "persistence" <<persistence>> {
+    package "repository" as persistence.repository {
+    }
+    package "util" as persistence.util {
+    }
 }
+
+' REST module packages
+package "rest" <<rest>> {
+    package "app" as rest.app {
+    }
+    package "config" as rest.config {
+    }
+    package "controller" as rest.controller {
+    }
+    package "service" as rest.service {
+    }
+    package "util" as rest.util {
+    }
+}
+
+' UI module packages
+package "ui" <<ui>> {
+    package "app" as ui.app {
+    }
+    package "controller" as ui.controller {
+    }
+}
+
+' Dependencies within core module
+core.service --> core.dto
+core.model --> core.util
+
+' Dependencies from persistence to core
+persistence.repository --> core.model
+persistence.repository ..> persistence.util
+
+' Dependencies from rest to core and persistence
+rest.controller --> core.dto
+rest.controller --> core.model
+rest.controller --> rest.service
+rest.controller ..> rest.util
+rest.service --> core.model
+rest.service --> core.util
+rest.service --> persistence.repository
+rest.util --> core.dto
+
+' Dependencies from ui to core
+ui.app --> core.service
+ui.controller --> core.dto
+ui.controller --> core.service
+ui.controller --> core.util
+
+' Legend
+legend right
+    |= Color |= Module |
+    |<back:CORE_COLOR>   </back>| Core |
+    |<back:PERSIST_COLOR>   </back>| Persistence |
+    |<back:REST_COLOR>   </back>| REST API |
+    |<back:UI_COLOR>   </back>| UI |
+    
+    Solid lines: Direct dependencies
+    Dotted lines: Internal dependencies
+endlegend
 
 @enduml
