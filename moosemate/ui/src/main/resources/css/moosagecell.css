@@ -51,7 +51,7 @@
 }
 
 .like-button:hover {
-    -fx-background-color: #6b8f71ad; /* alert */
+    -fx-background-color: #6b8f71ad; /* main-green with opacity */
     -fx-text-fill: #ffffff; /* white */
     -fx-border-color: #6b8f71; /* main-green */
     -fx-cursor: hand;
@@ -60,8 +60,8 @@
 
 /* Liked state styling */
 .like-button.liked {
-    -fx-background-color: #6b8f71; /* main-green*/
-    -fx-text-fill: #f3efe8; /* white */
+    -fx-background-color: #6b8f71; /* main-green */
+    -fx-text-fill: #f3efe8; /* light-beige */
     -fx-border-color: #3d3d3d; /* dark-grey */
 }
 
@@ -81,7 +81,7 @@
 }
 
 .menu-button:hover {
-    -fx-background-color: rgba(61, 61, 61, 0.15);
+    -fx-background-color: rgba(61, 61, 61, 0.15); /* dark-grey with opacity */
 }
 
 .menu-button .arrow {
@@ -89,7 +89,7 @@
 }
 
 .menu-button:showing {
-    -fx-background-color: rgba(61, 61, 61, 0.2);
+    -fx-background-color: rgba(61, 61, 61, 0.2); /* dark-grey with opacity */
 }
 
 /* Remove arrow from dropdown menu */
