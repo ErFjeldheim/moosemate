@@ -128,7 +128,7 @@ public class MoosageListCell extends ListCell<MoosageDto> {
         
         long hours = duration.toHours();
         
-        // If less than 24 hours ago, show "X hours ago"
+        // If less than 24 hours ago, show "X hours ago" or " X minutes ago"
         if (hours < 24) {
             if (hours == 0) {
                 long minutes = duration.toMinutes();

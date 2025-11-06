@@ -105,7 +105,7 @@ public class HomePageController extends BaseController {
     }
 
     @FXML
-    private void handlePostButton(ActionEvent event) {
+    private void handleCreatePost(ActionEvent event) {
         String content = postTextArea.getText();
         if (ValidationUtils.isNullOrEmpty(content)) {
             return;

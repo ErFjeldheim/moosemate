@@ -67,7 +67,7 @@
                            </HBox.margin>
                         </Label>
                         <Region prefHeight="33.0" HBox.hgrow="ALWAYS" />
-                        <Button fx:id="postButton" graphicTextGap="0.0" minHeight="16.0" mnemonicParsing="false" onAction="#handlePostButton" prefHeight="32.0" prefWidth="82.0" styleClass="post-button" text="Moose it!" textAlignment="CENTER">
+                        <Button fx:id="postButton" graphicTextGap="0.0" minHeight="16.0" mnemonicParsing="false" onAction="#handleCreatePost" prefHeight="32.0" prefWidth="82.0" styleClass="post-button" text="Moose it!" textAlignment="CENTER">
                            <font>
                               <Font name="Poppins Medium" size="10.0" />
                            </font>
