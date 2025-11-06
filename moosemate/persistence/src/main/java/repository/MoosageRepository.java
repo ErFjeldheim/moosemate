@@ -153,6 +153,7 @@ public class MoosageRepository {
         if (moosageOpt.isPresent()) {
             Moosage moosage = moosageOpt.get();
             moosage.setContent(newContent);
+            moosage.setEdited(true);
             saveStorage(storage);
             return Optional.of(moosage);
         }

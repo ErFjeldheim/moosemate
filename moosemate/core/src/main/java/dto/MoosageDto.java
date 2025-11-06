@@ -46,8 +46,7 @@ public class MoosageDto {
         dto.setAuthorUsername(moosage.getAuthor().getUsername());
         dto.setTime(moosage.getTime());
         dto.setLikedByUserIds(new HashSet<>(moosage.getLikedByUserIds()));
-        // Note: edited flag is not stored in model.Moosage, defaulting to false
-        dto.setEdited(false);
+        dto.setEdited(moosage.isEdited());
         return dto;
     }
     
