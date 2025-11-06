@@ -1,6 +1,6 @@
 ## Work Practices
 
-We have continued with the same practices as for previous releases. We have combined both pair programming and individual programming, as the group still only consists of odd number of people. We have tried to limit the individual work to documentation and smaller fixes, as it requires least amount of code, in comparison to for example implementation of a completely new feature (as Session ID). 
+We have continued with the same practices and workflow as for previous releases. We have combined both pair programming and individual programming, as the group still only consists of odd number of people. We have tried to limit the individual work to documentation and smaller fixes, as it requires least amount of code, in comparison to for example implementation of a completely new feature (as Session ID). 
 
 As for previous releases, the work practice has included medium sized issues, with corresponding branch. Furthermore, we have tried to keep up with make smaller commits, as soon as a new feat etc. is functioning, to limit the amount of lost code if any issue were to occur. This has saved us from loosing functioning code for one feat, if the newest implemented feat does not function. 
 

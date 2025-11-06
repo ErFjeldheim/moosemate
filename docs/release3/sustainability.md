@@ -1,24 +1,11 @@
-# Artificial Intelligence (AI)
 
-Choosing not to use artificial intelligence (AI) in the MooseMate app is a sustainable decision, both environmentally and socially. AI technologies require significant computational power, which in turn demands large amounts of energy.  
-According to a report from the University of Massachusetts Amherst, training a single large language model can emit up to 284 tons of CO₂, roughly equivalent to the lifetime emissions of five cars.
+# Git
 
-By developing MooseMate without AI, we reduce the need for powerful servers and continuous data processing, resulting in a smaller carbon footprint. This approach encourages a mindful use of digital infrastructure, focusing on lightweight and efficient solutions rather than high-energy automation.
+Git makes development smoother and more sustainable by cutting down on redundant work and making collaboration easier. Its distributed setup means developers can work offline, which reduces server load and network traffic. Team members can tackle different features at the same time without stepping on each other’s toes, so there’s less wasted time dealing with merge conflicts or lost code.
 
-The absence of AI also enables a simpler and more resource-efficient app that requires less data storage and bandwidth. MooseMate runs smoothly on older or more affordable devices, extending the lifespan of existing technology and supporting the principles of a circular economy.  
-By prioritizing accessibility and inclusivity, MooseMate contributes to reduced electronic waste and longer hardware life. This design philosophy emphasizes software sustainability — writing code for long-term efficiency and environmental responsibility rather than just short-term performance.
+Git’s branching system also makes it easy to experiment safely. Developers can test new ideas locally before committing changes, catching problems early instead of scrambling to fix them later in production. And if something does go wrong, the full project history makes it simple to roll back to a previous version and move on quickly. Thus saving time and resources for us as developers. 
 
-Avoiding heavy AI integrations also simplifies data privacy compliance. Since AI models often depend on large-scale data collection and storage, excluding them lowers the risk of data misuse and reduces operational complexity. As a result, MooseMate can focus on transparent and privacy-friendly solutions that respect both users and the environment.
-
----
-
-# Low Energy Consumption
-
-No database currently runs continuously (24/7). This reduces server costs, energy consumption, and the overall carbon footprint. Instead of maintaining always-on infrastructure, MooseMate uses an on-demand model where computing resources are active only when needed.
-
-This design minimizes idle computing power and eliminates unnecessary background processes. By consuming energy only when users engage with the app, MooseMate avoids the “always-on” inefficiency common in modern cloud applications.
-
-Lower energy use also delivers practical benefits. Reduced server utilization translates directly to lower operational costs and improved scalability. As the app grows, this foundation allows the platform to expand responsibly while maintaining performance and minimizing environmental impact.
+By keeping detailed records of every change, Git helps teams avoid duplicate work and unnecessary rework. That means less time spent resolving issues and more time building features. It also makes development more efficient overall—saving both time and computing resources in the process.
 
 ---
 

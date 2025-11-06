@@ -1,6 +1,6 @@
 ## Teamwork
 
-When release 3 was published the group met up to get an overview of the requirements and organize the project. We created a new view in the Git project board, and divided the release's requirements into smaller issues. This made it easy to monitor progress and time, while ensuring that all requirements were met. 
+When release 3 was published the group met up to get an overview of the requirements and organize the project. We created a new view in the Git project board, and divided the release's requirements into smaller issues. This made it easy to monitor progress and time, while ensuring that all requirements were met.
 
 Initally, our plan was to migrate the frontend to React. We spent a day refactoring before realizing that implementing new features in React, would also require maintaining the JavaFX. This resulted in a decision to stick to JavaFX, to focus on one frontend only.
 
