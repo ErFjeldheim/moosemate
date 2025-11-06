@@ -1,8 +1,5 @@
 package controller;
 
-import java.io.IOException;
-import java.util.function.Consumer;
-
 import dto.ApiResponse;
 import dto.MoosageDto;
 import javafx.application.Platform;
@@ -24,7 +21,6 @@ import service.ApiClient;
 import util.ValidationUtils;
 
 import java.io.IOException;
-import java.util.Optional;
 import java.util.function.Consumer;
 
 // Custom ListCell for displaying MoosageDto objects in a ListView.
@@ -227,7 +223,7 @@ public class MoosageListCell extends ListCell<MoosageDto> {
 
             // Get the result
             String newContent = dialogController.getResult();
-            if (newContent != null && !newContent.isEmpty() && !newContent.equals(moosage.getContent())) {
+            if (!ValidationUtils.isNullOrEmpty(newContent) && !newContent.equals(moosage.getContent())) {
                 // Call backend to update moosage
                 new Thread(() -> {
                     try {

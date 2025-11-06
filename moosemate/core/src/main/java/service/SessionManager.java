@@ -10,7 +10,7 @@ import dto.LoginResponse;
 public class SessionManager {
     
     // Private constructor to prevent instantiation
-    private SessionManager() {} 
+    private SessionManager() { }
     
     // Singleton holder (Bill Pugh pattern - thread-safe without synchronization)
     private static class SingletonHolder {
