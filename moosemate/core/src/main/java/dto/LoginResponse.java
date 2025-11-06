@@ -1,35 +1,24 @@
 package dto;
 
 public class LoginResponse {
-    private String username;
-    private String email;
+    private UserDto user;
     private String sessionToken;
-    private String userId;
+    private String userId;  // Internal userId for session management, not part of public user profile
 
     public LoginResponse() { }
 
-
-    public LoginResponse(String username, String email, String sessionToken, String userId) {
-        this.username = username;
-        this.email = email;
+    public LoginResponse(UserDto user, String sessionToken, String userId) {
+        this.user = user;
         this.sessionToken = sessionToken;
         this.userId = userId;
     }
 
-    public String getUsername() {
-        return username;
+    public UserDto getUser() {
+        return user;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUser(UserDto user) {
+        this.user = user;
     }
 
     public String getSessionToken() {

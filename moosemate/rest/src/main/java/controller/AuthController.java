@@ -4,6 +4,7 @@ import dto.ApiResponse;
 import dto.LoginRequest;
 import dto.LoginResponse;
 import dto.SignUpRequest;
+import dto.UserDto;
 import model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -46,11 +47,9 @@ public class AuthController {
                 // creates session and get UUID token
                 String sessionToken = sessionService.createSession(user);
 
-                LoginResponse loginResponse = new LoginResponse(
-                        user.getUsername(),
-                        user.getEmail(),
-                        sessionToken,
-                        user.getUserID());
+                // Convert User to UserDto to avoid exposing sensitive data (password)
+                UserDto userDto = UserDto.fromUser(user);
+                LoginResponse loginResponse = new LoginResponse(userDto, sessionToken, user.getUserID());
 
                 return ResponseUtils.ok("Login successful", loginResponse);
             } else {

@@ -29,8 +29,8 @@ public class SessionManager {
     // initialize session with login response data
     public void login(LoginResponse loginResponse) {
         this.sessionToken = loginResponse.getSessionToken();
-        this.username = loginResponse.getUsername();
-        this.email = loginResponse.getEmail();
+        this.username = loginResponse.getUser().getUsername();
+        this.email = loginResponse.getUser().getEmail();
         this.userId = loginResponse.getUserId();
     }
 
