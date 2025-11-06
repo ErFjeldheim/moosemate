@@ -3,13 +3,13 @@
 ## Base URL
 
 ```text
-http://localhost:8080
+http://localhost:8080/api
 ```
 
-### Register User
+### Sign Up
 
 ```http
-POST /api/users/register
+POST /api/auth/signup
 Content-Type: application/json
 
 {
@@ -19,48 +19,52 @@ Content-Type: application/json
 }
 ```
 
-**Response:** `201 Created` with user data
+**Response:** `200 OK` with success message
 
 ### Login
 
 ```http
-POST /api/users/login
+POST /api/auth/login
 Content-Type: application/json
 
 {
-  "usernameOrEmail": "string",
+  "username": "string",
   "password": "string"
 }
 ```
 
-**Response:** `200 OK` with JWT token
+**Response:** `200 OK`
 
-### Get User
-
-```http
-GET /api/users/{userId}
+```json
+{
+  "success": true,
+  "data": {
+    "username": "string",
+    "email": "string",
+    "sessionToken": "string"
+  }
+}
 ```
 
-**Response:** `200 OK` with user details
-
-### Check Username
+### Logout
 
 ```http
-GET /api/users/exists?username={username}
+POST /api/auth/logout
+Content-Type: application/json
+Session-Token: {sessionToken}
 ```
 
-**Response:** `200 OK` with `{"exists": boolean}`
+**Response:** `200 OK` with logout confirmation
 
 ### Create Moosage
 
 ```http
 POST /api/moosages
-Authorization: Bearer {token}
 Content-Type: application/json
+Session-Token: {sessionToken}
 
 {
-  "content": "string",
-  "authorId": "uuid"
+  "content": "string"
 }
 ```
 
@@ -70,50 +74,79 @@ Content-Type: application/json
 
 ```http
 GET /api/moosages
+Content-Type: application/json
+Session-Token: {sessionToken}
 ```
 
 **Response:** `200 OK` with array of moosages
 
-### Get Moosage by ID
-
-```http
-GET /api/moosages/{moosageId}
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "moosageId": 1,
+      "content": "string",
+      "author": {
+        "userId": "uuid",
+        "username": "string"
+      },
+      "timestamp": "2025-11-06T12:00:00",
+      "likes": 0
+    }
+  ]
+}
 ```
 
-**Response:** `200 OK` with moosage details
+### Update Moosage
+
+```http
+PUT /api/moosages/{moosageId}
+Content-Type: application/json
+Session-Token: {sessionToken}
+
+{
+  "content": "string"
+}
+```
+
+**Response:** `200 OK` with updated moosage data
 
 ### Delete Moosage
 
 ```http
 DELETE /api/moosages/{moosageId}
-Authorization: Bearer {token}
+Content-Type: application/json
+Session-Token: {sessionToken}
 ```
 
-**Response:** `204 No Content`
+**Response:** `200 OK` with deletion confirmation
 
-### Like Moosage
+### Toggle Like on Moosage
 
 ```http
 POST /api/moosages/{moosageId}/like
-Authorization: Bearer {token}
+Content-Type: application/json
+Session-Token: {sessionToken}
 ```
 
-**Response:** `200 OK` with updated likes count
+**Response:** `200 OK` with updated moosage data (including new like count)
 
 ## Authentication
 
-Include JWT token in header for protected endpoints:
+All protected endpoints require a session token in the header:
 
 ```text
-Authorization: Bearer {token}
+Session-Token: {sessionToken}
 ```
+
+The session token is obtained after successful login and should be included in all subsequent requests to protected endpoints.
 
 ## Error Responses
 
 ```json
 {
-  "status": 400,
-  "error": "Bad Request",
+  "success": false,
   "message": "Error description"
 }
 ```
