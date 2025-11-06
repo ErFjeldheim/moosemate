@@ -45,6 +45,11 @@ public class HomePageController extends BaseController {
         // Get the current username from SessionManager
         String username = SessionManager.getInstance().getUsername();
 
+        // Set personalized prompt text
+        if (username != null && !username.isEmpty()) {
+            postTextArea.setPromptText("What's between your antlers, " + username + "?");
+        }
+
         // Add listener to update character count
         postTextArea.textProperty().addListener((observable, oldValue, newValue) -> {
             updateCharCount(newValue);
