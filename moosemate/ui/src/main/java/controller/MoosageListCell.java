@@ -1,16 +1,25 @@
 package controller;
 
+import java.io.IOException;
+import java.util.function.Consumer;
+
 import dto.ApiResponse;
 import dto.MoosageDto;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
-import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import service.ApiClient;
 import util.ValidationUtils;
 
@@ -39,13 +48,13 @@ public class MoosageListCell extends ListCell<MoosageDto> {
     private Button likeButton;
     
     @FXML
-    private Label likeCountLabel;
+    private MenuButton menuButton;
     
     @FXML
-    private Button editButton;
+    private MenuItem editMenuItem;
     
     @FXML
-    private Button deleteButton;
+    private MenuItem deleteMenuItem;
     
     private VBox cellContent;
     
@@ -92,26 +101,20 @@ public class MoosageListCell extends ListCell<MoosageDto> {
                 editedLabel.setManaged(false);
             }
             
-            // Display like count String.valueOf(updatedMoosage.getLikeCount())
-            likeCountLabel.setText(String.valueOf(moosage.getLikeCount()));
+            // Update like button text and style based on current user's like status
+            updateLikeButton(moosage);
             likeButton.setOnAction(event -> handleLike(moosage));
             
-            // Only show edit and delete buttons if current user is the author
+            // Only show menu button if current user is the author
             String currentUserId = service.SessionManager.getInstance().getUserId();
             if (currentUserId != null && currentUserId.equals(moosage.getAuthorId())) {
-                editButton.setVisible(true);
-                editButton.setManaged(true);
-                editButton.setOnAction(event -> handleEdit(moosage));
-                
-                deleteButton.setVisible(true);
-                deleteButton.setManaged(true);
-                deleteButton.setOnAction(event -> handleDelete(moosage));
+                menuButton.setVisible(true);
+                menuButton.setManaged(true);
+                editMenuItem.setOnAction(event -> handleEdit(moosage));
+                deleteMenuItem.setOnAction(event -> handleDelete(moosage));
             } else {
-                editButton.setVisible(false);
-                editButton.setManaged(false);
-                
-                deleteButton.setVisible(false);
-                deleteButton.setManaged(false);
+                menuButton.setVisible(false);
+                menuButton.setManaged(false);
             }
             
             setGraphic(cellContent);
@@ -151,6 +154,25 @@ public class MoosageListCell extends ListCell<MoosageDto> {
         return dateTime.format(java.time.format.DateTimeFormatter.ofPattern("MMM dd, yyyy HH:mm"));
     }
     
+    // Updates like button text and style based on whether current user has liked the moosage
+    private void updateLikeButton(MoosageDto moosage) {
+        String currentUserId = service.SessionManager.getInstance().getUserId();
+        boolean isLiked = currentUserId != null && moosage.isLikedBy(currentUserId);
+        int likeCount = moosage.getLikeCount();
+        
+        // Update button text with like count
+        likeButton.setText("♥ " + likeCount);
+        
+        // Add or remove "liked" style class
+        if (isLiked) {
+            if (!likeButton.getStyleClass().contains("liked")) {
+                likeButton.getStyleClass().add("liked");
+            }
+        } else {
+            likeButton.getStyleClass().remove("liked");
+        }
+    }
+    
     // Handles like button click
     private void handleLike(MoosageDto moosage) {
         // Call backend to toggle like
@@ -164,7 +186,12 @@ public class MoosageListCell extends ListCell<MoosageDto> {
                     
                     // Update UI on JavaFX thread
                     Platform.runLater(() -> {
-                        likeCountLabel.setText(String.valueOf(updatedMoosage.getLikeCount()));
+                        // Update the moosage data in the list
+                        moosage.setLikedByUserIds(updatedMoosage.getLikedByUserIds());
+                        
+                        // Update the like button display
+                        updateLikeButton(moosage);
+                        System.out.println("Like toggled successfully for moosage: " + moosage.getId());
                     });
                 } else {
                     System.err.println("Failed to toggle like: " + response.getMessage());
@@ -178,44 +205,57 @@ public class MoosageListCell extends ListCell<MoosageDto> {
     
     // Handles edit button click
     private void handleEdit(MoosageDto moosage) {
-        // Show dialog to edit content
-        Platform.runLater(() -> {
-            TextInputDialog dialog = new TextInputDialog(moosage.getContent());
-            dialog.setTitle("Edit Moosage");
-            dialog.setHeaderText("Edit your moosage");
-            dialog.setContentText("New content:");
-            
-            Optional<String> result = dialog.showAndWait();
-            result.ifPresent(newContent -> {
-                if (!ValidationUtils.isNullOrEmpty(newContent)) {
-                    // Call backend to update moosage
-                    new Thread(() -> {
-                        try {
-                            ApiClient apiClient = new ApiClient();
-                            ApiResponse<MoosageDto> response = 
-                                    apiClient.updateMoosage(moosage.getId(), newContent.trim());
+        try {
+            // Load the FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editmoosage.fxml"));
+            Parent root = loader.load();
+
+            // Get the controller and set initial content
+            EditMoosageController dialogController = loader.getController();
+            dialogController.setContent(moosage.getContent());
+
+            // Create the stage
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Edit Moosage");
+            dialogStage.initModality(Modality.APPLICATION_MODAL);
+            dialogStage.initStyle(StageStyle.DECORATED);
+            dialogStage.setScene(new Scene(root));
+            dialogStage.setResizable(false);
+
+            // Show the dialog and wait for it to close
+            dialogStage.showAndWait();
+
+            // Get the result
+            String newContent = dialogController.getResult();
+            if (newContent != null && !newContent.isEmpty() && !newContent.equals(moosage.getContent())) {
+                // Call backend to update moosage
+                new Thread(() -> {
+                    try {
+                        ApiClient apiClient = new ApiClient();
+                        ApiResponse<MoosageDto> response = apiClient.updateMoosage(moosage.getId(), newContent.trim());
+                        
+                        if (response.isSuccess() && response.getData() != null) {
+                            MoosageDto updatedMoosage = response.getData();
                             
-                            if (response.isSuccess() && response.getData() != null) {
-                                MoosageDto updatedMoosage = response.getData();
-                                
-                                // Update UI on JavaFX thread
-                                Platform.runLater(() -> {
-                                    contentText.setText(updatedMoosage.getContent());
-                                    // Show "(edited)" label
-                                    editedLabel.setVisible(true);
-                                    editedLabel.setManaged(true);
-                                });
-                            } else {
-                                System.err.println("Failed to update moosage: " + response.getMessage());
-                            }
-                            
-                        } catch (Exception e) {
-                            System.err.println("Error updating moosage: " + e.getMessage());
+                            // Update UI on JavaFX thread
+                            Platform.runLater(() -> {
+                                contentText.setText(updatedMoosage.getContent());
+                                // Show "(edited)" label
+                                editedLabel.setVisible(true);
+                                editedLabel.setManaged(true);
+                            });
+                        } else {
+                            System.err.println("Failed to update moosage: " + response.getMessage());
                         }
-                    }).start();
-                }
-            });
-        });
+                        
+                    } catch (Exception e) {
+                        System.err.println("Error updating moosage: " + e.getMessage());
+                    }
+                }).start();
+            }
+        } catch (Exception e) {
+            System.err.println("Failed to open edit dialog: " + e.getMessage());
+        }
     }
     
     // Handles delete button click

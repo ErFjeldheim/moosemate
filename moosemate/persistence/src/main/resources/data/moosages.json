@@ -8,17 +8,56 @@
       "userID" : "150d157c-447d-444b-a09a-796a72d9ccc1"
     },
     "time" : [ 2025, 11, 5, 10, 29, 2, 873532700 ],
-    "likedByUserIds" : [ "79472179-e218-4ce6-a672-8f850115436f" ]
+    "likedByUserIds" : [ "79472179-e218-4ce6-a672-8f850115436f" ],
+    "edited" : false
   }, {
     "id" : 2,
-    "content" : "Dæven steike det e godt å start dagen med en kald monster",
-    "author" : {
-      "username" : "holger",
-      "email" : "holger@setten.com",
-      "userID" : "79472179-e218-4ce6-a672-8f850115436f"
-    },
-    "time" : [ 2025, 11, 5, 10, 29, 30, 320995600 ],
-    "likedByUserIds" : [ "150d157c-447d-444b-a09a-796a72d9ccc1" ]
+    "content" : "Dette er min første moosage!",
+    "authorId" : "150d157c-447d-444b-a09a-796a72d9ccc1",
+    "authorUsername" : "syver",
+    "time" : [ 2025, 10, 22, 20, 30 ],
+    "likedByUserIds" : [ "089f0ecf-0928-441f-a7dd-079233a0d3e7", "150d157c-447d-444b-a09a-796a72d9ccc1" ],
+    "edited" : false
+  }, {
+    "id" : 3,
+    "content" : "Håper alle har en fin dag!",
+    "authorId" : "28bcf115-cca7-48b6-8d44-cb874089a578",
+    "authorUsername" : "dronningen",
+    "time" : [ 2025, 10, 22, 21, 0 ],
+    "likedByUserIds" : [ "150d157c-447d-444b-a09a-796a72d9ccc1" ],
+    "edited" : false
+  }, {
+    "id" : 4,
+    "content" : "MooseMate er ganske kult!",
+    "authorId" : "dd678a65-ed37-4bbc-8fc7-e80426b6247b",
+    "authorUsername" : "prinsessa",
+    "time" : [ 2025, 10, 22, 21, 45 ],
+    "likedByUserIds" : [ "089f0ecf-0928-441f-a7dd-079233a0d3e7", "150d157c-447d-444b-a09a-796a72d9ccc1", "28bcf115-cca7-48b6-8d44-cb874089a578" ],
+    "edited" : false
+  }, {
+    "id" : 5,
+    "content" : "Hei, mitt navn er Syver... igjen",
+    "authorId" : "150d157c-447d-444b-a09a-796a72d9ccc1",
+    "authorUsername" : "syver",
+    "time" : [ 2025, 10, 23, 10, 18, 28, 875804600 ],
+    "likedByUserIds" : [ "150d157c-447d-444b-a09a-796a72d9ccc1" ],
+    "edited" : true
+  }, {
+    "id" : 6,
+    "content" : "Jeg surfer høyrebølgen!",
+    "authorId" : "150d157c-447d-444b-a09a-796a72d9ccc1",
+    "authorUsername" : "syver",
+    "time" : [ 2025, 10, 23, 10, 22, 6, 739606300 ],
+    "likedByUserIds" : [ "150d157c-447d-444b-a09a-796a72d9ccc1", "1997f80e-ba86-490b-b0ec-ed34df9ad344" ],
+    "edited" : false
+  }, {
+    "id" : 7,
+    "content" : "For en herlig dag!",
+    "authorId" : "1997f80e-ba86-490b-b0ec-ed34df9ad344",
+    "authorUsername" : "edvard",
+    "time" : [ 2025, 10, 23, 10, 23, 19, 648225100 ],
+    "likedByUserIds" : [ "4b5bbee6-5c71-43d3-b301-c5e53506ed4e", "1997f80e-ba86-490b-b0ec-ed34df9ad344" ],
+    "edited" : false
   } ],
   "nextId" : 3
 }

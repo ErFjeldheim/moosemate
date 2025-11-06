@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
@@ -13,52 +14,65 @@
 
 <VBox prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
   <children>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="700.0" prefWidth="900.0" styleClass="anchor-pane" stylesheets="@../css/common.css, @../css/auth.css" VBox.vgrow="ALWAYS">
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="700.0" prefWidth="900.0" style="-fx-background-color: #6b8f71;" stylesheets="@../css/common.css, @../css/auth.css" VBox.vgrow="ALWAYS">
       <children>
-        <Label alignment="CENTER" layoutX="155.0" layoutY="177.0" style="&#10;" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
-          <font>
-            <Font size="18.0" />
-          </font>
-        </Label>
-            <Text fill="#7e6552" layoutX="33.0" layoutY="271.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Connect with your friends using MooseMate" wrappingWidth="417.0">
+            <Text fill="#f3efe8" layoutX="80.0" layoutY="299.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Connect with your friends using MooseMate" wrappingWidth="417.0">
                <font>
-                  <Font name="Optima Bold" size="52.0" />
+                  <Font name="Chewy Regular" size="52.0" />
                </font>
             </Text>
-            <Label fx:id="errorLabel" layoutX="566.0" layoutY="280.0" maxWidth="230.0" minWidth="100.0" styleClass="error-label" text="" visible="false" wrapText="true" />
-            <TextField fx:id="usernameField" layoutX="644.0" layoutY="360.0" promptText="Username / Email">
+            <VBox alignment="TOP_CENTER" layoutX="496.0" layoutY="88.0" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+               <children>
+                  <ImageView fitHeight="317.0" fitWidth="335.0" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/MooseMate-logo-white-transparent-withtext.png" />
+                     </image>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </ImageView>
+                  <Label fx:id="errorLabel" focusTraversable="false" maxWidth="230.0" minWidth="100.0" prefHeight="41.0" prefWidth="184.0" styleClass="error-label" text="ErrorLabel" visible="false" wrapText="true">
+                     <font>
+                        <Font name="Poppins Medium" size="12.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="usernameField" maxWidth="200.0" prefWidth="20.0" promptText="Username / Email">
+                     <font>
+                        <Font name="Poppins Medium" size="14.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </TextField>
+                  <PasswordField fx:id="passwordField" maxWidth="200.0" promptText="Password">
+                     <font>
+                        <Font name="Poppins Medium" size="14.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </PasswordField>
+                  <Button fx:id="loginButton" defaultButton="true" maxWidth="200.0" mnemonicParsing="false" onAction="#handleLoginButton" text="Login">
+                     <font>
+                        <Font name="Poppins Medium" size="14.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Button>
+                  <Button id="goToSignupButton" maxWidth="200.0" mnemonicParsing="false" onAction="#handleSignUpButton" style="-fx-background-color: transparent;" text="Create Account">
+                     <font>
+                        <Font name="Poppins Medium" size="14.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Button>
+               </children>
+            </VBox>
+            <Label alignment="CENTER" styleClass="footer-label" text="™ MooseMate 2025" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <font>
-                  <Font name="Optima Regular" size="14.0" />
-               </font>
-            </TextField>
-            <PasswordField fx:id="passwordField" layoutX="644.0" layoutY="395.0" promptText="Password">
-               <font>
-                  <Font name="Optima Regular" size="14.0" />
-               </font>
-            </PasswordField>
-            <Button fx:id="loginButton" defaultButton="true" layoutX="663.0" layoutY="430.0" mnemonicParsing="false" onAction="#handleLoginButton" prefHeight="25.0" prefWidth="149.0" text="Login">
-               <font>
-                  <Font name="Optima Regular" size="14.0" />
-               </font>
-            </Button>
-            <Button id="createAccountButton" layoutX="678.0" layoutY="465.0" mnemonicParsing="false" onAction="#handleSignUpButton" prefHeight="25.0" prefWidth="120.0" text="Create Account">
-               <font>
-                  <Font name="Optima Regular" size="14.0" />
-               </font>
-            </Button>
-            <ImageView fitHeight="290.0" fitWidth="323.0" layoutX="591.0" layoutY="75.0" preserveRatio="true">
-               <image>
-                  <Image url="@../images/Moosemate-logo-transparent.png" />
-               </image>
-            </ImageView>
-            <Text fill="#331c0d" layoutX="634.0" layoutY="340.0" strokeType="OUTSIDE" strokeWidth="0.0" text="MooseMate">
-               <font>
-                  <Font name="Optima Bold" size="40.0" />
-               </font>
-            </Text>
-            <Label alignment="CENTER" text="™ MooseMate 2025" textFill="#9f9f9f" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-               <font>
-                  <Font name="Optima Regular" size="10.0" />
+                  <Font name="Poppins Medium" size="10.0" />
                </font>
             </Label>
       </children>

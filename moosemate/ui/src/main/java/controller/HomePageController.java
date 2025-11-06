@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.List;
+
 import dto.ApiResponse;
 import dto.MoosageDto;
 import javafx.collections.FXCollections;
@@ -7,6 +9,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import service.ApiClient;
 import service.SessionManager;
@@ -17,7 +20,10 @@ import java.util.List;
 public class HomePageController extends BaseController {
 
     @FXML
-    private Label welcomeLabel;
+    private Label loggedInLabel;
+
+    @FXML
+    private javafx.scene.image.ImageView logoutIcon;
 
     @FXML
     private javafx.scene.control.ListView<MoosageDto> moosageList;
@@ -29,24 +35,45 @@ public class HomePageController extends BaseController {
     private javafx.scene.control.Button postButton;
 
     @FXML
-    private javafx.scene.control.MenuButton profileButton;
+    private Label postCharCountLabel;
 
     private ObservableList<MoosageDto> moosages;
+    private static final int MAX_CHARS = 280;
 
     @FXML
     public void initialize() {
         // Get the current username from SessionManager
         String username = SessionManager.getInstance().getUsername();
-        
-        // Set the welcome message
-        if (!ValidationUtils.isNullOrEmpty(username)) {
-            welcomeLabel.setText("Welcome " + username);
-        } else {
-            welcomeLabel.setText("Welcome");
-        }
+
+        // Add listener to update character count
+        postTextArea.textProperty().addListener((observable, oldValue, newValue) -> {
+            updateCharCount(newValue);
+        });
+
+        // Limit text length
+        postTextArea.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.length() > MAX_CHARS) {
+                postTextArea.setText(oldValue);
+            }
+        });
 
         // Load moosages from backend
         loadMoosages();
+    }
+
+    /**
+     * Updates the character count label for post text area
+     */
+    private void updateCharCount(String text) {
+        int length = text != null ? text.length() : 0;
+        postCharCountLabel.setText(length + "/" + MAX_CHARS);
+        
+        // Change color if approaching limit
+        if (length > MAX_CHARS * 0.9) {
+            postCharCountLabel.setStyle("-fx-text-fill: #c94a4a;");
+        } else {
+            postCharCountLabel.setStyle("-fx-text-fill: #3d3d3dda;");
+        }
     }
 
     // Loads moosages from the backend API and displays them in the list view
@@ -125,7 +152,7 @@ public class HomePageController extends BaseController {
     }
 
     @FXML
-    private void handleLogoutButton(ActionEvent event) {
+    private void handleLogoutButton(MouseEvent event) {
         try {
             // Get session token from SessionManager
             String sessionToken = SessionManager.getInstance().getSessionToken();
@@ -148,7 +175,7 @@ public class HomePageController extends BaseController {
             javafx.scene.Parent root = loader.load();
             
             // Get stage and set new scene
-            Stage stage = (Stage) profileButton.getScene().getWindow();
+            Stage stage = (Stage) logoutIcon.getScene().getWindow();
             javafx.scene.Scene scene = new javafx.scene.Scene(root);
             stage.setScene(scene);
             stage.setTitle("Login");

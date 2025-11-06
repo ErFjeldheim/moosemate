@@ -3,68 +3,69 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox xmlns="http://javafx.com/javafx/23.0.1"
-      xmlns:fx="http://javafx.com/fxml/1"
-      spacing="8"
-      styleClass="post-cell"
-      stylesheets="@../css/common.css, @../css/moosagecell.css"
-      prefWidth="480">
+<VBox prefWidth="480" spacing="8" styleClass="post-cell" stylesheets="@../css/common.css, @../css/moosagecell.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
 
-    <padding>
-        <Insets top="12" right="12" bottom="12" left="12"/>
-    </padding>
-
-    <HBox spacing="10" alignment="CENTER_LEFT">
+    <!-- Header: Username, date, and menu button -->
+    <HBox alignment="CENTER_LEFT" spacing="10">
         <Label fx:id="usernameLabel" styleClass="post-username" text="Username">
             <font>
-                <Font name="Optima Bold" size="14.0" />
+                <Font name="Chewy Regular" size="16.0" />
             </font>
         </Label>
-        <Label fx:id="dateLabel" text="Date" textFill="#9f9f9f">
+        <Label fx:id="dateLabel" maxWidth="Infinity" styleClass="post-date" text="Date">
             <font>
-                <Font name="Optima Regular" size="10.0" />
+                <Font name="Poppins Medium" size="10.0" />
             </font>
+         <HBox.margin>
+            <Insets right="5.0" top="3.0" />
+         </HBox.margin>
         </Label>
-        <Label fx:id="editedLabel" text="(edited)" textFill="#9f9f9f" visible="false" managed="false">
+        <Label fx:id="editedLabel" managed="false" styleClass="post-edited" text="(edited)" visible="false">
             <font>
-                <Font name="Optima Italic" size="10.0" />
+                <Font name="Poppins Medium" size="10.0" />
             </font>
         </Label>
+        <!-- Spacer to push menu button to the right -->
+        <Region HBox.hgrow="ALWAYS" />
+        <!-- Menu button for edit/delete actions -->
+        <MenuButton fx:id="menuButton" focusTraversable="false" managed="false" styleClass="menu-button" text="..." visible="false">
+            <items>
+                <MenuItem fx:id="editMenuItem" text="✏ Edit" />
+                <MenuItem fx:id="deleteMenuItem" text="🗑 Delete" />
+            </items>
+         <font>
+            <Font name="Poppins Medium" size="12.0" />
+         </font>
+        </MenuButton>
     </HBox>
 
     <!-- Content -->
-    <Text fx:id="contentText" wrappingWidth="456" text="Moosage content..." styleClass="post-content">
+    <Text fx:id="contentText" styleClass="moosage-content" text="Moosage content..." wrappingWidth="456">
         <font>
-            <Font name="Optima Regular" size="13.0" />
+            <Font name="Poppins Medium" size="14.0" />
         </font>
+      <VBox.margin>
+         <Insets bottom="10.0" />
+      </VBox.margin>
     </Text>
 
-    <!-- Footer: Like button and count -->
-    <HBox spacing="10" alignment="CENTER_LEFT">
-        <Button fx:id="likeButton" text="♥ Like" styleClass="like-button">
+    <!-- Footer: Like button -->
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <Button fx:id="likeButton" styleClass="like-button" text="♥ 0">
             <font>
-                <Font name="Optima Regular" size="11.0" />
+                <Font name="Poppins Medium" size="11.0" />
             </font>
-        </Button>
-        <Label fx:id="likeCountLabel" text="0" textFill="#666666">
-            <font>
-                <Font name="Optima Regular" size="11.0" />
-            </font>
-        </Label>
-        <Button fx:id="editButton" text="✏ Edit" styleClass="edit-button">
-            <font>
-                <Font name="Optima Regular" size="11.0" />
-            </font>
-        </Button>
-        <Button fx:id="deleteButton" text="🗑 Delete" styleClass="delete-button">
-            <font>
-                <Font name="Optima Regular" size="11.0" />
-            </font>
+         <HBox.margin>
+            <Insets bottom="5.0" />
+         </HBox.margin>
         </Button>
     </HBox>
 </VBox>

@@ -17,7 +17,7 @@ public class App extends Application {
         loadCustomFonts();
         
         // Set the application icon (appears in window title bar and taskbar)
-        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/Moosemate-logo-v2.png")));
+        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/Moosemate-icon.png")));
         
         // Handle window close - logout user if session exists
         primaryStage.setOnCloseRequest(event -> {
@@ -34,12 +34,12 @@ public class App extends Application {
     
     private void loadCustomFonts() {
         try {
-            // Load all Optima font variants
-            Font.loadFont(getClass().getResourceAsStream("/fonts/Optima-Regular.ttf"), 12);
-            Font.loadFont(getClass().getResourceAsStream("/fonts/Optima-Bold.ttf"), 12);
-            Font.loadFont(getClass().getResourceAsStream("/fonts/Optima-Italic.ttf"), 12);
-            Font.loadFont(getClass().getResourceAsStream("/fonts/Optima-BoldItalic.ttf"), 12);
-            Font.loadFont(getClass().getResourceAsStream("/fonts/Optima-ExtraBlack.ttf"), 12);
+            // Load all custom fonts used in the application
+            Font.loadFont(getClass().getResourceAsStream("/fonts/Chewy-Regular.ttf"), 12);
+            Font.loadFont(getClass().getResourceAsStream("/fonts/Chewy-Bold.ttf"), 12);
+            Font.loadFont(getClass().getResourceAsStream("/fonts/Poppins-Medium.ttf"), 12);
+
+            System.out.println("Custom fonts loaded successfully");
         } catch (Exception e) {
             System.err.println("Failed to load custom fonts: " + e.getMessage());
         }

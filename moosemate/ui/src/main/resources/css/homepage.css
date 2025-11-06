@@ -1,107 +1,92 @@
 /* Styles for homepage */
 
-#feed {
-    -fx-background-color: #ffffff;
-    -fx-border-color: #000000;
-    -fx-border-width: 1px;
-    -fx-border-radius: 5px;
-    -fx-padding: 10px;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 2, 0, 0, 1);
+/* Sticky topbar styling */
+.sticky-topbar {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 5, 0, 0, 2);
 }
 
-/* ListView styling */
+.logout-icon {
+    -fx-cursor: hand;
+}
+
+.logout-icon:hover {
+    -fx-opacity: 0.8;
+}
+
+.char-count-label {
+    -fx-text-fill: #3d3d3dda; /* dark-grey with some opacity */
+}
+
+.footer-label {
+    -fx-text-fill: #3d3d3d; /* dark-grey */
+}
+
+/* Post section styling */
+.post-section {
+    -fx-padding: 0;
+}
+
+/* ListView styling - expandable */
 .list-view {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
+    -fx-pref-height: -1; /* Allow natural sizing */
+    -fx-min-height: 200; /* Minimum height */
 }
 
 .list-view .list-cell {
     -fx-background-color: transparent;
-    -fx-padding: 0;
+    -fx-padding: 5px 0;
 }
 
 .list-view .list-cell:filled:selected {
-    -fx-background-color: rgba(91, 140, 90, 0.1);
+    -fx-background-color: rgba(107, 143, 113, 0.1);
 }
 
-.list-view .list-cell:filled:hover {
-    -fx-background-color: rgba(227, 178, 60, 0.05);
+.list-view .scroll-bar:vertical {
+    -fx-opacity: 0; /* Hide internal scrollbar since we scroll the whole page */
 }
 
-/* Post input container styling */
-.post-input-container {
-    -fx-background-color: #ffffff;
-    -fx-background-radius: 8px;
-    -fx-border-color: #d0c4b0;
-    -fx-border-width: 1px;
-    -fx-border-radius: 8px;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 3, 0, 0, 1);
-}
-
-.post-prompt {
-    -fx-fill: #666666;
+.list-view .scroll-bar:horizontal {
+    -fx-opacity: 0;
 }
 
 /* Moosage input text area */
 .moosage-input {
-    -fx-background-color: #f9f9f9;
-    -fx-border-color: #d0c4b0;
+    -fx-background-color: #f3efe8; /* light-beige */
+    -fx-border-color: #f3efe8; /* light-beige */
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-text-fill: #3d3d3d; /* dark-grey */
+    -fx-font-family: "Poppins Medium";
     -fx-border-width: 1px;
-    -fx-border-radius: 5px;
-    -fx-background-radius: 5px;
-    -fx-text-fill: #321d0f;
-    -fx-font-family: "Optima";
-    -fx-padding: 8px;
+}
+
+.moosage-input .content {
+    -fx-background-color: #ffffff; /* light-beige */
+    -fx-background-radius: 8px;
 }
 
 .moosage-input:focused {
-    -fx-border-color: #5B8C5A;
-    -fx-border-width: 2px;
+    -fx-border-color: #6b8f71; /* green */
+}
+
+.moosage-input:focused .content {
+    -fx-background-color: #ffffff; /* light-beige */
+    -fx-background-radius: 8px;
 }
 
 /* Post button styling */
 .post-button {
-    -fx-background-color: #5B8C5A;
-    -fx-text-fill: #ffffff;
+    -fx-background-color: #6b8f71; /* main-green */
+    -fx-text-fill: #f3efe8; /* light-beige */
     -fx-background-radius: 5px;
     -fx-border-radius: 5px;
-    -fx-padding: 8px 20px;
     -fx-cursor: hand;
 }
 
 .post-button:hover {
-    -fx-background-color: #4a7549;
+    -fx-background-color: #6b8f71; /* main-green */
+    -fx-text-fill: #3d3d3d;
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 4, 0, 0, 2);
-}
-
-/* Hide arrow in menu button */
-.menu-button-no-arrow .arrow-button {
-    -fx-padding: 0;
-    -fx-pref-width: 0;
-    -fx-min-width: 0;
-    -fx-max-width: 0;
-}
-
-.menu-button-no-arrow .arrow {
-    -fx-shape: "";
-    visibility: hidden;
-}
-
-/* Menu button hover effect */
-#menuButton:hover {
-    -fx-background-color: #E3B23C;
-    -fx-background-radius: 5px;
-    -fx-cursor: hand;
-}
-
-/* Profile button styling */
-#profileButton {
-    -fx-background-color: #E3B23C;
-    -fx-text-fill: #000000;
-    -fx-background-radius: 5px;
-}
-
-#profileButton:hover {
-    -fx-background-color: #9b7c27;
-    -fx-text-fill: #ffffff;
 }

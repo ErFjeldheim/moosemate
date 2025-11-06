@@ -9,7 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -17,7 +17,7 @@ import javafx.util.Duration;
 public class LoadingScreenController {
 
     @FXML
-    private StackPane rootPane;
+    private AnchorPane rootPane;
     
     @FXML
     private Label loadingLabel;
@@ -54,7 +54,7 @@ public class LoadingScreenController {
 
         // Create a timeline that updates every 300ms
         dotAnimation = new Timeline(new KeyFrame(Duration.millis(300), event -> {
-            loadingLabel.setText("Luring moose" + dots[index[0]]);
+            loadingLabel.setText("Luring Moosages" + dots[index[0]]);
             index[0] = (index[0] + 1) % dots.length;
         }));
         
