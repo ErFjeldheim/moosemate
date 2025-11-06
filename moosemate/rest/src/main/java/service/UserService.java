@@ -1,11 +1,11 @@
 package service;
 
 import model.User;
+import org.springframework.stereotype.Service;
 import repository.UserRepository;
+
 import java.util.Map;
 import java.util.Optional;
-
-import org.springframework.stereotype.Service;
 
 // Service class for handling user data operations.
 // Acts as a bridge between other services and the persistence layer.
@@ -39,10 +39,10 @@ public class UserService {
             try {
                 // Convert Map to User object
                 User user = new User(
-                    userData.get("username"),
-                    userData.get("email"),
-                    userData.get("password"),
-                    userData.get("userID")
+                        userData.get("username"),
+                        userData.get("email"),
+                        userData.get("password"),
+                        userData.get("userID")
                 );
                 
                 return user;

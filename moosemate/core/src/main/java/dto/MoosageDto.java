@@ -22,8 +22,9 @@ public class MoosageDto {
         this.edited = false;
     }
     
-    public MoosageDto(Long id, String content, String authorId, String authorUsername, 
-                      LocalDateTime time, Set<String> likedByUserIds) {
+    public MoosageDto(Long id, String content, String authorId,
+                      String authorUsername, LocalDateTime time,
+                      Set<String> likedByUserIds) {
         this.id = id;
         this.content = content;
         this.authorId = authorId;
@@ -31,6 +32,22 @@ public class MoosageDto {
         this.time = time;
         this.likedByUserIds = likedByUserIds != null ? likedByUserIds : new HashSet<>();
         this.edited = false;
+    }
+    
+    // Factory method for converting from Moosage model
+    public static MoosageDto fromMoosage(model.Moosage moosage) {
+        if (moosage == null) {
+            return null;
+        }
+        MoosageDto dto = new MoosageDto();
+        dto.setId(moosage.getId());
+        dto.setContent(moosage.getContent());
+        dto.setAuthorId(moosage.getAuthor().getUserID());
+        dto.setAuthorUsername(moosage.getAuthor().getUsername());
+        dto.setTime(moosage.getTime());
+        dto.setLikedByUserIds(new HashSet<>(moosage.getLikedByUserIds()));
+        dto.setEdited(moosage.isEdited());
+        return dto;
     }
     
     public Long getId() {

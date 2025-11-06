@@ -1,10 +1,11 @@
 package repository;
 
-import model.User;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
+import model.User;
 import org.springframework.stereotype.Repository;
+import util.IdGenerator;
+import util.JsonFileHandler;
+import util.ValidationUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,68 +14,56 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 
- // Repository class for managing User data persistence using JSON files.
- // Handles CRUD operations for User objects using the same pattern as UserService.
+/**
+ * Repository class for managing User data persistence using JSON files.
+ * Handles CRUD operations for User objects using the same pattern as UserService.
+ */
 @Repository
 public class UserRepository {
     
     private static final String DATA_FILE_PATH = "persistence/src/main/resources/data/data.json";
     
-    private final ObjectMapper objectMapper;
+    private final JsonFileHandler fileHandler;
     private final File dataFile;
 
     public UserRepository() {
-        this(null);
+        this(new JsonFileHandler());
     }
 
-    public UserRepository(String dataFilePath) {
-        this.objectMapper = new ObjectMapper();
-        this.objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
-        // Use provided path for testing, otherwise use getDataFilePath()
-        if (dataFilePath != null && !dataFilePath.equals(DATA_FILE_PATH)) {
-            // Test mode: use provided path directly
-            this.dataFile = new File(dataFilePath);
-        } else {
-            // Production mode: find correct path
-            this.dataFile = new File(getDataFilePath());
-        }
+    /**
+     * Constructor for testing that accepts a custom JsonFileHandler.
+     * Package-visible to allow test customization across modules.
+     * 
+     * @param fileHandler the JsonFileHandler to use
+     */
+    public UserRepository(JsonFileHandler fileHandler) {
+        this.fileHandler = fileHandler;
+        this.dataFile = new File(fileHandler.getDataFilePath(DATA_FILE_PATH));
         initializeDataFile();
     }
 
-     // Gets the data file path.
-    protected String getDataFilePath() {
-        // Find project root by walking up until we find the persistence directory
-        File dir = new File(System.getProperty("user.dir")).getAbsoluteFile();
-        while (dir != null && !new File(dir, "persistence").exists()) {
-            dir = dir.getParentFile();
-        }
-        // Once we find the moosemate root, construct path directly to persistence module
-        if (dir != null) {
-            File persistenceDir = new File(dir, "persistence");
-            File dataFile = new File(persistenceDir, "src/main/resources/data/data.json");
-            return dataFile.getAbsolutePath();
-        }
-        return new File(DATA_FILE_PATH).getAbsolutePath();
-    }
-
-
-    // Initializes the data file if it doesn't exist or is empty
+    /**
+     * Initializes the data file if it doesn't exist or is empty.
+     */
     private void initializeDataFile() {
         try {
-            if (!dataFile.exists() || dataFile.length() == 0) {
-                dataFile.getParentFile().mkdirs();
-                Map<String, Object> initialData = new HashMap<>();
-                initialData.put("users", new ArrayList<Map<String, String>>());
-                objectMapper.writeValue(dataFile, initialData);
-            }
+            Map<String, Object> initialData = new HashMap<>();
+            initialData.put("users", new ArrayList<Map<String, String>>());
+            fileHandler.initializeDataFile(dataFile, initialData);
         } catch (IOException e) {
             System.err.println("Initializing the data file failed: " + e.getMessage());
         }
     }
 
-    // Creates a new user in the repository.
+    /**
+     * Creates a new user in the repository.
+     * 
+     * @param username the username
+     * @param email the email address
+     * @param password the password (should be hashed before calling this method)
+     * @return true if user was created successfully, false otherwise
+     */
     public boolean createUser(String username, String email, String password) {
         try {
             // Check if user already exists
@@ -88,7 +77,7 @@ public class UserRepository {
                 return false;
             }
 
-            String userID = UUID.randomUUID().toString();
+            String userID = IdGenerator.generateUserId();
 
             // Validate input using User class (this will throw exceptions for invalid data)
             User newUser = new User(username, email, password, userID);
@@ -115,8 +104,8 @@ public class UserRepository {
             users.add(userMap);
 
             // Write to file to store user in json
-            objectMapper.writeValue(dataFile, data);
-            System.out.println("User successfully registered: " + username);
+            fileHandler.writeJsonToFile(dataFile, data);
+
             return true;
 
         } catch (IllegalArgumentException e) {
@@ -128,10 +117,15 @@ public class UserRepository {
         }
     }
 
-    // Finds a user by username or email.
+    /**
+     * Finds a user by username or email.
+     * 
+     * @param usernameOrEmail the username or email to search for
+     * @return Optional containing the user data if found, empty otherwise
+     */
     public Optional<Map<String, String>> findByUsernameOrEmail(String usernameOrEmail) {
         // Handle null or empty input
-        if (usernameOrEmail == null || usernameOrEmail.isEmpty()) {
+        if (ValidationUtils.isNullOrEmpty(usernameOrEmail)) {
             return Optional.empty();
         }
         
@@ -149,8 +143,8 @@ public class UserRepository {
             }
 
             return users.stream()
-                    .filter(user -> usernameOrEmail.equals(user.get("username")) || 
-                                   usernameOrEmail.equals(user.get("email")))
+                    .filter(user -> usernameOrEmail.equals(user.get("username"))
+                                   || usernameOrEmail.equals(user.get("email")))
                     .findFirst();
 
         } catch (IOException e) {
@@ -159,9 +153,15 @@ public class UserRepository {
         }
     }
 
-    // Finds a user by userID, so that MoosageRepository can convert authorID (String UUID) to User object when a moosage loads
+    /**
+     * Finds a user by userID, so that MoosageRepository can convert authorID (String UUID) 
+     * to User object when a moosage loads.
+     * 
+     * @param userId the user ID to search for
+     * @return Optional containing the User object if found, empty otherwise
+     */
     public Optional<User> getUserById(String userId) {
-        if (userId == null || userId.isEmpty()) {
+        if (ValidationUtils.isNullOrEmpty(userId)) {
             return Optional.empty();
         }
         
@@ -194,7 +194,12 @@ public class UserRepository {
         }
     }
 
-    // Checks if a username already exists
+    /**
+     * Checks if a username already exists.
+     * 
+     * @param username the username to check
+     * @return true if username exists, false otherwise
+     */
     public boolean userExists(String username) {
         try {
             if (username == null || !dataFile.exists()) {
@@ -218,7 +223,12 @@ public class UserRepository {
         }
     }
 
-    // Checks if an email already exists
+    /**
+     * Checks if an email already exists.
+     * 
+     * @param email the email to check
+     * @return true if email exists, false otherwise
+     */
     public boolean emailExists(String email) {
         try {
             if (email == null || !dataFile.exists()) {
@@ -242,14 +252,19 @@ public class UserRepository {
         }
     }
 
-    // Reads data from the JSON file
+    /**
+     * Reads data from the JSON file.
+     * 
+     * @return the data map
+     * @throws IOException if file reading fails
+     */
     private Map<String, Object> readDataFromFile() throws IOException {
         if (!dataFile.exists()) {
             Map<String, Object> emptyData = new HashMap<>();
             emptyData.put("users", new ArrayList<Map<String, String>>());
             return emptyData;
         }
-        TypeReference<Map<String, Object>> typeReference = new TypeReference<Map<String, Object>>() {};
-        return objectMapper.readValue(dataFile, typeReference);
+        TypeReference<Map<String, Object>> typeReference = new TypeReference<Map<String, Object>>() { };
+        return fileHandler.readJsonFromFile(dataFile, typeReference);
     }
 }

@@ -1,22 +1,16 @@
 package controller;
 
-import org.springframework.boot.autoconfigure.web.ServerProperties.Reactive.Session;
-
 import dto.ApiResponse;
 import dto.LoginResponse;
-
 import javafx.event.ActionEvent;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Label;
-
 import service.ApiClient;
 import service.SessionManager;
+import util.ValidationUtils;
 
-// controller for login view
 public class LoginController extends BaseController {
 
     @FXML
@@ -34,10 +28,9 @@ public class LoginController extends BaseController {
     private final ApiClient apiClient;
 
     public LoginController() {
-        this.apiClient = new ApiClient();
+        this.apiClient = ApiClient.getInstance();
     }
 
-    // navigates to sign up page
     @FXML
     private void handleSignUpButton(ActionEvent event) {
         try {
@@ -47,30 +40,24 @@ public class LoginController extends BaseController {
         }
     }
 
-    // handles login button and navigates to home page if user exists
     @FXML
     private void handleLoginButton(ActionEvent event) {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
-        // clear previous errors
         clearError();
 
-        // validate input
-        if (username.isEmpty() || password.isEmpty()) {
+        if (ValidationUtils.anyNullOrEmpty(username, password)) {
             showError("Username and password are required");
             return;
         }
 
         try {
-            // call API
             ApiResponse<LoginResponse> response = apiClient.login(username, password);
 
             if (response.isSuccess()) {
                 // store session
                 SessionManager.getInstance().login(response.getData());
-                
-                // Show loading screen after successful login
                 navigateToOtherPage(event, "/fxml/loadingscreen.fxml", "Loading...");
             } else {
                 showError(response.getMessage());

@@ -1,12 +1,11 @@
 package service;
 
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-
-import org.springframework.stereotype.Service;
-
 import model.User;
+import org.springframework.stereotype.Service;
+import util.IdGenerator;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class SessionService {
@@ -15,9 +14,8 @@ public class SessionService {
 
     // creates new session, returns unique UUID token for each session
     public String createSession(User user) {
-        String sessionToken = UUID.randomUUID().toString();
+        String sessionToken = IdGenerator.generateUUID();
         activeSessions.put(sessionToken, user);
-        System.out.println("Created session for user " + user.getUsername() + " with sessionID: " + sessionToken);
         return sessionToken;
     }
 
@@ -37,11 +35,7 @@ public class SessionService {
         return sessionToken != null && activeSessions.containsKey(sessionToken);
     }
 
-    // removes session when user logs out
     public void terminateSession(String sessionToken) {
-        User user = activeSessions.remove(sessionToken);
-        if (user != null) {
-            System.out.println("Logout successful for: " + user.getUsername());
-        }
+        activeSessions.remove(sessionToken);
     }
 }

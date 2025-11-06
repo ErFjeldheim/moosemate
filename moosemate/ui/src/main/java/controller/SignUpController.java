@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import service.ApiClient;
+import util.ValidationUtils;
 
 public class SignUpController extends BaseController {
     
@@ -21,12 +22,11 @@ public class SignUpController extends BaseController {
     private final ApiClient apiClient;
 
     public SignUpController() {
-        this.apiClient = new ApiClient();
+        this.apiClient = ApiClient.getInstance();
     }
-    
+
     @FXML
     private void handleSignUpButton(ActionEvent event) {
-        // Clear any previous error messages
         clearError(); 
         
         String username = usernameField.getText();
@@ -34,13 +34,11 @@ public class SignUpController extends BaseController {
         String password = passwordField.getText();
         
         try {
-            // Validate input
-            if (username.isEmpty() || email.isEmpty() || password.isEmpty()) {
+            if (ValidationUtils.anyNullOrEmpty(username, email, password)) {
                 showError("All fields are required");
                 return;
             }
             
-            // Call REST API
             ApiResponse<?> response = apiClient.signUp(username, email, password);
             
             if (response.isSuccess()) {

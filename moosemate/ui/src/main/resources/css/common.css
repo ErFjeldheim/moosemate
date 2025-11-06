@@ -1,9 +1,6 @@
 /* Common styles shared across all pages */
 
-/* Set Chewy Regular as default font (loaded programmatically) */
-.root {
-    -fx-font-family: "Chewy";
-    -fx-font-weight: normal;
+/* This is the color palette used for MooseMate
 
     --dark-green: #1f493d;
     --green: #336659;
@@ -12,7 +9,12 @@
     --dark-grey: #3d3d3d;
     --white: #ffffff;
     --alert: #d27d56;
-    --success: #88a37f;
+    --success: #88a37f; */
+
+/* Set Chewy Regular as default font (loaded programmatically) */
+.root {
+    -fx-font-family: "Chewy";
+    -fx-font-weight: normal;
 }
 
 
@@ -20,13 +22,13 @@
 .button {
     cursor: pointer;
     -fx-cursor: hand;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 2, 0, 0, 1);
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 2, 0, 0, 1);
     -fx-background-color: #1f493d; /* dark-green */
 }
 
 /* General button hover effect for all buttons */
 .button:hover {
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 4, 0, 0, 2);
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 4, 0, 0, 2);
     -fx-scale-x: 1.02;
     -fx-scale-y: 1.02;
     -fx-background-color: #6b8f71; /* main-green */
@@ -34,7 +36,7 @@
 
 /* Error message styling */
 .error-label {
-    -fx-text-fill: #3d3d3d;
+    -fx-text-fill: #3d3d3d; /* dark-grey */
     -fx-font-size: 12px;
     -fx-padding: 5px 0 0 0;
 }
@@ -51,4 +53,3 @@
 .loading-label {
     -fx-text-fill: #f3efe8; /* light-beige */
 }
-

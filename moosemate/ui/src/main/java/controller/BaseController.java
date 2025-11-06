@@ -25,10 +25,7 @@ public class BaseController {
         FXMLLoader loader = new FXMLLoader(resourceUrl);
         Parent root = loader.load();
         
-        // Get the current stage 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        
-        // Opens the new fxml file in the same window/tab
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setTitle(title);
@@ -46,23 +43,18 @@ public class BaseController {
         FXMLLoader loader = new FXMLLoader(resourceUrl);
         Parent root = loader.load();
         
-        // Get the controller of the target page to set success message
         BaseController targetController = loader.getController();
         if (targetController != null) {
             targetController.showSuccess(successMessage);
         }
         
-        // Get the current stage 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        
-        // Opens the new fxml file in the same window/tab
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setTitle(title);
         stage.show();
     }
 
-    //Displays error message to user
     protected void showError(String message) {
         if (errorLabel != null) {
             errorLabel.setText(message);
@@ -72,7 +64,6 @@ public class BaseController {
         }
     }
 
-    //Displays success message to user
     protected void showSuccess(String message) {
         if (errorLabel != null) {
             errorLabel.setText(message);
@@ -82,7 +73,6 @@ public class BaseController {
         }
     }
 
-    //Clears the error message from the page
     protected void clearError() {
         if (errorLabel != null) {
             errorLabel.setText("");

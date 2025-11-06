@@ -1,7 +1,5 @@
 package controller;
 
-import java.util.List;
-
 import dto.ApiResponse;
 import dto.MoosageDto;
 import javafx.collections.FXCollections;
@@ -13,6 +11,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import service.ApiClient;
 import service.SessionManager;
+import util.ValidationUtils;
+
+import java.util.List;
 
 public class HomePageController extends BaseController {
 
@@ -41,33 +42,24 @@ public class HomePageController extends BaseController {
     public void initialize() {
         // Get the current username from SessionManager
         String username = SessionManager.getInstance().getUsername();
-        
-        // // Set the logged in message
-        // if (username != null && !username.isEmpty()) {
-        //     loggedInLabel.setText("You are logged in as: " + username);
-        // } else {
-        //     loggedInLabel.setText("Error logging in user");
-        // }
 
-        // Add listener to update character count
+        if (!ValidationUtils.isNullOrEmpty(username)) {
+            postTextArea.setPromptText("What's between your antlers, " + username + "?");
+        }
+
         postTextArea.textProperty().addListener((observable, oldValue, newValue) -> {
             updateCharCount(newValue);
         });
 
-        // Limit text length
         postTextArea.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.length() > MAX_CHARS) {
                 postTextArea.setText(oldValue);
             }
         });
 
-        // Load moosages from backend
         loadMoosages();
     }
 
-    /**
-     * Updates the character count label for post text area
-     */
     private void updateCharCount(String text) {
         int length = text != null ? text.length() : 0;
         postCharCountLabel.setText(length + "/" + MAX_CHARS);
@@ -80,16 +72,10 @@ public class HomePageController extends BaseController {
         }
     }
 
-    // Loads moosages from the backend API and displays them in the list view
     private void loadMoosages() {
-        System.out.println("=== Starting to load moosages ===");
         try {
-            ApiClient apiClient = new ApiClient();
+            ApiClient apiClient = ApiClient.getInstance();
             ApiResponse<List<MoosageDto>> response = apiClient.getMoosages();
-            
-            System.out.println("API Response - Success: " + response.isSuccess());
-            System.out.println("API Response - Message: " + response.getMessage());
-            System.out.println("API Response - Data null? " + (response.getData() == null));
             
             if (response.isSuccess() && response.getData() != null) {
                 moosages = FXCollections.observableArrayList(response.getData());
@@ -101,35 +87,27 @@ public class HomePageController extends BaseController {
                     cell.setOnDeleteCallback(this::handleMoosageDeleted);
                     return cell;
                 });
-                
-                System.out.println("Successfully loaded " + moosages.size() + " moosages");
-                for (MoosageDto m : moosages) {
-                    System.out.println("  - " + m.getAuthorUsername() + ": " + m.getContent());
-                }
             } else {
                 System.err.println("Failed to load moosages: " + response.getMessage());
             }
             
         } catch (Exception e) {
             System.err.println("Error loading moosages: " + e.getMessage());
-            e.printStackTrace();
         }
     }
 
     @FXML
-    private void handlePostButton(ActionEvent event) {
+    private void handleCreatePost(ActionEvent event) {
         String content = postTextArea.getText();
-        if (content == null || content.trim().isEmpty()) {
-            System.out.println("Nothing to post");
+        if (ValidationUtils.isNullOrEmpty(content)) {
             return;
         }
 
-        // Disable UI while posting
         postButton.setDisable(true);
 
         new Thread(() -> {
             try {
-                ApiClient apiClient = new ApiClient();
+                ApiClient apiClient = ApiClient.getInstance();
                 ApiResponse<MoosageDto> response = apiClient.postMoosage(content.trim());
 
                 if (response != null && response.isSuccess() && response.getData() != null) {
@@ -144,16 +122,15 @@ public class HomePageController extends BaseController {
                                 return cell;
                             });
                         }
-                        // Add new moosage at top
                         moosages.add(0, created);
                         postTextArea.clear();
                     });
                 } else {
-                    System.err.println("Failed to create moosage: " + (response != null ? response.getMessage() : "null response"));
+                    System.err.println("Failed to create moosage: " 
+                            + (response != null ? response.getMessage() : "null response"));
                 }
             } catch (Exception e) {
                 System.err.println("Error posting moosage: " + e.getMessage());
-                e.printStackTrace();
             } finally {
                 javafx.application.Platform.runLater(() -> postButton.setDisable(false));
             }
@@ -164,7 +141,6 @@ public class HomePageController extends BaseController {
     private void handleMoosageDeleted(MoosageDto deletedMoosage) {
         if (moosages != null) {
             moosages.remove(deletedMoosage);
-            System.out.println("Removed moosage from list: " + deletedMoosage.getId());
         }
     }
 
@@ -175,15 +151,11 @@ public class HomePageController extends BaseController {
             String sessionToken = SessionManager.getInstance().getSessionToken();
             
             if (sessionToken != null) {
-                // Call logout endpoint on server
-                ApiClient apiClient = new ApiClient();
+                ApiClient apiClient = ApiClient.getInstance();
                 apiClient.logout(sessionToken);
-                System.out.println("Logout request sent to server");
             }
             
-            // Clear local session data
             SessionManager.getInstance().logout();
-            System.out.println("Local session cleared");
             
             // Load and navigate to login page
             java.net.URL resourceUrl = getClass().getResource("/fxml/loginpage.fxml");
@@ -193,7 +165,6 @@ public class HomePageController extends BaseController {
             javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(resourceUrl);
             javafx.scene.Parent root = loader.load();
             
-            // Get stage and set new scene
             Stage stage = (Stage) logoutIcon.getScene().getWindow();
             javafx.scene.Scene scene = new javafx.scene.Scene(root);
             stage.setScene(scene);
@@ -202,8 +173,6 @@ public class HomePageController extends BaseController {
             
         } catch (Exception e) {
             System.err.println("Error occurred when trying to logout: " + e.getMessage());
-            e.printStackTrace();
-            e.printStackTrace();
         }
     }
     

@@ -1,8 +1,5 @@
 package controller;
 
-import java.io.IOException;
-import java.util.function.Consumer;
-
 import dto.ApiResponse;
 import dto.MoosageDto;
 import javafx.application.Platform;
@@ -21,6 +18,10 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import service.ApiClient;
+import util.ValidationUtils;
+
+import java.io.IOException;
+import java.util.function.Consumer;
 
 // Custom ListCell for displaying MoosageDto objects in a ListView.
 // Uses moosagecell.fxml for layout.
@@ -64,24 +65,18 @@ public class MoosageListCell extends ListCell<MoosageDto> {
     protected void updateItem(MoosageDto moosage, boolean empty) {
         super.updateItem(moosage, empty);
         
-        System.out.println("MoosageListCell.updateItem called - empty: " + empty + ", moosage: " + (moosage != null ? moosage.getContent() : "null"));
-        
         if (empty || moosage == null) {
             setText(null);
             setGraphic(null);
         } else {
-            // Load FXML each time (or reuse if already loaded for this cell)
             if (cellContent == null) {
-                System.out.println("Loading FXML for cell...");
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/moosagecell.fxml"));
                 loader.setController(this);
                 
                 try {
                     cellContent = loader.load();
-                    System.out.println("FXML loaded successfully");
                 } catch (IOException e) {
                     System.err.println("Error loading moosagecell.fxml: " + e.getMessage());
-                    e.printStackTrace();
                     return;
                 }
             }
@@ -101,7 +96,6 @@ public class MoosageListCell extends ListCell<MoosageDto> {
                 editedLabel.setManaged(false);
             }
             
-            // Update like button text and style based on current user's like status
             updateLikeButton(moosage);
             likeButton.setOnAction(event -> handleLike(moosage));
             
@@ -117,12 +111,10 @@ public class MoosageListCell extends ListCell<MoosageDto> {
                 menuButton.setManaged(false);
             }
             
-            System.out.println("Setting graphic for moosage: " + moosage.getContent().substring(0, Math.min(20, moosage.getContent().length())));
             setGraphic(cellContent);
         }
     }
     
-    // Formats the timestamp for display
     private String formatTimestamp(java.time.LocalDateTime dateTime) {
         if (dateTime == null) {
             return "";
@@ -133,7 +125,6 @@ public class MoosageListCell extends ListCell<MoosageDto> {
         
         long hours = duration.toHours();
         
-        // If less than 24 hours ago, show "X hours ago"
         if (hours < 24) {
             if (hours == 0) {
                 long minutes = duration.toMinutes();
@@ -155,13 +146,11 @@ public class MoosageListCell extends ListCell<MoosageDto> {
         return dateTime.format(java.time.format.DateTimeFormatter.ofPattern("MMM dd, yyyy HH:mm"));
     }
     
-    // Updates like button text and style based on whether current user has liked the moosage
     private void updateLikeButton(MoosageDto moosage) {
         String currentUserId = service.SessionManager.getInstance().getUserId();
         boolean isLiked = currentUserId != null && moosage.isLikedBy(currentUserId);
         int likeCount = moosage.getLikeCount();
         
-        // Update button text with like count
         likeButton.setText("♥ " + likeCount);
         
         // Add or remove "liked" style class
@@ -174,12 +163,10 @@ public class MoosageListCell extends ListCell<MoosageDto> {
         }
     }
     
-    // Handles like button click
     private void handleLike(MoosageDto moosage) {
-        // Call backend to toggle like
         new Thread(() -> {
             try {
-                ApiClient apiClient = new ApiClient();
+                ApiClient apiClient = ApiClient.getInstance();
                 ApiResponse<MoosageDto> response = apiClient.toggleLike(moosage.getId());
                 
                 if (response.isSuccess() && response.getData() != null) {
@@ -187,36 +174,27 @@ public class MoosageListCell extends ListCell<MoosageDto> {
                     
                     // Update UI on JavaFX thread
                     Platform.runLater(() -> {
-                        // Update the moosage data in the list
                         moosage.setLikedByUserIds(updatedMoosage.getLikedByUserIds());
                         
-                        // Update the like button display
                         updateLikeButton(moosage);
-                        System.out.println("Like toggled successfully for moosage: " + moosage.getId());
                     });
                 } else {
                     System.err.println("Failed to toggle like: " + response.getMessage());
                 }
-                
             } catch (Exception e) {
                 System.err.println("Error toggling like: " + e.getMessage());
-                e.printStackTrace();
             }
         }).start();
     }
     
-    // Handles edit button click
     private void handleEdit(MoosageDto moosage) {
         try {
-            // Load the FXML
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editmoosage.fxml"));
             Parent root = loader.load();
 
-            // Get the controller and set initial content
             EditMoosageController dialogController = loader.getController();
             dialogController.setContent(moosage.getContent());
 
-            // Create the stage
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Edit Moosage");
             dialogStage.initModality(Modality.APPLICATION_MODAL);
@@ -224,28 +202,22 @@ public class MoosageListCell extends ListCell<MoosageDto> {
             dialogStage.setScene(new Scene(root));
             dialogStage.setResizable(false);
 
-            // Show the dialog and wait for it to close
             dialogStage.showAndWait();
 
-            // Get the result
             String newContent = dialogController.getResult();
-            if (newContent != null && !newContent.isEmpty() && !newContent.equals(moosage.getContent())) {
-                // Call backend to update moosage
+            if (!ValidationUtils.isNullOrEmpty(newContent) && !newContent.equals(moosage.getContent())) {
                 new Thread(() -> {
                     try {
-                        ApiClient apiClient = new ApiClient();
+                        ApiClient apiClient = ApiClient.getInstance();
                         ApiResponse<MoosageDto> response = apiClient.updateMoosage(moosage.getId(), newContent.trim());
                         
                         if (response.isSuccess() && response.getData() != null) {
                             MoosageDto updatedMoosage = response.getData();
                             
-                            // Update UI on JavaFX thread
                             Platform.runLater(() -> {
                                 contentText.setText(updatedMoosage.getContent());
-                                // Show "(edited)" label
                                 editedLabel.setVisible(true);
                                 editedLabel.setManaged(true);
-                                System.out.println("Moosage updated successfully: " + moosage.getId());
                             });
                         } else {
                             System.err.println("Failed to update moosage: " + response.getMessage());
@@ -253,31 +225,25 @@ public class MoosageListCell extends ListCell<MoosageDto> {
                         
                     } catch (Exception e) {
                         System.err.println("Error updating moosage: " + e.getMessage());
-                        e.printStackTrace();
                     }
                 }).start();
             }
         } catch (Exception e) {
             System.err.println("Failed to open edit dialog: " + e.getMessage());
-            e.printStackTrace();
         }
     }
     
-    // Handles delete button click
     private void handleDelete(MoosageDto moosage) {
-        // Call backend to delete moosage
         new Thread(() -> {
             try {
-                ApiClient apiClient = new ApiClient();
+                ApiClient apiClient = ApiClient.getInstance();
                 ApiResponse<Void> response = apiClient.deleteMoosage(moosage.getId());
                 
                 if (response.isSuccess()) {
-                    // Notify parent to remove from list
                     Platform.runLater(() -> {
                         if (onDeleteCallback != null) {
                             onDeleteCallback.accept(moosage);
                         }
-                        System.out.println("Moosage deleted successfully: " + moosage.getId());
                     });
                 } else {
                     System.err.println("Failed to delete moosage: " + response.getMessage());
@@ -285,7 +251,6 @@ public class MoosageListCell extends ListCell<MoosageDto> {
                 
             } catch (Exception e) {
                 System.err.println("Error deleting moosage: " + e.getMessage());
-                e.printStackTrace();
             }
         }).start();
     }

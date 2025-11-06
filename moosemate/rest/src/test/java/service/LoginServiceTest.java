@@ -1,20 +1,31 @@
 package service;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.AfterEach;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import model.User;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import repository.UserRepository;
+import util.JsonFileHandler;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 
-// Test class for LoginService
-// Tests the LoginService that delegates to UserService and PasswordService
+/**
+ * Test class for LoginService.
+ * Tests the LoginService that delegates to UserService and PasswordService.
+ */
 public class LoginServiceTest {
 
     private LoginService loginService;
@@ -23,12 +34,29 @@ public class LoginServiceTest {
     private UserRepository userRepository;
     private final String testDataFile = "rest/target/test-data/test-login-data.json";
 
+    /**
+     * Test implementation of JsonFileHandler that uses a custom file path.
+     */
+    private static class TestJsonFileHandler extends JsonFileHandler {
+        private final String testFilePath;
+
+        TestJsonFileHandler(String testFilePath) {
+            super();
+            this.testFilePath = testFilePath;
+        }
+
+        @Override
+        public String getDataFilePath(String relativePath) {
+            return testFilePath;
+        }
+    }
+
     @BeforeEach
     public void setUp() {
         // Clean up any existing test data
         cleanupTestFile();
         // Initialize services with test isolation
-        userRepository = new UserRepository(testDataFile);
+        userRepository = new UserRepository(new TestJsonFileHandler(testDataFile));
         userService = new UserService(userRepository);
         passwordService = new PasswordService();
         loginService = new LoginService(userService, passwordService);
@@ -47,16 +75,16 @@ public class LoginServiceTest {
     }
     
     private void createTestDataFile() throws IOException {
-        String testData = "{\n" +
-                "  \"users\": [\n" +
-                "    {\n" +
-                "      \"username\": \"testuser\",\n" +
-                "      \"email\": \"test@example.com\",\n" +
-                "      \"password\": \"password123\",\n" +
-                "      \"userID\": \"test-uuid\"\n" +
-                "    }\n" +
-                "  ]\n" +
-                "}";
+        String testData = "{\n"
+                + "  \"users\": [\n"
+                + "    {\n"
+                + "      \"username\": \"testuser\",\n"
+                + "      \"email\": \"test@example.com\",\n"
+                + "      \"password\": \"password123\",\n"
+                + "      \"userID\": \"test-uuid\"\n"
+                + "    }\n"
+                + "  ]\n"
+                + "}";
         Files.write(Paths.get(testDataFile), testData.getBytes());
     }
 
@@ -157,12 +185,16 @@ public class LoginServiceTest {
         userService.createUser("user2", "user2@example.com", hashedPassword2);
         
         // Test login for both users
-        assertNotNull(loginService.loginUser("user1", "password1"), "User1 should login successfully");
-        assertNotNull(loginService.loginUser("user2@example.com", "password2"), "User2 should login successfully with email");
+        assertNotNull(loginService.loginUser("user1", "password1"),
+                "User1 should login successfully");
+        assertNotNull(loginService.loginUser("user2@example.com", "password2"),
+                "User2 should login successfully with email");
         
         // Test cross-login failures
-        assertNull(loginService.loginUser("user1", "password2"), "User1 should not login with user2's password");
-        assertNull(loginService.loginUser("user2", "password1"), "User2 should not login with user1's password");
+        assertNull(loginService.loginUser("user1", "password2"),
+                "User1 should not login with user2's password");
+        assertNull(loginService.loginUser("user2", "password1"),
+                "User2 should not login with user1's password");
     }
 
     @Test
@@ -293,16 +325,16 @@ public class LoginServiceTest {
 
     @Test
     public void testUserExistsWithSpecialCharacters() throws IOException {
-        String testDataWithSpecialChars = "{\n" +
-                "  \"users\": [\n" +
-                "    {\n" +
-                "      \"username\": \"user@#$%\",\n" +
-                "      \"email\": \"special@test.com\",\n" +
-                "      \"password\": \"pass@123!\",\n" +
-                "      \"userID\": \"special-uuid\"\n" +
-                "    }\n" +
-                "  ]\n" +
-                "}";
+        String testDataWithSpecialChars = "{\n"
+                + "  \"users\": [\n"
+                + "    {\n"
+                + "      \"username\": \"user@#$%\",\n"
+                + "      \"email\": \"special@test.com\",\n"
+                + "      \"password\": \"pass@123!\",\n"
+                + "      \"userID\": \"special-uuid\"\n"
+                + "    }\n"
+                + "  ]\n"
+                + "}";
         Files.write(Paths.get(testDataFile), testDataWithSpecialChars.getBytes());
         
         boolean result = userService.userExists("user@#$%");
@@ -311,19 +343,19 @@ public class LoginServiceTest {
 
     @Test
     public void testLoginUserWithIncompleteUserData() throws IOException {
-        String incompleteData = "{\n" +
-                "  \"users\": [\n" +
-                "    {\n" +
-                "      \"username\": \"incompleteuser\"\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"email\": \"incomplete@test.com\"\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"password\": \"password123\"\n" +
-                "    }\n" +
-                "  ]\n" +
-                "}";
+        String incompleteData = "{\n"
+                + "  \"users\": [\n"
+                + "    {\n"
+                + "      \"username\": \"incompleteuser\"\n"
+                + "    },\n"
+                + "    {\n"
+                + "      \"email\": \"incomplete@test.com\"\n"
+                + "    },\n"
+                + "    {\n"
+                + "      \"password\": \"password123\"\n"
+                + "    }\n"
+                + "  ]\n"
+                + "}";
         Files.write(Paths.get(testDataFile), incompleteData.getBytes());
         
         User user1 = loginService.loginUser("incompleteuser", "password123");

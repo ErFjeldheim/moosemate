@@ -30,7 +30,6 @@ public class EditMoosageController {
             updateCharCount(newValue);
         });
 
-        // Limit text length
         contentTextArea.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.length() > MAX_CHARS) {
                 contentTextArea.setText(oldValue);
@@ -38,33 +37,25 @@ public class EditMoosageController {
         });
     }
 
-    /**
-     * Sets the initial content in the text area
-     */
     public void setContent(String content) {
         contentTextArea.setText(content);
         updateCharCount(content);
+        contentTextArea.positionCaret(content != null ? content.length() : 0);
+        contentTextArea.requestFocus();
     }
 
-    /**
-     * Gets the edited content, or null if cancelled
-     */
     public String getResult() {
         return result;
     }
 
-    /**
-     * Updates the character count label
-     */
     private void updateCharCount(String text) {
         int length = text != null ? text.length() : 0;
         charCountLabel.setText(length + "/" + MAX_CHARS);
         
-        // Change color if approaching limit
         if (length > MAX_CHARS * 0.9) {
             charCountLabel.setStyle("-fx-text-fill: #c94a4a;");
         } else {
-            charCountLabel.setStyle("-fx-text-fill: #9f9f9f;");
+            charCountLabel.setStyle("-fx-text-fill: #3d3d3dda;");
         }
     }
 
