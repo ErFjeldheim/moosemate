@@ -40,6 +40,8 @@ public class EditMoosageController {
     public void setContent(String content) {
         contentTextArea.setText(content);
         updateCharCount(content);
+        contentTextArea.positionCaret(content != null ? content.length() : 0);
+        contentTextArea.requestFocus();
     }
 
     public String getResult() {

@@ -22,7 +22,7 @@
     </Label>
     
     <!-- Text area for editing -->
-    <TextArea fx:id="contentTextArea" prefHeight="150.0" promptText="Enter your moosage..." wrapText="true">
+    <TextArea fx:id="contentTextArea" prefHeight="150.0" wrapText="true">
         <font>
             <Font name="Poppins Medium" size="13" />
         </font>
