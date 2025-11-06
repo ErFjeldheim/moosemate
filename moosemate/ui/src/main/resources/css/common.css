@@ -1,21 +1,27 @@
 /* Common styles shared across all pages */
 
-/* Set Optima Regular as default font (loaded programmatically) */
+/* Set Chewy Regular as default font (loaded programmatically) */
 .root {
-    -fx-font-family: "Optima";
+    -fx-font-family: "Chewy";
     -fx-font-weight: normal;
-    -fx-text-fill: #331C0D;
+
+    --dark-green: #1f493d;
+    --green: #336659;
+    --main-green: #6b8f71;
+    --light-beige: #f3efe8;
+    --dark-grey: #3d3d3d;
+    --white: #ffffff;
+    --alert: #d27d56;
+    --success: #88a37f;
 }
 
-/* Main background styling */
-.anchor-pane {
-    -fx-background-color: #f7eedf;
-}
 
 /* General button styling */
 .button {
+    cursor: pointer;
     -fx-cursor: hand;
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 2, 0, 0, 1);
+    -fx-background-color: #1f493d; /* dark-green */
 }
 
 /* General button hover effect for all buttons */
@@ -23,20 +29,26 @@
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 4, 0, 0, 2);
     -fx-scale-x: 1.02;
     -fx-scale-y: 1.02;
+    -fx-background-color: #6b8f71; /* main-green */
 }
 
 /* Error message styling */
 .error-label {
-    -fx-text-fill: #d32f2f;
+    -fx-text-fill: #3d3d3d;
     -fx-font-size: 12px;
-    -fx-font-weight: normal;
     -fx-padding: 5px 0 0 0;
 }
 
 /* Success message styling */
 .success-label {
-    -fx-text-fill: #5B8C5A;
+    -fx-text-fill: #88a37f; /* success */
     -fx-font-size: 12px;
     -fx-font-weight: normal;
     -fx-padding: 5px 0 0 0;
 }
+
+/* Loading label styling */
+.loading-label {
+    -fx-text-fill: #f3efe8; /* light-beige */
+}
+
