@@ -16,7 +16,6 @@ public class SessionService {
     public String createSession(User user) {
         String sessionToken = IdGenerator.generateUUID();
         activeSessions.put(sessionToken, user);
-        System.out.println("Created session for user " + user.getUsername() + " with sessionID: " + sessionToken);
         return sessionToken;
     }
 
@@ -39,8 +38,5 @@ public class SessionService {
     // removes session when user logs out
     public void terminateSession(String sessionToken) {
         User user = activeSessions.remove(sessionToken);
-        if (user != null) {
-            System.out.println("Logout successful for: " + user.getUsername());
-        }
     }
 }

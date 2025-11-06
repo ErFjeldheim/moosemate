@@ -187,12 +187,10 @@ public class MoosageListCell extends ListCell<MoosageDto> {
                         
                         // Update the like button display
                         updateLikeButton(moosage);
-                        System.out.println("Like toggled successfully for moosage: " + moosage.getId());
                     });
                 } else {
                     System.err.println("Failed to toggle like: " + response.getMessage());
                 }
-                
             } catch (Exception e) {
                 System.err.println("Error toggling like: " + e.getMessage());
             }

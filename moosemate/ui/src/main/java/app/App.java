@@ -38,8 +38,7 @@ public class App extends Application {
             Font.loadFont(getClass().getResourceAsStream("/fonts/Chewy-Regular.ttf"), 12);
             Font.loadFont(getClass().getResourceAsStream("/fonts/Chewy-Bold.ttf"), 12);
             Font.loadFont(getClass().getResourceAsStream("/fonts/Poppins-Medium.ttf"), 12);
-
-            System.out.println("Custom fonts loaded successfully");
+            
         } catch (Exception e) {
             System.err.println("Failed to load custom fonts: " + e.getMessage());
         }
