@@ -1,5 +1,9 @@
 package util;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,8 +15,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test class for JsonFileHandler.
@@ -80,7 +82,7 @@ class JsonFileHandlerTest {
         
         fileHandler.writeJsonToFile(file, data);
         
-        TypeReference<Map<String, Object>> typeRef = new TypeReference<Map<String, Object>>() {};
+        TypeReference<Map<String, Object>> typeRef = new TypeReference<Map<String, Object>>() { };
         Map<String, Object> readData = fileHandler.readJsonFromFile(file, typeRef);
         
         assertNotNull(readData, "Read data should not be null");

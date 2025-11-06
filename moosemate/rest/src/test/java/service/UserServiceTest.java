@@ -1,13 +1,18 @@
 package service;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import model.User;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import repository.UserRepository;
 import util.JsonFileHandler;
+
 import java.io.File;
 
 /**
@@ -130,7 +135,7 @@ public class UserServiceTest {
     void testReadDataFromFileWhenFileDoesNotExist() {
         // Create a test repository that points to a file that doesn't exist
         UserRepository nonExistentFileRepository = new UserRepository(
-            new TestJsonFileHandler("./target/non-existent-test-file.json")
+                new TestJsonFileHandler("./target/non-existent-test-file.json")
         );
         UserService nonExistentFileService = new UserService(nonExistentFileRepository);
         
@@ -150,7 +155,7 @@ public class UserServiceTest {
         
         // Create a test repository with a separate test file
         UserRepository ioExceptionRepository = new UserRepository(
-            new TestJsonFileHandler("./target/test-io-exception.json")
+                new TestJsonFileHandler("./target/test-io-exception.json")
         );
         UserService ioExceptionService = new UserService(ioExceptionRepository);
         

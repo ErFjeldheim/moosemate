@@ -192,7 +192,8 @@ public class MoosageListCell extends ListCell<MoosageDto> {
                     new Thread(() -> {
                         try {
                             ApiClient apiClient = new ApiClient();
-                            ApiResponse<MoosageDto> response = apiClient.updateMoosage(moosage.getId(), newContent.trim());
+                            ApiResponse<MoosageDto> response = 
+                                    apiClient.updateMoosage(moosage.getId(), newContent.trim());
                             
                             if (response.isSuccess() && response.getData() != null) {
                                 MoosageDto updatedMoosage = response.getData();

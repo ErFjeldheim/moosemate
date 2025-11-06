@@ -1,7 +1,6 @@
 package model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import util.ValidationUtils;
 
 public final class User {
@@ -19,10 +18,12 @@ public final class User {
     }
 
     // Constructor
-    public User(String username, String email, String password, String userID) {
+    public User(String username, String email, String password,
+                String userID) {
         // Validate parameters first to prevent finalizer attacks
         if (ValidationUtils.anyNullOrEmpty(username, email, password, userID)) {
-            throw new IllegalArgumentException("User parameters cannot be null or empty");
+            throw new IllegalArgumentException(
+                    "User parameters cannot be null or empty");
         }
         
         // Set fields directly to avoid potential issues with setter methods

@@ -5,14 +5,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import model.Moosage;
 import model.User;
-import util.JsonFileHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import util.JsonFileHandler;
 
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 //Repository class for managing Moosage data persistence using JSON files.
@@ -58,7 +62,7 @@ public class MoosageRepository {
     // Loads the moosage storage from file.
     private MoosageStorage loadStorage() {
         try {
-            return fileHandler.readJsonFromFile(dataFile, new TypeReference<MoosageStorage>() {});
+            return fileHandler.readJsonFromFile(dataFile, new TypeReference<MoosageStorage>() { });
         } catch (IOException e) {
             System.err.println("Error loading moosages: " + e.getMessage());
             return new MoosageStorage();
@@ -101,10 +105,10 @@ public class MoosageRepository {
         }
         
         Moosage moosage = new Moosage(
-            storage.nextId++,
-            content,
-            authorOpt.get(),
-            LocalDateTime.now()
+                storage.nextId++,
+                content,
+                authorOpt.get(),
+                LocalDateTime.now()
         );
         
         storage.moosages.add(moosage);
@@ -118,8 +122,8 @@ public class MoosageRepository {
         MoosageStorage storage = loadStorage();
         
         Optional<Moosage> moosageOpt = storage.moosages.stream()
-            .filter(m -> m.getId().equals(moosageId))
-            .findFirst();
+                .filter(m -> m.getId().equals(moosageId))
+                .findFirst();
             
         if (moosageOpt.isPresent()) {
             Moosage moosage = moosageOpt.get();
@@ -143,8 +147,8 @@ public class MoosageRepository {
         MoosageStorage storage = loadStorage();
         
         Optional<Moosage> moosageOpt = storage.moosages.stream()
-            .filter(m -> m.getId().equals(id))
-            .findFirst();
+                .filter(m -> m.getId().equals(id))
+                .findFirst();
             
         if (moosageOpt.isPresent()) {
             Moosage moosage = moosageOpt.get();

@@ -22,8 +22,9 @@ public class MoosageDto {
         this.edited = false;
     }
     
-    public MoosageDto(Long id, String content, String authorId, String authorUsername, 
-                      LocalDateTime time, Set<String> likedByUserIds) {
+    public MoosageDto(Long id, String content, String authorId,
+                      String authorUsername, LocalDateTime time,
+                      Set<String> likedByUserIds) {
         this.id = id;
         this.content = content;
         this.authorId = authorId;

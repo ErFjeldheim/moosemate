@@ -1,12 +1,11 @@
 package service;
 
+import model.User;
+import org.springframework.stereotype.Service;
+import util.IdGenerator;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
-import org.springframework.stereotype.Service;
-
-import model.User;
-import util.IdGenerator;
 
 @Service
 public class SessionService {

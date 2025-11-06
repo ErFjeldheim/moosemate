@@ -2,7 +2,6 @@ package service;
 
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
-
 import util.ValidationUtils;
 
 // Service for handling password operations using BCrypt hashing.

@@ -1,12 +1,17 @@
 package service;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.AfterEach;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import repository.UserRepository;
 import util.JsonFileHandler;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -64,16 +69,16 @@ public class SignUpServiceTest {
     }
     
     private void createTestDataFile() throws IOException {
-        String testData = "{\n" +
-                "  \"users\": [\n" +
-                "    {\n" +
-                "      \"username\": \"existinguser\",\n" +
-                "      \"email\": \"existing@example.com\",\n" +
-                "      \"password\": \"password123\",\n" +
-                "      \"userID\": \"existing-uuid\"\n" +
-                "    }\n" +
-                "  ]\n" +
-                "}";
+        String testData = "{\n"
+                + "  \"users\": [\n"
+                + "    {\n"
+                + "      \"username\": \"existinguser\",\n"
+                + "      \"email\": \"existing@example.com\",\n"
+                + "      \"password\": \"password123\",\n"
+                + "      \"userID\": \"existing-uuid\"\n"
+                + "    }\n"
+                + "  ]\n"
+                + "}";
         Files.write(Paths.get(testDataFile), testData.getBytes());
     }
 
@@ -276,8 +281,10 @@ public class SignUpServiceTest {
         
         // Both should work independently - use timestamp to ensure unique usernames
         long timestamp = System.currentTimeMillis();
-        assertTrue(service1.signUpUser("uniqueUser1_" + timestamp, "unique1_" + timestamp + "@example.com", "password123"));
-        assertTrue(service2.signUpUser("uniqueUser2_" + timestamp, "unique2_" + timestamp + "@example.com", "password456"));
+        assertTrue(service1.signUpUser("uniqueUser1_" + timestamp,
+                "unique1_" + timestamp + "@example.com", "password123"));
+        assertTrue(service2.signUpUser("uniqueUser2_" + timestamp,
+                "unique2_" + timestamp + "@example.com", "password456"));
     }
 
 

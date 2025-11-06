@@ -1,11 +1,11 @@
 package repository;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import model.User;
+import org.springframework.stereotype.Repository;
 import util.IdGenerator;
 import util.JsonFileHandler;
 import util.ValidationUtils;
-import com.fasterxml.jackson.core.type.TypeReference;
-import org.springframework.stereotype.Repository;
 
 import java.io.File;
 import java.io.IOException;
@@ -143,8 +143,8 @@ public class UserRepository {
             }
 
             return users.stream()
-                    .filter(user -> usernameOrEmail.equals(user.get("username")) || 
-                                   usernameOrEmail.equals(user.get("email")))
+                    .filter(user -> usernameOrEmail.equals(user.get("username"))
+                                   || usernameOrEmail.equals(user.get("email")))
                     .findFirst();
 
         } catch (IOException e) {
@@ -264,7 +264,7 @@ public class UserRepository {
             emptyData.put("users", new ArrayList<Map<String, String>>());
             return emptyData;
         }
-        TypeReference<Map<String, Object>> typeReference = new TypeReference<Map<String, Object>>() {};
+        TypeReference<Map<String, Object>> typeReference = new TypeReference<Map<String, Object>>() { };
         return fileHandler.readJsonFromFile(dataFile, typeReference);
     }
 }

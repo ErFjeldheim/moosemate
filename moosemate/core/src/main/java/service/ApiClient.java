@@ -43,7 +43,8 @@ public class ApiClient {
 
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         
-        TypeReference<ApiResponse<LoginResponse>> typeRef = new TypeReference<ApiResponse<LoginResponse>>() {};
+        TypeReference<ApiResponse<LoginResponse>> typeRef =
+                new TypeReference<ApiResponse<LoginResponse>>() { };
         return objectMapper.readValue(response.body(), typeRef);
     }
 
@@ -58,7 +59,8 @@ public class ApiClient {
 
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         
-        TypeReference<ApiResponse<String>> typeRef = new TypeReference<ApiResponse<String>>() {};
+        TypeReference<ApiResponse<String>> typeRef =
+                new TypeReference<ApiResponse<String>>() { };
         return objectMapper.readValue(response.body(), typeRef);
     }
     

@@ -2,14 +2,11 @@ package controller;
 
 import dto.ApiResponse;
 import dto.LoginResponse;
-
 import javafx.event.ActionEvent;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-
 import service.ApiClient;
 import service.SessionManager;
 import util.ValidationUtils;

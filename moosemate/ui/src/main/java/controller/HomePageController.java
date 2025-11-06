@@ -10,10 +10,9 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import service.ApiClient;
 import service.SessionManager;
+import util.ValidationUtils;
 
 import java.util.List;
-
-import util.ValidationUtils;
 
 public class HomePageController extends BaseController {
 
@@ -107,7 +106,8 @@ public class HomePageController extends BaseController {
                         postTextArea.clear();
                     });
                 } else {
-                    System.err.println("Failed to create moosage: " + (response != null ? response.getMessage() : "null response"));
+                    System.err.println("Failed to create moosage: " 
+                            + (response != null ? response.getMessage() : "null response"));
                 }
             } catch (Exception e) {
                 System.err.println("Error posting moosage: " + e.getMessage());

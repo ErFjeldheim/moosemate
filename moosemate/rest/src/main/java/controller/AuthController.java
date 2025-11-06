@@ -1,19 +1,21 @@
 package controller;
 
+import dto.ApiResponse;
+import dto.LoginRequest;
+import dto.LoginResponse;
+import dto.SignUpRequest;
+import model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import service.LoginService;
-import service.SignUpService;
 import service.SessionService;
-
-import dto.LoginRequest;
-import dto.SignUpRequest;
-import dto.ApiResponse;
-import dto.LoginResponse;
-
-import model.User;
+import service.SignUpService;
 import util.ResponseUtils;
 
 @RestController
