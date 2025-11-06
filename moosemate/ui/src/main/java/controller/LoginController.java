@@ -56,6 +56,7 @@ public class LoginController extends BaseController {
             ApiResponse<LoginResponse> response = apiClient.login(username, password);
 
             if (response.isSuccess()) {
+                // store session
                 SessionManager.getInstance().login(response.getData());
                 navigateToOtherPage(event, "/fxml/loadingscreen.fxml", "Loading...");
             } else {

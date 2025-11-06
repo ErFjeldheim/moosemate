@@ -27,6 +27,7 @@ public class LoadingScreenController {
     public void initialize() {
         startLoadingAnimation();
         
+        // Automatically transition to the homepage after 1 second
         PauseTransition pause = new PauseTransition(Duration.seconds(1));
         pause.setOnFinished(event -> {
             if (dotAnimation != null) {
@@ -48,6 +49,7 @@ public class LoadingScreenController {
         final String[] dots = {"", ".", "..", "..."};
         final int[] index = {0};
 
+        // Create a timeline that updates every 300ms
         dotAnimation = new Timeline(new KeyFrame(Duration.millis(300), event -> {
             loadingLabel.setText("Luring Moosages" + dots[index[0]]);
             index[0] = (index[0] + 1) % dots.length;

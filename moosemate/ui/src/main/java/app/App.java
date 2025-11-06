@@ -49,6 +49,7 @@ public class App extends Application {
                 SessionManager.getInstance().logout();
             } catch (Exception e) {
                 System.err.println("Failed to logout on application close: " + e.getMessage());
+                // Clear local session even if server logout fails
                 SessionManager.getInstance().logout();
             }
         }

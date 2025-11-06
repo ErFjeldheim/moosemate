@@ -23,6 +23,9 @@ import util.ValidationUtils;
 import java.io.IOException;
 import java.util.function.Consumer;
 
+// Custom ListCell for displaying MoosageDto objects in a ListView.
+// Uses moosagecell.fxml for layout.
+ 
 public class MoosageListCell extends ListCell<MoosageDto> {
     
     @FXML
@@ -51,6 +54,7 @@ public class MoosageListCell extends ListCell<MoosageDto> {
     
     private VBox cellContent;
     
+    // Callback to notify parent when a moosage is deleted
     private Consumer<MoosageDto> onDeleteCallback;
     
     public void setOnDeleteCallback(Consumer<MoosageDto> callback) {
@@ -83,6 +87,7 @@ public class MoosageListCell extends ListCell<MoosageDto> {
             
             dateLabel.setText(formatTimestamp(moosage.getTime()));
             
+            // Show "(edited)" label if moosage has been edited
             if (moosage.isEdited()) {
                 editedLabel.setVisible(true);
                 editedLabel.setManaged(true);
@@ -94,6 +99,7 @@ public class MoosageListCell extends ListCell<MoosageDto> {
             updateLikeButton(moosage);
             likeButton.setOnAction(event -> handleLike(moosage));
             
+            // Only show menu button if current user is the author
             String currentUserId = service.SessionManager.getInstance().getUserId();
             if (currentUserId != null && currentUserId.equals(moosage.getAuthorId())) {
                 menuButton.setVisible(true);
@@ -136,6 +142,7 @@ public class MoosageListCell extends ListCell<MoosageDto> {
             }
         }
         
+        // Otherwise show full date: "Jan 15, 2025 14:30"
         return dateTime.format(java.time.format.DateTimeFormatter.ofPattern("MMM dd, yyyy HH:mm"));
     }
     
@@ -146,6 +153,7 @@ public class MoosageListCell extends ListCell<MoosageDto> {
         
         likeButton.setText("♥ " + likeCount);
         
+        // Add or remove "liked" style class
         if (isLiked) {
             if (!likeButton.getStyleClass().contains("liked")) {
                 likeButton.getStyleClass().add("liked");
@@ -164,6 +172,7 @@ public class MoosageListCell extends ListCell<MoosageDto> {
                 if (response.isSuccess() && response.getData() != null) {
                     MoosageDto updatedMoosage = response.getData();
                     
+                    // Update UI on JavaFX thread
                     Platform.runLater(() -> {
                         moosage.setLikedByUserIds(updatedMoosage.getLikedByUserIds());
                         
@@ -197,6 +206,7 @@ public class MoosageListCell extends ListCell<MoosageDto> {
 
             String newContent = dialogController.getResult();
             if (!ValidationUtils.isNullOrEmpty(newContent) && !newContent.equals(moosage.getContent())) {
+                // Call backend to update moosage
                 new Thread(() -> {
                     try {
                         ApiClient apiClient = new ApiClient();
@@ -225,6 +235,7 @@ public class MoosageListCell extends ListCell<MoosageDto> {
     }
     
     private void handleDelete(MoosageDto moosage) {
+        // Call backend to delete moosage
         new Thread(() -> {
             try {
                 ApiClient apiClient = new ApiClient();

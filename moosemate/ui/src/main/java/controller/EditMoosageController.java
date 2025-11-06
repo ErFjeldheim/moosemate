@@ -25,6 +25,7 @@ public class EditMoosageController {
 
     @FXML
     private void initialize() {
+        // Add listener to update character count
         contentTextArea.textProperty().addListener((observable, oldValue, newValue) -> {
             updateCharCount(newValue);
         });
