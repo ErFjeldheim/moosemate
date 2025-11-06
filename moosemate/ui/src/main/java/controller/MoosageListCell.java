@@ -166,7 +166,7 @@ public class MoosageListCell extends ListCell<MoosageDto> {
     private void handleLike(MoosageDto moosage) {
         new Thread(() -> {
             try {
-                ApiClient apiClient = new ApiClient();
+                ApiClient apiClient = ApiClient.getInstance();
                 ApiResponse<MoosageDto> response = apiClient.toggleLike(moosage.getId());
                 
                 if (response.isSuccess() && response.getData() != null) {
@@ -206,10 +206,9 @@ public class MoosageListCell extends ListCell<MoosageDto> {
 
             String newContent = dialogController.getResult();
             if (!ValidationUtils.isNullOrEmpty(newContent) && !newContent.equals(moosage.getContent())) {
-                // Call backend to update moosage
                 new Thread(() -> {
                     try {
-                        ApiClient apiClient = new ApiClient();
+                        ApiClient apiClient = ApiClient.getInstance();
                         ApiResponse<MoosageDto> response = apiClient.updateMoosage(moosage.getId(), newContent.trim());
                         
                         if (response.isSuccess() && response.getData() != null) {
@@ -235,10 +234,9 @@ public class MoosageListCell extends ListCell<MoosageDto> {
     }
     
     private void handleDelete(MoosageDto moosage) {
-        // Call backend to delete moosage
         new Thread(() -> {
             try {
-                ApiClient apiClient = new ApiClient();
+                ApiClient apiClient = ApiClient.getInstance();
                 ApiResponse<Void> response = apiClient.deleteMoosage(moosage.getId());
                 
                 if (response.isSuccess()) {

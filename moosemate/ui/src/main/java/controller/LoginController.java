@@ -28,7 +28,7 @@ public class LoginController extends BaseController {
     private final ApiClient apiClient;
 
     public LoginController() {
-        this.apiClient = new ApiClient();
+        this.apiClient = ApiClient.getInstance();
     }
 
     @FXML

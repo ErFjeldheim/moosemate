@@ -22,9 +22,9 @@ public class SignUpController extends BaseController {
     private final ApiClient apiClient;
 
     public SignUpController() {
-        this.apiClient = new ApiClient();
+        this.apiClient = ApiClient.getInstance();
     }
-    
+
     @FXML
     private void handleSignUpButton(ActionEvent event) {
         clearError(); 

@@ -74,7 +74,7 @@ public class HomePageController extends BaseController {
 
     private void loadMoosages() {
         try {
-            ApiClient apiClient = new ApiClient();
+            ApiClient apiClient = ApiClient.getInstance();
             ApiResponse<List<MoosageDto>> response = apiClient.getMoosages();
             
             if (response.isSuccess() && response.getData() != null) {
@@ -107,7 +107,7 @@ public class HomePageController extends BaseController {
 
         new Thread(() -> {
             try {
-                ApiClient apiClient = new ApiClient();
+                ApiClient apiClient = ApiClient.getInstance();
                 ApiResponse<MoosageDto> response = apiClient.postMoosage(content.trim());
 
                 if (response != null && response.isSuccess() && response.getData() != null) {
@@ -151,7 +151,7 @@ public class HomePageController extends BaseController {
             String sessionToken = SessionManager.getInstance().getSessionToken();
             
             if (sessionToken != null) {
-                ApiClient apiClient = new ApiClient();
+                ApiClient apiClient = ApiClient.getInstance();
                 apiClient.logout(sessionToken);
             }
             

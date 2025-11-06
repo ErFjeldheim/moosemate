@@ -44,7 +44,7 @@ public class App extends Application {
         
         if (sessionToken != null) {
             try {
-                ApiClient apiClient = new ApiClient();
+                ApiClient apiClient = ApiClient.getInstance();
                 apiClient.logout(sessionToken);
                 SessionManager.getInstance().logout();
             } catch (Exception e) {

@@ -35,8 +35,7 @@ public class SessionService {
         return sessionToken != null && activeSessions.containsKey(sessionToken);
     }
 
-    // removes session when user logs out
     public void terminateSession(String sessionToken) {
-        User user = activeSessions.remove(sessionToken);
+        activeSessions.remove(sessionToken);
     }
 }
