@@ -33,7 +33,7 @@
         <spotbugs.version>4.9.5.0</spotbugs.version>
         <junit.version>5.10.1</junit.version>
         <mockito.version>5.7.0</mockito.version>
-        <jackson.version>2.16.1</jackson.version>
+        <jackson.version>2.18.1</jackson.version>
         <jbcrypt.version>0.4</jbcrypt.version>
         <testfx.version>4.0.18</testfx.version>
     </properties>
