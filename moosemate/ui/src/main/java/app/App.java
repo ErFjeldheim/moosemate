@@ -13,18 +13,14 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        // Load custom fonts from resources
         loadCustomFonts();
         
-        // Set the application icon (appears in window title bar and taskbar)
         primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/Moosemate-icon.png")));
         
-        // Handle window close - logout user if session exists
         primaryStage.setOnCloseRequest(event -> {
             handleApplicationClose();
         });
         
-        // Load the login page
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/loginpage.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         primaryStage.setTitle("MooseMate");
@@ -34,7 +30,6 @@ public class App extends Application {
     
     private void loadCustomFonts() {
         try {
-            // Load all custom fonts used in the application
             Font.loadFont(getClass().getResourceAsStream("/fonts/Chewy-Regular.ttf"), 12);
             Font.loadFont(getClass().getResourceAsStream("/fonts/Chewy-Bold.ttf"), 12);
             Font.loadFont(getClass().getResourceAsStream("/fonts/Poppins-Medium.ttf"), 12);
@@ -44,8 +39,6 @@ public class App extends Application {
         }
     }
     
-    // Handles application close event by logging out user if session exists.
-    // This ensures session is terminated on server when user closes the application.
     private void handleApplicationClose() {
         String sessionToken = SessionManager.getInstance().getSessionToken();
         
@@ -56,7 +49,6 @@ public class App extends Application {
                 SessionManager.getInstance().logout();
             } catch (Exception e) {
                 System.err.println("Failed to logout on application close: " + e.getMessage());
-                // Clear local session even if server logout fails
                 SessionManager.getInstance().logout();
             }
         }

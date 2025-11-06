@@ -11,7 +11,6 @@ import service.ApiClient;
 import service.SessionManager;
 import util.ValidationUtils;
 
-// controller for login view
 public class LoginController extends BaseController {
 
     @FXML
@@ -32,7 +31,6 @@ public class LoginController extends BaseController {
         this.apiClient = new ApiClient();
     }
 
-    // navigates to sign up page
     @FXML
     private void handleSignUpButton(ActionEvent event) {
         try {
@@ -42,30 +40,23 @@ public class LoginController extends BaseController {
         }
     }
 
-    // handles login button and navigates to home page if user exists
     @FXML
     private void handleLoginButton(ActionEvent event) {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
-        // clear previous errors
         clearError();
 
-        // validate input
         if (ValidationUtils.anyNullOrEmpty(username, password)) {
             showError("Username and password are required");
             return;
         }
 
         try {
-            // call API
             ApiResponse<LoginResponse> response = apiClient.login(username, password);
 
             if (response.isSuccess()) {
-                // store session
                 SessionManager.getInstance().login(response.getData());
-                
-                // Show loading screen after successful login
                 navigateToOtherPage(event, "/fxml/loadingscreen.fxml", "Loading...");
             } else {
                 showError(response.getMessage());

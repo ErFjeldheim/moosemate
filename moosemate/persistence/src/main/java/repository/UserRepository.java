@@ -105,7 +105,7 @@ public class UserRepository {
 
             // Write to file to store user in json
             fileHandler.writeJsonToFile(dataFile, data);
-            System.out.println("User successfully registered: " + username);
+
             return true;
 
         } catch (IllegalArgumentException e) {

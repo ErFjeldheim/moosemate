@@ -43,30 +43,23 @@ public class HomePageController extends BaseController {
         // Get the current username from SessionManager
         String username = SessionManager.getInstance().getUsername();
 
-        // Set personalized prompt text
-        if (username != null && !username.isEmpty()) {
+        if (!ValidationUtils.isNullOrEmpty(username)) {
             postTextArea.setPromptText("What's between your antlers, " + username + "?");
         }
 
-        // Add listener to update character count
         postTextArea.textProperty().addListener((observable, oldValue, newValue) -> {
             updateCharCount(newValue);
         });
 
-        // Limit text length
         postTextArea.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.length() > MAX_CHARS) {
                 postTextArea.setText(oldValue);
             }
         });
 
-        // Load moosages from backend
         loadMoosages();
     }
 
-    /**
-     * Updates the character count label for post text area
-     */
     private void updateCharCount(String text) {
         int length = text != null ? text.length() : 0;
         postCharCountLabel.setText(length + "/" + MAX_CHARS);
@@ -79,7 +72,6 @@ public class HomePageController extends BaseController {
         }
     }
 
-    // Loads moosages from the backend API and displays them in the list view
     private void loadMoosages() {
         try {
             ApiClient apiClient = new ApiClient();
@@ -111,7 +103,6 @@ public class HomePageController extends BaseController {
             return;
         }
 
-        // Disable UI while posting
         postButton.setDisable(true);
 
         new Thread(() -> {
@@ -131,7 +122,6 @@ public class HomePageController extends BaseController {
                                 return cell;
                             });
                         }
-                        // Add new moosage at top
                         moosages.add(0, created);
                         postTextArea.clear();
                     });
@@ -161,12 +151,10 @@ public class HomePageController extends BaseController {
             String sessionToken = SessionManager.getInstance().getSessionToken();
             
             if (sessionToken != null) {
-                // Call logout endpoint on server
                 ApiClient apiClient = new ApiClient();
                 apiClient.logout(sessionToken);
             }
             
-            // Clear local session data
             SessionManager.getInstance().logout();
             
             // Load and navigate to login page
@@ -177,7 +165,6 @@ public class HomePageController extends BaseController {
             javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(resourceUrl);
             javafx.scene.Parent root = loader.load();
             
-            // Get stage and set new scene
             Stage stage = (Stage) logoutIcon.getScene().getWindow();
             javafx.scene.Scene scene = new javafx.scene.Scene(root);
             stage.setScene(scene);

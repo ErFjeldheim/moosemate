@@ -27,7 +27,6 @@ public class SignUpController extends BaseController {
     
     @FXML
     private void handleSignUpButton(ActionEvent event) {
-        // Clear any previous error messages
         clearError(); 
         
         String username = usernameField.getText();
@@ -35,13 +34,11 @@ public class SignUpController extends BaseController {
         String password = passwordField.getText();
         
         try {
-            // Validate input
             if (ValidationUtils.anyNullOrEmpty(username, email, password)) {
                 showError("All fields are required");
                 return;
             }
             
-            // Call REST API
             ApiResponse<?> response = apiClient.signUp(username, email, password);
             
             if (response.isSuccess()) {

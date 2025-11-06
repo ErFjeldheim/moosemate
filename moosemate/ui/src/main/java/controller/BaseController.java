@@ -17,7 +17,6 @@ public class BaseController {
     private Label errorLabel; 
     
     protected void navigateToOtherPage(ActionEvent event, String fxmlPath, String title) throws IOException {
-        // Loads the FXML file it want to navigate to - using safer resource loading approach
         java.net.URL resourceUrl = BaseController.class.getResource(fxmlPath);
         if (resourceUrl == null) {
             throw new IOException("FXML resource not found: " + fxmlPath);
@@ -25,20 +24,15 @@ public class BaseController {
         FXMLLoader loader = new FXMLLoader(resourceUrl);
         Parent root = loader.load();
         
-        // Get the current stage 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        
-        // Opens the new fxml file in the same window/tab
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setTitle(title);
         stage.show();
     }
 
-    // Overloaded method to navigate and show success message on target page
     protected void navigateToOtherPageWithSuccess(ActionEvent event, String fxmlPath,
             String title, String successMessage) throws IOException {
-        // Loads the FXML file it want to navigate to - using safer resource loading approach
         java.net.URL resourceUrl = BaseController.class.getResource(fxmlPath);
         if (resourceUrl == null) {
             throw new IOException("FXML resource not found: " + fxmlPath);
@@ -46,23 +40,18 @@ public class BaseController {
         FXMLLoader loader = new FXMLLoader(resourceUrl);
         Parent root = loader.load();
         
-        // Get the controller of the target page to set success message
         BaseController targetController = loader.getController();
         if (targetController != null) {
             targetController.showSuccess(successMessage);
         }
         
-        // Get the current stage 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        
-        // Opens the new fxml file in the same window/tab
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setTitle(title);
         stage.show();
     }
 
-    //Displays error message to user
     protected void showError(String message) {
         if (errorLabel != null) {
             errorLabel.setText(message);
@@ -72,7 +61,6 @@ public class BaseController {
         }
     }
 
-    //Displays success message to user
     protected void showSuccess(String message) {
         if (errorLabel != null) {
             errorLabel.setText(message);
@@ -82,7 +70,6 @@ public class BaseController {
         }
     }
 
-    //Clears the error message from the page
     protected void clearError() {
         if (errorLabel != null) {
             errorLabel.setText("");

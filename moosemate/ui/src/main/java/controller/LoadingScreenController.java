@@ -13,7 +13,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-//Controller for the splash screen that shows while the app loads.
 public class LoadingScreenController {
 
     @FXML
@@ -26,13 +25,10 @@ public class LoadingScreenController {
 
     @FXML
     public void initialize() {
-        // Start the animated dots
         startLoadingAnimation();
         
-        // Automatically transition to the homepage after 3 seconds
         PauseTransition pause = new PauseTransition(Duration.seconds(1));
         pause.setOnFinished(event -> {
-            // Stop the animation
             if (dotAnimation != null) {
                 dotAnimation.stop();
             }
@@ -52,7 +48,6 @@ public class LoadingScreenController {
         final String[] dots = {"", ".", "..", "..."};
         final int[] index = {0};
 
-        // Create a timeline that updates every 300ms
         dotAnimation = new Timeline(new KeyFrame(Duration.millis(300), event -> {
             loadingLabel.setText("Luring Moosages" + dots[index[0]]);
             index[0] = (index[0] + 1) % dots.length;
@@ -63,14 +58,11 @@ public class LoadingScreenController {
     }
 
     private void loadHomePage() throws Exception {
-        // Load the homepage
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/homepage.fxml"));
         Scene homeScene = new Scene(loader.load());
         
-        // Get the current stage from the root pane
         Stage stage = (Stage) rootPane.getScene().getWindow();
         
-        // Set the new scene
         stage.setScene(homeScene);
         stage.setTitle("MooseMate - Home");
     }
