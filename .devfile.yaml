@@ -16,7 +16,7 @@ metadata:
 components:
   - name: tools
     container:
-      image: eclipse/che-java11-maven:latest
+      image: registry.access.redhat.com/ubi8/openjdk-11:latest
       memoryLimit: 2Gi
       mountSources: true
       endpoints:
@@ -26,7 +26,7 @@ components:
           protocol: http
       env:
         - name: MAVEN_OPTS
-          value: -Xmx1024m -Dmaven.repo.local=/home/user/.m2/repository
+          value: -Xmx1024m
 
 commands:
   - id: build
