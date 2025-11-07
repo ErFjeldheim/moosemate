@@ -13,30 +13,7 @@ cd "$SCRIPT_DIR/moosemate"
 
 echo "Starting Backend (REST API)..."
 # Starts backend in a new terminal window
-# Detect OS and use appropriate terminal emulator
-if [[ "$OSTYPE" == "darwin"* ]]; then
-    # macOS
-    osascript -e 'tell application "Terminal" to do script "cd '"$SCRIPT_DIR"'/moosemate && mvn spring-boot:run -pl rest"'
-elif command -v ptyxis &> /dev/null; then
-    # Linux with Ptyxis (GNOME Console)
-    ptyxis -- bash -c "cd '$SCRIPT_DIR/moosemate' && mvn spring-boot:run -pl rest; exec bash"
-elif command -v gnome-terminal &> /dev/null; then
-    # Linux with GNOME Terminal
-    gnome-terminal -- bash -c "cd '$SCRIPT_DIR/moosemate' && mvn spring-boot:run -pl rest; exec bash"
-elif command -v xterm &> /dev/null; then
-    # Linux with xterm
-    xterm -e "cd '$SCRIPT_DIR/moosemate' && mvn spring-boot:run -pl rest; exec bash" &
-elif command -v konsole &> /dev/null; then
-    # Linux with Konsole (KDE)
-    konsole -e bash -c "cd '$SCRIPT_DIR/moosemate' && mvn spring-boot:run -pl rest; exec bash" &
-else
-    # Fallback: run in background
-    echo "No compatible terminal emulator found. Starting backend in background..."
-    cd "$SCRIPT_DIR/moosemate"
-    mvn spring-boot:run -pl rest > backend.log 2>&1 &
-    echo "Backend started in background (PID: $!). Logs in backend.log"
-    cd "$SCRIPT_DIR"
-fi
+osascript -e 'tell application "Terminal" to do script "cd '"$SCRIPT_DIR"'/moosemate && mvn spring-boot:run -pl rest"'
 
 echo "Waiting for backend to start..."
 sleep 2

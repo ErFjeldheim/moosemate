@@ -55,6 +55,9 @@ HTML-link to display test coverage is provided as an echo in the terminal before
 [Open project in Eclipse Che](https://che.stud.ntnu.no/#https://git.ntnu.no/IT1901-2025-groups/gr2524)
 
 
+## Documentation
+
+Documentation is found in the [docs](./docs) folder.
 
 ## Architecture Diagram
 
@@ -146,14 +149,3 @@ The yellow boxes also represent which module each file belongs to.
 
 For further explanation see [technical-documentation.md](/docs/release2/technical-documentation.md)
 
-## Documentation for release 3
-
-Documentation is found in the [docs](./docs) folder.
-
-- **[AI Tools](./docs/release3/ai-tools.md)** - Overview of AI tools used during development, including GitHub Copilot and their impact on productivity
-- **[Challenges](./docs/release3/challenges.md)** - Technical challenges encountered during release 3 and solutions implemented
-- **[Contribution](./docs/release3/contribution.md)** - Individual team member contributions and responsibilities throughout the project
-- **[REST API Format](./docs/release3/rest-format.md)** - Complete REST API documentation including endpoints, request/response formats, and authentication
-- **[Sustainability](./docs/release3/sustainability.md)** - Analysis of sustainable development practices including energy efficiency, version control, and testing strategies
-- **[Teamwork](./docs/release3/teamwork.md)** - Team collaboration processes, workflow organization, and lessons learned
-- **[Work Practices](./docs/release3/workpractices.md)** - Development methodologies, code review processes, and quality assurance practicess

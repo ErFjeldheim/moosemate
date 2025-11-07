@@ -2,6 +2,7 @@ package service;
 
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
+import util.ValidationUtils;
 
 // Service for handling password operations using BCrypt hashing.
 // Provides secure password hashing and verification functionality.
@@ -20,9 +21,8 @@ public class PasswordService {
     
     // Verifies a raw password against a hashed password.
     public boolean verifyPassword(String plainPassword, String hashedPassword) {
-        if (plainPassword == null || hashedPassword == null) {
-            return false;
-        }
+        ValidationUtils.requireNonEmpty(plainPassword, "Password");
+        
         try {
             return BCrypt.checkpw(plainPassword, hashedPassword);
         } catch (IllegalArgumentException e) {

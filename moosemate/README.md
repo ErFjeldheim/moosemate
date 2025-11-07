@@ -7,7 +7,7 @@ MooseMate is a simple social media app where the user can create a profile and p
 
 The user stories act as foundation for the issues provided in the project board. We worked in Agile Scrum with a high-granularity backlog, focusing on many small issues instead of a few large ones.
 
-### 1 User Registration
+### 1 ) User Registration
 As a new user I want to create an account so that I can join the MooseMate forum.
 
 - I can enter a unique username (max 20 characters, no spaces)
@@ -16,7 +16,7 @@ As a new user I want to create an account so that I can join the MooseMate forum
 - The system validates all input fields before creating my account
 - I receive confirmation when my account is successfully created
 
-### 2 Logging in
+### 2) Logging in
 As an already existing member of the MooseMate forum, I want to log in with username/email and password.
 
 ## Illustrating screenshots

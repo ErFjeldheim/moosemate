@@ -1,16 +1,21 @@
 package repository;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import util.JsonFileHandler;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
 import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 //Test class for UserRepository.
 // Tests persistence layer operations for user data.
@@ -19,11 +24,28 @@ class UserRepositoryTest {
     private UserRepository repository;
     private Path testDataFile;
 
+    /**
+     * Test implementation of JsonFileHandler that uses a custom file path.
+     */
+    private static class TestJsonFileHandler extends JsonFileHandler {
+        private final String customPath;
+
+        TestJsonFileHandler(String customPath) {
+            super();
+            this.customPath = customPath;
+        }
+
+        @Override
+        public String getDataFilePath(String relativePath) {
+            return customPath;
+        }
+    }
+
     @BeforeEach
     void setUp() throws IOException {
         // Create a temporary file for test data
         testDataFile = Files.createTempFile("test-data-", ".json");
-        repository = new UserRepository(testDataFile.toString());
+        repository = new UserRepository(new TestJsonFileHandler(testDataFile.toString()));
     }
 
     @AfterEach
@@ -177,7 +199,7 @@ class UserRepositoryTest {
         repository.createUser("persistentuser", "persistent@example.com", "hashedPassword123");
         
         // Create new repository instance with same file
-        UserRepository newRepository = new UserRepository(testDataFile.toString());
+        UserRepository newRepository = new UserRepository(new TestJsonFileHandler(testDataFile.toString()));
         
         // Verify user persists across repository instances
         assertTrue(newRepository.userExists("persistentuser"), 

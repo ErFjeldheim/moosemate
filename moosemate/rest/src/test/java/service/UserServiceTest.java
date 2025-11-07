@@ -1,19 +1,44 @@
 package service;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import model.User;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import repository.UserRepository;
+import util.JsonFileHandler;
+
 import java.io.File;
 
-// Unit tests for UserService.
+/**
+ * Unit tests for UserService.
+ */
 public class UserServiceTest {
     
     private UserService userService;
     private static final String TEST_DATA_FILE = "rest/target/test-data/test-data.json";
+    
+    /**
+     * Test implementation of JsonFileHandler that uses a custom file path.
+     */
+    private static class TestJsonFileHandler extends JsonFileHandler {
+        private final String testFilePath;
+
+        TestJsonFileHandler(String testFilePath) {
+            super();
+            this.testFilePath = testFilePath;
+        }
+
+        @Override
+        public String getDataFilePath(String relativePath) {
+            return testFilePath;
+        }
+    }
     
     @BeforeEach
     public void setUp() {
@@ -24,7 +49,7 @@ public class UserServiceTest {
         }
         
         // Initialize test service with test repository
-        UserRepository testRepository = new UserRepository(TEST_DATA_FILE);
+        UserRepository testRepository = new UserRepository(new TestJsonFileHandler(TEST_DATA_FILE));
         userService = new UserService(testRepository);
     }
     
@@ -109,7 +134,9 @@ public class UserServiceTest {
     @Test
     void testReadDataFromFileWhenFileDoesNotExist() {
         // Create a test repository that points to a file that doesn't exist
-        UserRepository nonExistentFileRepository = new UserRepository("./target/non-existent-test-file.json");
+        UserRepository nonExistentFileRepository = new UserRepository(
+                new TestJsonFileHandler("./target/non-existent-test-file.json")
+        );
         UserService nonExistentFileService = new UserService(nonExistentFileRepository);
         
         // This should trigger the readDataFromFile method's branch where file doesn't exist
@@ -127,7 +154,9 @@ public class UserServiceTest {
         }
         
         // Create a test repository with a separate test file
-        UserRepository ioExceptionRepository = new UserRepository("./target/test-io-exception.json");
+        UserRepository ioExceptionRepository = new UserRepository(
+                new TestJsonFileHandler("./target/test-io-exception.json")
+        );
         UserService ioExceptionService = new UserService(ioExceptionRepository);
         
         // This test verifies no exception is thrown during normal operations
