@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+// Partially implemented by AI (Copilot, Claude sonnet 4.5), 
+// in order to efficiently generate boilerplate code.
 public class Moosage {
     private Long id;
     private String content;

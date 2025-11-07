@@ -6,8 +6,10 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
-// Used for JSON serialization and communication between client and server.
+// Partially implemented by AI (Copilot, Claude sonnet 4.5), 
+// in order to efficiently generate boilerplate code.
 
+// Used for JSON serialization and communication between client and server.
 public class MoosageDto {
     private Long id;
     private String content;

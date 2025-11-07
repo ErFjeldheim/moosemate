@@ -19,6 +19,9 @@ import service.SessionService;
 import service.SignUpService;
 import util.ResponseUtils;
 
+// Partially implemented by AI (Copilot, Claude sonnet 4.5), 
+// due to limited experience with API authentication security.
+
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {

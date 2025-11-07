@@ -7,6 +7,10 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import java.io.File;
 import java.io.IOException;
 
+
+// Partially implemented by AI (Copilot, Claude sonnet 4.5), 
+// in order to efficiently generate boilerplate code.
+
 /**
  * Utility class for handling JSON file operations.
  * Provides methods for file path resolution, initialization, and JSON read/write operations.

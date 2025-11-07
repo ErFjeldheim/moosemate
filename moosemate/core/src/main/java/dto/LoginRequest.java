@@ -1,5 +1,9 @@
 package dto;
 
+// Partially implemented by AI (Copilot, Claude sonnet 4.5), 
+// in order to efficiently generate boilerplate code.
+
+// Request DTO for login requests.
 public class LoginRequest {
     private String username;
     private String password;

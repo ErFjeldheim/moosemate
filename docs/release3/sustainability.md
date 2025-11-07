@@ -27,3 +27,15 @@ Extensive test coverage prevents costly hotfixes and emergency deployments, savi
 
 Testing supports long-term software health by enabling continuous integration and deployment pipelines that run efficiently. Stable, predictable software requires fewer interventions and consumes fewer computing resources.  
 In this way, testing becomes a key aspect of sustainability — conserving both human effort and digital energy, and ensuring that MooseMate remains reliable, maintainable, and environmentally responsible over time.
+
+---
+
+# Development Project Context
+
+MooseMate is a development project created for learning purposes, not meant to be launched or hosted publicly. This means there's minimal energy consumption beyond the development phase itself. While sustainability is still worth thinking about and practicing, it's naturally less critical in academic projects like this compared to real-world applications that run 24/7. These principles matter most when building actual production systems that need continuous hosting and maintenance.
+
+---
+
+# UN Sustainability Development Goals (SDG)
+
+MooseMate touches on a few UN Sustainable Development Goals through how we built it. Our modular architecture and automated testing connect to SDG 12 (Responsible Consumption) by reducing wasted work and rework. While this is just a university project, these practices set us up to build genuinely sustainable software down the line.

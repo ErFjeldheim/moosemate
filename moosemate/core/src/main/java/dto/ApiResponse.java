@@ -3,6 +3,9 @@ package dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+// Partially implemented by AI (Copilot, Claude sonnet 4.5), 
+// in order to efficiently generate boilerplate code.
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ApiResponse<T> {
     private boolean success;
