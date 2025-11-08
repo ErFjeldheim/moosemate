@@ -88,7 +88,7 @@ Documentation is found in the [docs](./docs) folder.
 
 ## Architecture Diagram
 
-For a detailed file tree, see [tree.md](./docs/release3/Diagrams/tree.md)
+For a detailed file tree, see [tree.md](./docs/release3/diagrams/tree.md)
 
 ```
 .
