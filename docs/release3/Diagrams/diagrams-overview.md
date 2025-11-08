@@ -2,7 +2,7 @@
 
 This document provides a brief explanation of the architectural and design diagrams included in Release 3.
 
-**Note:** The Mermaid diagram files (`.mmd` extension) are exported as SVG files. Due to their use of `foreignObject` elements for text rendering, they may not display correctly in standard image viewers. For best viewing experience, open the SVG files in a web browser (e.g., Firefox, Chrome) or use the provided `.mmd` source files with a Mermaid-compatible tool.
+**Note:** All Mermaid diagrams (`.md` files) have corresponding SVG exports available for easy viewing and integration into documentation. The SVG files are named with a `.svg` file extension (e.g., `login-class-diagram.svg`).
 
 ## Package Diagram (`package-diagram.puml`)
 
@@ -15,7 +15,7 @@ The package diagram illustrates the high-level modular structure of the MooseMat
 
 The diagram visualizes dependencies between modules, showing that the UI and REST layers both depend on Core, while REST also depends on Persistence for data access.
 
-## Login Class Diagram (`login-class-diagram.mmd`)
+## Login Class Diagram (`login-class-diagram.md`)
 
 This class diagram details the complete login flow architecture across all layers:
 
@@ -27,7 +27,7 @@ This class diagram details the complete login flow architecture across all layer
 
 The diagram shows how data flows from the UI through DTOs (`LoginRequest`, `LoginResponse`) and how session management is handled via `SessionManager` and `SessionService`.
 
-## Signup Class Diagram (`signup-class-diagram.mmd`)
+## Signup Class Diagram (`signup-class-diagram.md`)
 
 Similar to the login diagram, this shows the complete user registration flow:
 
@@ -39,7 +39,7 @@ Similar to the login diagram, this shows the complete user registration flow:
 
 The diagram emphasizes the validation and security aspects of user registration, including password hashing and duplicate checking.
 
-## Post Moosage Class Diagram (`post-moosage-class-diagram.mmd`)
+## Post Moosage Class Diagram (`post-moosage-class-diagram.md`)
 
 This class diagram illustrates how users create posts (moosages) in the system:
 
@@ -50,7 +50,7 @@ This class diagram illustrates how users create posts (moosages) in the system:
 
 The diagram shows how `Moosage` entities relate to `User` entities and how DTOs (`MoosageDto`, `CreateMoosageRequest`) transfer data between layers.
 
-## Post Moosage Sequence Diagram (`post-moosage-sequence-diagram.mmd`)
+## Post Moosage Sequence Diagram (`post-moosage-sequence-diagram.md`)
 
 This sequence diagram provides a detailed step-by-step view of the moosage creation process:
 

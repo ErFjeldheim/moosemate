@@ -1,3 +1,8 @@
+# Login Class Diagram
+
+This diagram illustrates the class structure and relationships involved in the login functionality of the MooseMate application.
+
+```mermaid
 ---
 config:
   theme: forest
@@ -131,3 +136,4 @@ classDiagram
     UserService --> User : manages
     UserService --> UserRepository : uses
     ResponseUtils --> ApiResponse : creates
+```

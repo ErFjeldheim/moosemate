@@ -1,3 +1,8 @@
+# Post Moosage Sequence Diagram
+
+This diagram illustrates the sequence of interactions when a user creates and posts a moosage in the MooseMate application.
+
+```mermaid
 ---
 config:
   theme: forest
@@ -38,3 +43,4 @@ sequenceDiagram
     UI->>UI: Verify response.isSuccess()
     UI->>UI: Add moosage to top of list<br/>Clear text area<br/>Re-enable post button
     UI-->>-User: Display new moosage in feed
+```

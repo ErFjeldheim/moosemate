@@ -88,142 +88,71 @@ Documentation is found in the [docs](./docs) folder.
 
 ## Architecture Diagram
 
-Architecture Diagram is to be found in the [diagrams](./docs/release3/diagrams/) folder.
-```mermaid
-flowchart TB
-    %% User
-    YOU(("User"))
+For a detailed file tree, see [tree.md](./docs/release3/Diagrams/tree.md)
 
-    %% UI Module
-    subgraph UI["UI Module (JavaFX)"]
-        FXML["
-        **signuppage.fxml**
-        - usernameField
-        - emailField
-        - passwordField
-        "]
-        
-        SC["
-        **SignUpController.java**
-        - usernameField
-        - emailField
-        - passwordField
-        - apiClient: ApiClient
-        --
-        + handleSignUpButton()
-        + handleBackToLoginButton()
-        "]
-        
-        API["
-        **ApiClient.java**
-        --
-        + signup(username, email, password)
-        "]
-    end
-
-    %% REST Module
-    subgraph REST["REST Module (Spring Boot)"]
-        AC["
-        **AuthController.java**
-        @RestController
-        --
-        + POST /api/auth/signup
-        + POST /api/auth/login
-        "]
-        
-        SUS["
-        **SignUpService.java**
-        --
-        + createUser(username, email, password)
-        + validateInput()
-        "]
-        
-        PS["
-        **PasswordService.java**
-        --
-        + hashPassword(password)
-        + verifyPassword(plain, hash)
-        "]
-        
-        US["
-        **UserService.java**
-        --
-        + saveUser(user)
-        + userExists(username)
-        + emailExists(email)
-        "]
-    end
-
-    %% Persistence Module
-    subgraph Persistence["Persistence Module"]
-        UR["
-        **UserRepository.java**
-        @Repository
-        --
-        + save(user)
-        + findByUsername(username)
-        + findByEmail(email)
-        "]
-        
-        DATA["
-        **users.json**
-        JSON storage
-        "]
-    end
-
-    %% Core Module
-    subgraph Core["Core Module (Domain)"]
-        U["
-        **User.java**
-        - userId: String
-        - username: String
-        - email: String
-        - password: String
-        --
-        + getters/setters
-        "]
-        
-        DTO["
-        **SignUpRequest.java**
-        - username: String
-        - email: String
-        - password: String
-        "]
-    end
-
-    %% Connections
-    YOU -->|interacts with| FXML
-    FXML -->|fx:controller| SC
-    SC -->|HTTP POST| API
-    API -->|REST API call| AC
-    AC -->|calls| SUS
-    SUS -->|validates & creates| US
-    SUS -->|hashes password| PS
-    US -->|uses| UR
-    UR -->|reads/writes| DATA
-    
-    %% Data models
-    SUS -->|creates| U
-    AC -->|receives/returns| DTO
-    UR -->|persists| U
-    
-    style YOU fill:#e1f5ff
-    style UI fill:#fff4e1
-    style REST fill:#e8f5e9
-    style Persistence fill:#f3e5f5
-    style Core fill:#fce4ec
 ```
+.
+├── docs
+│   ├── release1
+│   ├── release2
+│   └── release3
+│       ├── Diagrams
+│       └── Screenshots
+└── moosemate
+    ├── core
+    │   └── src
+    │       ├── main
+    │       │   └── java
+    │       │       ├── dto
+    │       │       ├── model
+    │       │       ├── service
+    │       │       └── util
+    │       └── test
+    │           └── java
+    │               └── model
+    ├── persistence
+    │   └── src
+    │       ├── main
+    │       │   ├── java
+    │       │   │   ├── repository
+    │       │   │   └── util
+    │       │   └── resources
+    │       │       └── data
+    │       └── test
+    │           └── java
+    │               ├── repository
+    │               └── util
+    ├── rest
+    │   ├── rest
+    │   │   └── target
+    │   │       └── test-data
+    │   └── src
+    │       ├── main
+    │       │   └── java
+    │       │       ├── app
+    │       │       ├── config
+    │       │       ├── controller
+    │       │       ├── service
+    │       │       └── util
+    │       └── test
+    │           └── java
+    │               └── service
+    └── ui
+        └── src
+            ├── main
+            │   ├── java
+            │   │   ├── app
+            │   │   └── controller
+            │   └── resources
+            │       ├── css
+            │       ├── fonts
+            │       ├── fxml
+            │       └── images
+            └── test
+                ├── java
+                │   ├── app
+                │   └── controller
+                └── resources
 
-**Flow explanation (User Signup):**
-1. **User** interacts with `signuppage.fxml` in the JavaFX UI
-2. **SignUpController** collects input and calls **ApiClient**
-3. **ApiClient** sends HTTP POST request to REST API endpoint
-4. **AuthController** receives request and delegates to **SignUpService**
-5. **SignUpService** validates input, uses **PasswordService** to hash password
-6. **UserService** checks if user/email exists via **UserRepository**
-7. **UserRepository** persists the new **User** to `users.json`
-8. Response flows back through the layers to UI
-
-For further explanation see [technical-documentation.md](/docs/release2/technical-documentation.md)
-
-
+62 directories
+```

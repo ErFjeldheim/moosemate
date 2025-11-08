@@ -1,3 +1,8 @@
+# Post Moosage Class Diagram
+
+This diagram illustrates the class structure and relationships involved in creating and posting a moosage (message) in the MooseMate application.
+
+```mermaid
 ---
 config:
   theme: forest
@@ -134,3 +139,4 @@ classDiagram
     UserRepository --> User : retrieves
     MoosageDto --> Moosage : converts from
     ResponseUtils --> ApiResponse : creates
+```

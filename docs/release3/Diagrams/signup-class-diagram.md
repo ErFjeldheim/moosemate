@@ -1,3 +1,8 @@
+# Sign Up Class Diagram
+
+This diagram illustrates the class structure and relationships involved in the user sign-up functionality of the MooseMate application.
+
+```mermaid
 ---
 config:
   theme: forest
@@ -114,3 +119,4 @@ classDiagram
     UserService --> UserRepository : uses
     UserRepository --> User : creates
     ResponseUtils --> ApiResponse : creates
+```
