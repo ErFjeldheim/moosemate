@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter>
+    <!-- Spring Framework Dependency Injection: EI_EXPOSE_REP2 false positives -->
+    <!-- Spring manages these dependencies as immutable singletons -->
+    <!-- Controllers and Services don't modify injected dependencies -->
+    
+    <!-- Exclude EI_EXPOSE_REP2 for all Spring Controllers -->
+    <Match>
+        <Class name="~controller\..*Controller" />
+        <Bug pattern="EI_EXPOSE_REP2" />
+    </Match>
+    
+    <!-- Exclude EI_EXPOSE_REP2 for all Spring Services -->
+    <Match>
+        <Class name="~service\..*Service" />
+        <Bug pattern="EI_EXPOSE_REP2" />
+    </Match>
+</FindBugsFilter>

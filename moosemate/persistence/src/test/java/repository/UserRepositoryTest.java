@@ -182,18 +182,6 @@ class UserRepositoryTest {
     }
 
     @Test
-    void testCreateUser_StoresPasswordAsProvided() {
-        String hashedPassword = "hashedPassword123";
-        repository.createUser("testuser", "test@example.com", hashedPassword);
-        
-        Optional<Map<String, String>> user = repository.findByUsernameOrEmail("testuser");
-        
-        assertTrue(user.isPresent());
-        assertEquals(hashedPassword, user.get().get("password"), 
-                "Password should be stored exactly as provided (assumes pre-hashing)");
-    }
-
-    @Test
     void testDataFilePersistence() {
         // Create user
         repository.createUser("persistentuser", "persistent@example.com", "hashedPassword123");
@@ -208,5 +196,92 @@ class UserRepositoryTest {
         Optional<Map<String, String>> user = newRepository.findByUsernameOrEmail("persistentuser");
         assertTrue(user.isPresent());
         assertEquals("persistent@example.com", user.get().get("email"));
+    }
+
+    @Test
+    void testGetUserById_Success() {
+        // Create a user
+        repository.createUser("testuser", "test@example.com", "hashedPassword123");
+        
+        // Get the user's ID
+        Optional<Map<String, String>> userData = repository.findByUsernameOrEmail("testuser");
+        assertTrue(userData.isPresent());
+        String userId = userData.get().get("userID");
+        
+        // Test getUserById
+        var result = repository.getUserById(userId);
+        
+        assertTrue(result.isPresent(), "User should be found by ID");
+        assertEquals("testuser", result.get().getUsername());
+        assertEquals("test@example.com", result.get().getEmail());
+        assertEquals("hashedPassword123", result.get().getPassword());
+        assertEquals(userId, result.get().getUserID());
+    }
+
+    @Test
+    void testGetUserById_NotFound() {
+        var result = repository.getUserById("non-existent-id");
+        
+        assertFalse(result.isPresent(), "Non-existent user ID should return empty");
+    }
+
+    @Test
+    void testGetUserById_NullId() {
+        var result = repository.getUserById("");
+        
+        assertFalse(result.isPresent(), "Empty user ID should return empty");
+    }
+
+    @Test
+    void testFindByUsernameOrEmail_NullInput() {
+        Optional<Map<String, String>> result = repository.findByUsernameOrEmail(null);
+        
+        assertFalse(result.isPresent(), "Null input should return empty");
+    }
+
+    @Test
+    void testUserExists_NullUsername() {
+        assertFalse(repository.userExists(null), "Null username should return false");
+    }
+
+    @Test
+    void testEmailExists_NullEmail() {
+        assertFalse(repository.emailExists(null), "Null email should return false");
+    }
+
+        @Test
+    void testCreateUser_NullUsername() {
+        try {
+            boolean result = repository.createUser(null, "test@example.com", "password123");
+            assertFalse(result, "Should fail to create user with null username");
+        } catch (IllegalArgumentException e) {
+            // Also acceptable - validation throws exception
+            assertTrue(e.getMessage().contains("null") || e.getMessage().contains("empty"), 
+                    "Error should mention null or empty");
+        }
+    }
+
+    @Test
+    void testCreateUser_NullEmail() {
+        try {
+            repository.createUser("testuser", null, "password123");
+            assertFalse(true, "Should throw exception for null email");
+        } catch (IllegalArgumentException e) {
+            assertTrue(e.getMessage().contains("Email") || e.getMessage().contains("email") 
+                    || e.getMessage().contains("null") || e.getMessage().contains("empty"), 
+                    "Error should mention email or null/empty");
+        }
+    }
+
+    @Test
+    void testCreateUser_NullPassword() {
+        try {
+            repository.createUser("testuser", "test@example.com", null);
+            assertFalse(true, "Should throw exception for null password");
+        } catch (IllegalArgumentException e) {
+            assertTrue(e.getMessage().contains("Password") || e.getMessage().contains("password") 
+                    || e.getMessage().contains("null") || e.getMessage().contains("empty"), 
+                    "Error should mention password or null/empty");
+        }
     }
 }

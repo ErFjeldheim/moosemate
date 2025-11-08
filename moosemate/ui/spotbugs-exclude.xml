@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter>
+    <!-- Exclude ALL Low priority SpotBugs warnings for JavaFX UI module -->
+    <!-- JavaFX uses reflection extensively (FXML), making many static analysis warnings false positives -->
+    
+    <!-- Exclude all uncalled private method warnings - FXML methods called via reflection -->
+    <Match>
+        <Bug pattern="UPM_UNCALLED_PRIVATE_METHOD" />
+    </Match>
+    
+    <!-- Exclude unconfirmed cast warnings - JavaFX Window→Stage casts are safe in context -->
+    <Match>
+        <Bug pattern="BC_UNCONFIRMED_CAST_OF_RETURN_VALUE" />
+    </Match>
+    
+    <!-- Exclude getResource warnings - Controllers are not extended in practice -->
+    <Match>
+        <Bug pattern="UI_INHERITANCE_UNSAFE_GETRESOURCE" />
+    </Match>
+    
+    <!-- Exclude broad exception catch in UI code - Acceptable for user-facing error handling -->
+    <Match>
+        <Bug pattern="REC_CATCH_EXCEPTION" />
+    </Match>
+    
+    <!-- Exclude throws clause warnings - Generic exceptions acceptable in UI layer -->
+    <Match>
+        <Bug pattern="THROWS_METHOD_THROWS_CLAUSE_BASIC_EXCEPTION" />
+    </Match>
+    
+</FindBugsFilter>

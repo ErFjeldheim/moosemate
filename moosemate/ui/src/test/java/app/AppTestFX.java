@@ -138,7 +138,9 @@ public class AppTestFX extends FxRobot {
             "/fxml/loginpage.fxml",
             "/fxml/homepage.fxml", 
             "/fxml/signuppage.fxml",
-            "/css/styling.css"
+            "/css/auth.css",
+            "/css/common.css",
+            "/css/homepage.css"
         };
         
         for (String resourcePath : expectedResources) {

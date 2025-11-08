@@ -6,10 +6,11 @@ import org.springframework.http.ResponseEntity;
 
 // utility class for creating standarized REST API responses used in rest controllers
 
-public class ResponseUtils {
+public final class ResponseUtils {
 
+    // Private constructor to prevent instantiation
     private ResponseUtils() {
-        throw new UnsupportedOperationException("Utility class");
+        // Utility class - no instantiation needed
     }
     
     // ===== SUCCESS RESPONSES =====
