@@ -1,4 +1,4 @@
-
+# Generated with help of GitHub Copilot due to complicated code/syntax
 # MooseMate Startup Script for macOS/Linux
 # The script starts both backend (REST API) and frontend (JavaFX UI)
 
