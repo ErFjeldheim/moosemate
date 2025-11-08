@@ -48,7 +48,7 @@ Before running MooseMate, ensure you have the following installed:
 
 ### Running Tests
 
-Execute the test suite with:
+Make sure backend/springboot is **not** running when running the following command, as the testing will fail. Execute the test suite with: 
 
 ```bash
 mvn clean test
