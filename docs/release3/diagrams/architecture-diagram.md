@@ -5,8 +5,6 @@
 ├── README.md
 ├── run-app.bat
 ├── run-app.sh
-├── simple_tree.txt
-├── tree.txt
 ├── docs
 │   ├── ADR.md
 │   ├── CommitTemplate.md
@@ -30,7 +28,7 @@
 │       ├── sustainability.md
 │       ├── teamwork.md
 │       ├── workpractices.md
-│       ├── Diagrams
+│       ├── diagrams
 │       │   ├── diagrams-overview.md
 │       │   ├── login-class-diagram.md
 │       │   ├── login-class-diagram.svg
@@ -42,7 +40,7 @@
 │       │   ├── post-moosage-sequence-diagram.md
 │       │   ├── signup-class-diagram.md
 │       │   └── signup-class-diagram.svg
-│       └── Screenshots
+│       └── screenshots
 │           ├── MooseMate-editmoosage.png
 │           ├── MooseMate-homepage.png
 │           ├── MooseMate-loadingscreen.png
@@ -177,6 +175,4 @@
                 │       └── AllControllersTestFX.java
                 └── resources
                     └── logging.properties
-
-60 directories, 117 files
 ```

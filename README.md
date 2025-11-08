@@ -1,62 +1,124 @@
-# MooseMate project
+# MooseMate
 
-**MooseMate** is a **multimodule JavaFX application**.  
-The source code is located in the [`moosemate`](./moosemate/) folder, which also contains its submodules:
+**MooseMate** is a social media application built with JavaFX and Spring Boot, designed as a multimodule Maven project. It provides users with a platform to share posts, interact with content, and connect with others.
 
-- [core](./moosemate/core/)
-- [persistence](./moosemate/persistence/)
-- [rest](./moosemate/rest/)
-- [ui](./moosemate/ui/)
+## Table of Contents
 
-## Build, run and test
+- [Project Structure](#project-structure)
+- [Prerequisites](#prerequisites)
+- [Getting Started](#getting-started)
+- [Build and Test](#build-and-test)
+- [Running the Application](#running-the-application)
+- [Shortcuts](#shortcuts)
+- [Dependencies](#dependencies)
+- [Eclipse Che](#eclipse-che)
+- [Documentation](#documentation)
+- [Architecture Diagram](#architecture-diagram)
 
-The project is built with Maven in [moosemate](./moosemate/) folder. 
+## Project Structure
 
-~~~
-cd moosemate
-mvn clean install
-mvn -pl ui javafx:run
-~~~
+The source code is located in the [`moosemate`](./moosemate/) folder, organized into four main modules:
 
-The project is tested by: 
+- **[core](./moosemate/core/)** - Core business logic, models, and DTOs
+- **[persistence](./moosemate/persistence/)** - Data persistence layer and repositories
+- **[rest](./moosemate/rest/)** - Spring Boot REST API backend
+- **[ui](./moosemate/ui/)** - JavaFX user interface
 
-~~~
+## Prerequisites
+
+Before running MooseMate, ensure you have the following installed:
+
+- **Java JDK 21** or higher
+- **Apache Maven 3.8+**
+- **Git** (for cloning the repository)
+
+## Getting Started
+
+1. **Clone the repository**
+   ```bash
+   git clone https://git.ntnu.no/IT1901-2025-groups/gr2524.git
+   cd gr2524
+   ```
+
+2. **Build the project**
+   ```bash
+   cd moosemate
+   mvn clean install
+   ```
+
+### Running Tests
+
+Execute the test suite with:
+
+```bash
 mvn clean test
-~~~
+```
 
-mvn clean test will run TestFX tests as well as spotbugs and surefire.
-to test only javaFX coverage in JaCoCo, run:
+After running tests, HTML links to view the **test coverage reports** will be displayed in the terminal output before the build summary. One covers persistence, rest and core, while the other covers UI. There are also separate links to each of these for macOS/linux and windows users respectively. 
 
-~~~
-mvn test -pl ui -Dtest="*TestFX"
-~~~
+## Running the Application
 
-HTML-link to *display test coverage* is provided as an echo in the terminal before the build data.
+MooseMate requires both the backend and frontend to be running. You'll need **two separate terminal windows**.
+
+### Manual Start
+
+**Terminal 1 - Start the Backend (Spring Boot):**
+```bash
+cd moosemate/rest
+mvn spring-boot:run
+```
+
+**Terminal 2 - Start the Frontend (JavaFX):**
+```bash
+cd moosemate/ui
+mvn javafx:run
+```
+
+> **Note:** Wait for the backend to fully start before launching the frontend.
 
 ## Shortcuts
 
-For simplicity, we have created startup scripts that run both the backend and frontend with a single command. **Make sure you are in the root folder before running the scripts.**
-~~~
-run-app.bat for **Windows**  
-run-app.sh for **Mac/Linux**
-~~~
+For convenience, we provide startup scripts that launch both backend and frontend automatically.
 
-We have also made the app shippable, allowing the user to start **MooseMate** by double-clicking the icon.  
-It can be downloaded to any preferred location through the Windows “Browse” dialog during installation.
-~~~
-create-windows-shortcut.bat for **Windows**  
-create-mac-launcher for **Mac/Linux**
-~~~
+### Quick Start Scripts
+
+**Make sure you are in the project root folder** before running these scripts:
+
+- **Windows (powershell)**
+  ```bash
+  .\run-app.bat
+  ```
+
+- **Mac/Linux:**
+  ```bash
+  ./run-app.sh
+  ```
+
+### Desktop Launcher Scripts
+
+Create a desktop shortcut or launcher for easy access:
+
+- **Windows (powershell):**
+  ```bash
+  .\create-windows-shortcut.bat
+  ```
+
+- **Mac/Linux:**
+  ```bash
+  ./create-mac-launcher
+  ```
+
+These scripts allow you to save MooseMate to a location by own choice on your computer, and start it by double-clicking an icon on your desktop.
 
 ## Dependencies
 
-Core and frameworks
+### Core and Frameworks
 - Java (21)
 - JavaFX (23.0.1)
 - Spring Boot (3.4.0)
 - Spring Framework (6.2.0)
 
-Testing
+### Testing
 - TestFX (4.0.18)
 - JUnit 5 (5.12.2)
 - Hamcrest (3.0)
@@ -65,7 +127,7 @@ Testing
 - Spotbugs (4.9.5.0)
 - Checkstyle (3.3.1)
 
-Utilities and libraries
+### Utilities and Libraries
 - Maven Surefire (3.12.1)
 - Jackson (2.18.1)
 - BCrypt (0.4)
@@ -74,21 +136,27 @@ Utilities and libraries
 
 [Open project in Eclipse Che](https://che.stud.ntnu.no/#https://git.ntnu.no/IT1901-2025-groups/gr2524)
 
-**Note:** Since the repository is private, you need to configure a Personal Access Token in Eclipse Che:
-1. Go to Github: [Settings → Developer Settings → Personal Access tokens](https://git.ntnu.no/settings/tokens)
+> **Note:** Since the repository is private, you need to configure a Personal Access Token in Eclipse Che:
+
+1. Go to GitHub: [Settings → Developer Settings → Personal Access Tokens](https://git.ntnu.no/settings/tokens)
 2. Generate new token (classic) → Create a token with `read_repository` scope
 3. In Eclipse Che: [Profile → User Preferences → Personal Access Tokens](https://che.stud.ntnu.no/dashboard/#/user-preferences?tab=PersonalAccessTokens)
-4. Add "https://git.ntnu.no/" under *Git Provider Endpoint*
+4. Add `https://git.ntnu.no/` under *Git Provider Endpoint*
 5. Add Personal Access Token under *Token*
 6. The Eclipse Che link above should now work
 
 ## Documentation
 
-Documentation is found in the [docs](./docs) folder.
+Documentation is found in the [docs](./docs) folder, including:
+
+- [Architecture Decision Records (ADR)](./docs/ADR.md)
+- [Git Workflow Guidelines](./docs/GIT-HowTo.md)
+- [Commit Template](./docs/CommitTemplate.md)
+- Release documentation ([release1](./docs/release1/), [release2](./docs/release2/), [release3](./docs/release3/))
 
 ## Architecture Diagram
 
-For a detailed file tree, see [tree.md](./docs/release3/diagrams/tree.md)
+For a detailed file tree, see [architecture-diagram.md](./docs/release3/diagrams/architecture-diagram.md)
 
 ```
 .
@@ -96,8 +164,8 @@ For a detailed file tree, see [tree.md](./docs/release3/diagrams/tree.md)
 │   ├── release1
 │   ├── release2
 │   └── release3
-│       ├── Diagrams
-│       └── Screenshots
+│       ├── diagrams
+│       └── screenshots
 └── moosemate
     ├── core
     │   └── src
@@ -153,6 +221,8 @@ For a detailed file tree, see [tree.md](./docs/release3/diagrams/tree.md)
                 │   ├── app
                 │   └── controller
                 └── resources
-
-62 directories
 ```
+
+---
+
+**MooseMate** - Developed by Group gr2524 for IT1901, Fall 2025
