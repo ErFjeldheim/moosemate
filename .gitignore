@@ -50,6 +50,10 @@ Thumbs.db
 # JavaFX
 .fxcache/
 
+# MooseMate App Bundle (generated files)
+MooseMate.app/Contents/Resources/AppIcon.icns
+MooseMate.iconset/
+
 # Test data files (production data is in persistence/src/main/resources/data/)
 /moosemate/data.json
 /moosemate/non-existent-file.json

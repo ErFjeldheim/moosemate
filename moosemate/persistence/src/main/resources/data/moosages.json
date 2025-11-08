@@ -8,7 +8,7 @@
       "userID" : "USER-10ae788e-75cc-470c-9846-4ad7d8db6545"
     },
     "time" : [ 2025, 11, 6, 19, 0, 33, 493680500 ],
-    "likedByUserIds" : [ "150d157c-447d-444b-a09a-796a72d9ccc1", "USER-10ae788e-75cc-470c-9846-4ad7d8db6545" ],
+    "likedByUserIds" : [ "USER-150d157c-447d-444b-a09a-796a72d9ccc1", "USER-10ae788e-75cc-470c-9846-4ad7d8db6545" ],
     "edited" : false
   }, {
     "id" : 2,
@@ -16,7 +16,7 @@
     "author" : {
       "username" : "syver",
       "email" : "abd@syver.no",
-      "userID" : "150d157c-447d-444b-a09a-796a72d9ccc1"
+      "userID" : "USER-150d157c-447d-444b-a09a-796a72d9ccc1"
     },
     "time" : [ 2025, 11, 6, 19, 1, 45, 564458900 ],
     "likedByUserIds" : [ ],

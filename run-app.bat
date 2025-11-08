@@ -19,10 +19,10 @@ REM     exit /b 1
 REM )
 
 echo Starting Backend (REST API)...
-start "MooseMate Backend" cmd /k "mvn spring-boot:run -pl rest"
+start "MooseMate Backend" /MIN cmd /c "cd /d "%~dp0moosemate" && mvn spring-boot:run -pl rest"
 
 echo Waiting for backend to start...
-timeout /t 2 /nobreak >nul
+timeout /t 5 /nobreak >nul
 
 echo Starting Frontend (JavaFX UI)...
 echo.
