@@ -29,22 +29,22 @@ If I enter an input here, and hit the "Moose it" button, I can post my first Moo
 
 ### Login page
 
-![Screenshot of MooseMate application](../docs/release3/Screenshots/MooseMate-loginpage.png)
+![Screenshot of MooseMate application](../docs/release3/screenshots/MooseMate-loginpage.png)
 
 ### Sign up page
 
-![Screenshot of MooseMate application](../docs/release3/Screenshots/MooseMate-signuppage.png)
+![Screenshot of MooseMate application](../docs/release3/screenshots/MooseMate-signuppage.png)
 
 ### Loading screen
 
-![Screenshot of MooseMate application](../docs/release3/Screenshots/MooseMate-loadingscreen.png)
+![Screenshot of MooseMate application](../docs/release3/screenshots/MooseMate-loadingscreen.png)
 
 ### Homepage
 
-![Screenshot of MooseMate application](../docs/release3/Screenshots/MooseMate-homepage.png)
+![Screenshot of MooseMate application](../docs/release3/screenshots/MooseMate-homepage.png)
 
 
 
 ### Edit Moosage
 
-![Screenshot of MooseMate application](../docs/release3/Screenshots/MooseMate-editmoosage.png)
+![Screenshot of MooseMate application](../docs/release3/screenshots/MooseMate-editmoosage.png)

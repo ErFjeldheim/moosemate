@@ -41,8 +41,8 @@ run-app.bat for **Windows**
 run-app.sh for **Mac/Linux**
 ~~~
 
-We have also included a desktop shortcut with an icon, allowing the user to start **MooseMate** by double-clicking the icon.  
-It can be saved to any preferred location through the Windows “Browse” dialog during installation.
+We have also made the app shippable, allowing the user to start **MooseMate** by double-clicking the icon.  
+It can be downloaded to any preferred location through the Windows “Browse” dialog during installation.
 ~~~
 create-windows-shortcut.bat for **Windows**  
 create-mac-launcher for **Mac/Linux**
@@ -74,99 +74,156 @@ Utilities and libraries
 
 [Open project in Eclipse Che](https://che.stud.ntnu.no/#https://git.ntnu.no/IT1901-2025-groups/gr2524)
 
-test
-[Open project in Eclipse Che](https://che.stud.ntnu.no/#https://git.ntnu.no/IT1901-2025-groups/gr2524?branch=60/Update-documentation)
+**Note:** Since the repository is private, you need to configure a Personal Access Token in Eclipse Che:
+1. Go to Github: [Settings → Developer Settings → Personal Access tokens](https://git.ntnu.no/settings/tokens)
+2. Generate new token (classic) → Create a token with `read_repository` scope
+3. In Eclipse Che: [Profile → User Preferences → Personal Access Tokens](https://che.stud.ntnu.no/dashboard/#/user-preferences?tab=PersonalAccessTokens)
+4. Add "https://git.ntnu.no/" under *Git Provider Endpoint*
+5. Add Personal Access Token under *Token*
+6. The Eclipse Che link above should now work
+
 ## Documentation
 
 Documentation is found in the [docs](./docs) folder.
 
 ## Architecture Diagram
 
+Architecture Diagram is to be found in the [diagrams](./docs/release3/diagrams/) folder.
 ```mermaid
 flowchart TB
-    %% Core
-    subgraph Core
-        U["
-        **User.java**
-        - Username : String
-        - Email : String
-        - Password : String
-        - UserID : String
-        --
-        Setters & Getters for all attributes
-        "]
-    end
+    %% User
+    YOU(("User"))
 
-    %% Services
-    subgraph Services
-        PS["
-        **PasswordService.java**
-        - Password
-        --
-        hashPassword(String)
-        verifyPassword(String, String)
-        "]
-
-        US["
-        **UserService.java**
-        - Username
-        - Email
-        - Password
-        - UserID
-        --
-        emailExists(String)
-        userExists(String)
-        FindByUsernameOrEmail(String)
-        createUser(String, String, String, String)
-        "]
-
-        SC["
-        **signUpController.java**
-        - usernameField
-        - emailField
-        - passwordField
-        --
-        handleBackToLoginButton(String)
-        handleSignUpButton(String)
-        "]
-    end
-
-    %% UI
-    subgraph UI
+    %% UI Module
+    subgraph UI["UI Module (JavaFX)"]
         FXML["
         **signuppage.fxml**
         - usernameField
         - emailField
         - passwordField
+        "]
+        
+        SC["
+        **SignUpController.java**
+        - usernameField
+        - emailField
+        - passwordField
+        - apiClient: ApiClient
         --
-        #handleSignUpButton
-        #handleBackToLoginButton
+        + handleSignUpButton()
+        + handleBackToLoginButton()
+        "]
+        
+        API["
+        **ApiClient.java**
+        --
+        + signup(username, email, password)
         "]
     end
 
-    %% DATA
-    subgraph Persistence
+    %% REST Module
+    subgraph REST["REST Module (Spring Boot)"]
+        AC["
+        **AuthController.java**
+        @RestController
+        --
+        + POST /api/auth/signup
+        + POST /api/auth/login
+        "]
+        
+        SUS["
+        **SignUpService.java**
+        --
+        + createUser(username, email, password)
+        + validateInput()
+        "]
+        
+        PS["
+        **PasswordService.java**
+        --
+        + hashPassword(password)
+        + verifyPassword(plain, hash)
+        "]
+        
+        US["
+        **UserService.java**
+        --
+        + saveUser(user)
+        + userExists(username)
+        + emailExists(email)
+        "]
+    end
+
+    %% Persistence Module
+    subgraph Persistence["Persistence Module"]
+        UR["
+        **UserRepository.java**
+        @Repository
+        --
+        + save(user)
+        + findByUsername(username)
+        + findByEmail(email)
+        "]
+        
         DATA["
-        **data.json**
-        Text
+        **users.json**
+        JSON storage
         "]
     end
 
-    %% User
-    YOU(("You"))
+    %% Core Module
+    subgraph Core["Core Module (Domain)"]
+        U["
+        **User.java**
+        - userId: String
+        - username: String
+        - email: String
+        - password: String
+        --
+        + getters/setters
+        "]
+        
+        DTO["
+        **SignUpRequest.java**
+        - username: String
+        - email: String
+        - password: String
+        "]
+    end
 
     %% Connections
-    FXML --> SC
-    SC --> US
-    US --> U
-    US -->|createUser| PS
-    PS -->|returns hashed password| US
-    US -->|continuation of createUser| DATA
     YOU -->|interacts with| FXML
+    FXML -->|fx:controller| SC
+    SC -->|HTTP POST| API
+    API -->|REST API call| AC
+    AC -->|calls| SUS
+    SUS -->|validates & creates| US
+    SUS -->|hashes password| PS
+    US -->|uses| UR
+    UR -->|reads/writes| DATA
+    
+    %% Data models
+    SUS -->|creates| U
+    AC -->|receives/returns| DTO
+    UR -->|persists| U
+    
+    style YOU fill:#e1f5ff
+    style UI fill:#fff4e1
+    style REST fill:#e8f5e9
+    style Persistence fill:#f3e5f5
+    style Core fill:#fce4ec
 ```
 
-The mermaid-constructed diagram above represents how a user would intervene and with which files it uses in order to create a user.
-The yellow boxes also represent which module each file belongs to.
+**Flow explanation (User Signup):**
+1. **User** interacts with `signuppage.fxml` in the JavaFX UI
+2. **SignUpController** collects input and calls **ApiClient**
+3. **ApiClient** sends HTTP POST request to REST API endpoint
+4. **AuthController** receives request and delegates to **SignUpService**
+5. **SignUpService** validates input, uses **PasswordService** to hash password
+6. **UserService** checks if user/email exists via **UserRepository**
+7. **UserRepository** persists the new **User** to `users.json`
+8. Response flows back through the layers to UI
 
 For further explanation see [technical-documentation.md](/docs/release2/technical-documentation.md)
+
 
