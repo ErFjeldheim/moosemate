@@ -13,7 +13,6 @@ metadata:
 components:
   - name: tools
     container:
-      # ✅ Bruk Red Hat-registry (stabil og tillatt i NTNU Che)
       image: registry.access.redhat.com/ubi9/openjdk-21
       memoryLimit: 4Gi
       memoryRequest: 1Gi
@@ -21,11 +20,8 @@ components:
       cpuRequest: 500m
       mountSources: true
       env:
-        # ✅ Riktig JAVA_HOME for dette imaget
         - name: JAVA_HOME
           value: /usr/lib/jvm/java-21
-        - name: PATH
-          value: /usr/lib/jvm/java-21/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
         - name: MAVEN_OPTS
           value: -Xmx2048m
       endpoints:
@@ -33,10 +29,6 @@ components:
           targetPort: 8080
           exposure: public
           protocol: http
-        - name: debug
-          targetPort: 5005
-          exposure: internal
-          protocol: tcp
 
 commands:
   - id: maven-build
@@ -44,7 +36,7 @@ commands:
       label: "Maven: Build"
       component: tools
       workingDir: ${PROJECT_SOURCE}/moosemate
-      commandLine: ./mvnw -q clean install
+      commandLine: mvn clean install
       group: { kind: build, isDefault: true }
 
   - id: maven-test
@@ -52,68 +44,12 @@ commands:
       label: "Maven: Test"
       component: tools
       workingDir: ${PROJECT_SOURCE}/moosemate
-      commandLine: ./mvnw -q test
-
-  - id: maven-clean
-    exec:
-      label: "Maven: Clean"
-      component: tools
-      workingDir: ${PROJECT_SOURCE}/moosemate
-      commandLine: ./mvnw -q clean
-
-  - id: maven-package
-    exec:
-      label: "Maven: Package"
-      component: tools
-      workingDir: ${PROJECT_SOURCE}/moosemate
-      commandLine: ./mvnw -q package
+      commandLine: mvn test
 
   - id: run-rest-api
     exec:
       label: "Run: REST API"
       component: tools
       workingDir: ${PROJECT_SOURCE}/moosemate/rest
-      commandLine: ./mvnw -q spring-boot:run
-      group: { kind: run }
-
-  - id: run-ui
-    exec:
-      label: "Run: JavaFX UI"
-      component: tools
-      workingDir: ${PROJECT_SOURCE}/moosemate/ui
-      commandLine: ./mvnw -q javafx:run
+      commandLine: mvn spring-boot:run
       group: { kind: run, isDefault: true }
-
-  - id: debug-rest-api
-    exec:
-      label: "Debug: REST API"
-      component: tools
-      workingDir: ${PROJECT_SOURCE}/moosemate/rest
-      commandLine: ./mvnw -q spring-boot:run -Dspring-boot.run.jvmArguments="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
-      group: { kind: debug }
-
-  - id: checkstyle
-    exec:
-      label: "Quality: Checkstyle"
-      component: tools
-      workingDir: ${PROJECT_SOURCE}/moosemate
-      commandLine: ./mvnw -q checkstyle:check
-
-  - id: spotbugs
-    exec:
-      label: "Quality: SpotBugs"
-      component: tools
-      workingDir: ${PROJECT_SOURCE}/moosemate
-      commandLine: ./mvnw -q spotbugs:check
-
-  - id: jacoco-report
-    exec:
-      label: "Quality: JaCoCo Coverage Report"
-      component: tools
-      workingDir: ${PROJECT_SOURCE}/moosemate
-      commandLine: ./mvnw -q jacoco:report
-
-# ✅ Dropp postStart — den forårsaket CrashLoop i Che
-# events:
-#   postStart:
-#     - maven-build
