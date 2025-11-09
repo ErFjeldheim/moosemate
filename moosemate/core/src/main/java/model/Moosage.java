@@ -22,7 +22,8 @@ public class Moosage {
     public Moosage(Long id, String content, User author, LocalDateTime time) {
         this.id = id;
         this.content = content;
-        this.author = author;
+        // Defensive copy to avoid exposing internal representation
+        this.author = author != null ? new User(author) : null;
         this.time = time;
         this.likedByUserIds = new HashSet<>();
         this.edited = false;
@@ -45,11 +46,13 @@ public class Moosage {
     }
 
     public User getAuthor() {
-        return author;
+        // Defensive copy to avoid exposing internal representation
+        return author != null ? new User(author) : null;
     }
 
     public void setAuthor(User author) {
-        this.author = author;
+        // Defensive copy to avoid exposing internal representation
+        this.author = author != null ? new User(author) : null;
     }
 
     public LocalDateTime getTime() {
@@ -61,7 +64,8 @@ public class Moosage {
     }
 
     public Set<String> getLikedByUserIds() {
-        return likedByUserIds;
+        // Return defensive copy to avoid exposing internal representation
+        return new HashSet<>(likedByUserIds);
     }
 
     public void addLike(String userId) {

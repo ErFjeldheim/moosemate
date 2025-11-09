@@ -12,13 +12,19 @@ import java.util.Optional;
 
 // Service class for handling moosage business logic.
 @Service
-public class MoosageService {
+public final class MoosageService {
     
     private final MoosageRepository moosageRepository;
     private final UserRepository userRepository;
     
     @Autowired
     public MoosageService(MoosageRepository moosageRepository, UserRepository userRepository) {
+        if (moosageRepository == null) {
+            throw new IllegalArgumentException("MoosageRepository cannot be null");
+        }
+        if (userRepository == null) {
+            throw new IllegalArgumentException("UserRepository cannot be null");
+        }
         this.moosageRepository = moosageRepository;
         this.userRepository = userRepository;
     }

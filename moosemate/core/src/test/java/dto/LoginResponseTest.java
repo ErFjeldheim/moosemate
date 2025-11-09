@@ -1,8 +1,10 @@
 package dto;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 class LoginResponseTest {
 
@@ -60,9 +62,9 @@ class LoginResponseTest {
     @Test
     void testSetSessionTokenOverride() {
         LoginResponse response = new LoginResponse(
-            new UserDto("john", "john@example.com"),
-            "old-token",
-            "user-id"
+                new UserDto("john", "john@example.com"),
+                "old-token",
+                "user-id"
         );
         
         response.setSessionToken("new-token");
@@ -72,9 +74,9 @@ class LoginResponseTest {
     @Test
     void testSetUserIdOverride() {
         LoginResponse response = new LoginResponse(
-            new UserDto("john", "john@example.com"),
-            "token",
-            "old-id"
+                new UserDto("john", "john@example.com"),
+                "token",
+                "old-id"
         );
         
         response.setUserId("new-id");

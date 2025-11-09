@@ -19,6 +19,61 @@
       "userID" : "USER-150d157c-447d-444b-a09a-796a72d9ccc1"
     },
     "time" : [ 2025, 11, 6, 19, 1, 45, 564458900 ],
+    "likedByUserIds" : [ "USER-a45e3433-3f2c-482b-9d76-c0d5c9efbfa3" ],
+    "edited" : true
+  }, {
+    "id" : 5,
+    "content" : "Kom å se på bandykampen på sønda, a! Jeg skårer og skårer, dribler motstanderne i senk. Verdt penga!",
+    "author" : {
+      "username" : "edvarao",
+      "email" : "edvarao@bandy.no",
+      "userID" : "USER-a45e3433-3f2c-482b-9d76-c0d5c9efbfa3"
+    },
+    "time" : [ 2025, 11, 8, 17, 18, 12, 53884200 ],
+    "likedByUserIds" : [ ],
+    "edited" : false
+  }, {
+    "id" : 6,
+    "content" : "What language is this..? I thought this was a multilingual forum... 1 star from me.",
+    "author" : {
+      "username" : "kebaards",
+      "email" : "keebards@opera.com",
+      "userID" : "USER-b0056d1b-749a-4f6c-afd0-e9a710a4ed5d"
+    },
+    "time" : [ 2025, 11, 8, 17, 20, 34, 328870400 ],
+    "likedByUserIds" : [ ],
+    "edited" : false
+  }, {
+    "id" : 7,
+    "content" : "Sjekk ut Fjelldata for personlig hjelp til dine dataproblemer! Gratis konsultasjon. Intet kos utan pepar og sos!",
+    "author" : {
+      "username" : "erik",
+      "email" : "erik@fjelldata.enno",
+      "userID" : "USER-69fbae61-ae97-4d46-95b6-c3f80437b79e"
+    },
+    "time" : [ 2025, 11, 8, 17, 21, 55, 46993100 ],
+    "likedByUserIds" : [ "USER-a45e3433-3f2c-482b-9d76-c0d5c9efbfa3" ],
+    "edited" : false
+  }, {
+    "id" : 8,
+    "content" : "@erik, you are now allowed to advertise in this forum. Consider this as a warning!",
+    "author" : {
+      "username" : "admin",
+      "email" : "admin@admin.com",
+      "userID" : "USER-83f0d383-caa8-482c-8601-c6dfcc2c5e70"
+    },
+    "time" : [ 2025, 11, 8, 17, 23, 41, 971670600 ],
+    "likedByUserIds" : [ ],
+    "edited" : false
+  }, {
+    "id" : 9,
+    "content" : "Noen som joiner elgjakt i helga? translation: anyone wanna join me for a moose hunt this weekend? :D :D",
+    "author" : {
+      "username" : "edvarao",
+      "email" : "edvarao@bandy.no",
+      "userID" : "USER-a45e3433-3f2c-482b-9d76-c0d5c9efbfa3"
+    },
+    "time" : [ 2025, 11, 8, 17, 24, 39, 127261700 ],
     "likedByUserIds" : [ ],
     "edited" : true
   }, {

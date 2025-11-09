@@ -356,7 +356,7 @@
 
     <!-- Profiles for platform-specific test configuration -->
     <profiles>
-        <!-- Skip TestFX tests on macOS due to Monocle incompatibility with JavaFX 21 -->
+        <!-- Enable TestFX tests on macOS -->
         <profile>
             <id>enable-testfx-macos</id>
             <activation>

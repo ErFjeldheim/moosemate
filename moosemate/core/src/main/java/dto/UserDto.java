@@ -18,6 +18,14 @@ public class UserDto {
         this.email = email;
     }
 
+    // Copy constructor for defensive copying
+    public UserDto(UserDto other) {
+        if (other != null) {
+            this.username = other.username;
+            this.email = other.email;
+        }
+    }
+
     // Factory method for converting from User model
     public static UserDto fromUser(model.User user) {
         return new UserDto(user.getUsername(), user.getEmail());
@@ -38,4 +46,23 @@ public class UserDto {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        UserDto userDto = (UserDto) o;
+        return java.util.Objects.equals(username, userDto.username)
+                && java.util.Objects.equals(email, userDto.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(username, email);
+    }
 }
+

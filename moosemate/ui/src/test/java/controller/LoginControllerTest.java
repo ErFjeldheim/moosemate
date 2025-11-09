@@ -17,7 +17,9 @@ import org.testfx.util.WaitForAsyncUtils;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Unit tests for LoginController using TestFX.
@@ -83,9 +85,15 @@ class LoginControllerTest extends FxRobot {
             PasswordField passwordField = lookup("#passwordField").query();
             Button loginButton = lookup("#loginButton").query();
             
-            if (usernameField != null) usernameField.clear();
-            if (passwordField != null) passwordField.clear();
-            if (loginButton != null) loginButton.fire();
+            if (usernameField != null) {
+                usernameField.clear();
+            }
+            if (passwordField != null) {
+                passwordField.clear();
+            }
+            if (loginButton != null) {
+                loginButton.fire();
+            }
         });
         WaitForAsyncUtils.waitForFxEvents();
         sleep(100, TimeUnit.MILLISECONDS);
@@ -106,8 +114,12 @@ class LoginControllerTest extends FxRobot {
                 usernameField.clear();
                 usernameField.setText("testuser");
             }
-            if (passwordField != null) passwordField.clear();
-            if (loginButton != null) loginButton.fire();
+            if (passwordField != null) {
+                passwordField.clear();
+            }
+            if (loginButton != null) {
+                loginButton.fire();
+            }
         });
         WaitForAsyncUtils.waitForFxEvents();
         sleep(100, TimeUnit.MILLISECONDS);
@@ -123,12 +135,16 @@ class LoginControllerTest extends FxRobot {
             PasswordField passwordField = lookup("#passwordField").query();
             Button loginButton = lookup("#loginButton").query();
             
-            if (usernameField != null) usernameField.clear();
+            if (usernameField != null) {
+                usernameField.clear();
+            }
             if (passwordField != null) {
                 passwordField.clear();
                 passwordField.setText("password123");
             }
-            if (loginButton != null) loginButton.fire();
+            if (loginButton != null) {
+                loginButton.fire();
+            }
         });
         WaitForAsyncUtils.waitForFxEvents();
         sleep(100, TimeUnit.MILLISECONDS);
@@ -152,7 +168,9 @@ class LoginControllerTest extends FxRobot {
                 passwordField.clear();
                 passwordField.setText("password123");
             }
-            if (loginButton != null) loginButton.fire();
+            if (loginButton != null) {
+                loginButton.fire();
+            }
         });
         WaitForAsyncUtils.waitForFxEvents();
         sleep(200, TimeUnit.MILLISECONDS);
@@ -253,7 +271,9 @@ class LoginControllerTest extends FxRobot {
                     passwordField.clear();
                     passwordField.setText("pass" + attempt);
                 }
-                if (loginButton != null) loginButton.fire();
+                if (loginButton != null) {
+                    loginButton.fire();
+                }
             });
             WaitForAsyncUtils.waitForFxEvents();
             sleep(100, TimeUnit.MILLISECONDS);

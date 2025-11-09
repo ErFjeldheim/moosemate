@@ -1,12 +1,11 @@
 package repository;
 
-import model.Moosage;
-import model.User;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -14,13 +13,17 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
-/**
- * Comprehensive tests for MoosageRepository.
- * Tests JSON-based persistence of moosages.
- */
+import model.Moosage;
+import model.User;
+
+//Comprehensive tests for MoosageRepository.
+// Tests JSON-based persistence of moosages.
 public class MoosageRepositoryTest {
 
     @Mock
@@ -38,7 +41,7 @@ public class MoosageRepositoryTest {
         
         // Create repository with test file handler
         TestJsonFileHandler testFileHandler = new TestJsonFileHandler(testDataFile.toAbsolutePath().toString());
-        repository = new TestMoosageRepository(userRepository, testFileHandler);
+        repository = new MoosageRepository(userRepository, testFileHandler);
         
         // Mock user repository to return test users
         User testUser1 = new User("testuser", "test@example.com", "password", "user1");
@@ -280,18 +283,8 @@ public class MoosageRepositoryTest {
         assertTrue(retrieved.get().getLikedByUserIds().contains("user2"));
     }
 
-    /**
-     * Test subclass that uses a temporary file path.
-     */
-    private static class TestMoosageRepository extends MoosageRepository {
-        public TestMoosageRepository(UserRepository userRepository, util.JsonFileHandler fileHandler) {
-            super(userRepository, fileHandler);
-        }
-    }
-    
-    /**
-     * Test JsonFileHandler that uses a custom test file path.
-     */
+    //Test JsonFileHandler that uses a custom test file path.
+   
     private static class TestJsonFileHandler extends util.JsonFileHandler {
         private final String testFilePath;
         

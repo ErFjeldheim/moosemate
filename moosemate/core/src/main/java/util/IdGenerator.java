@@ -4,7 +4,7 @@ import java.util.UUID;
 
 // class for gathering UUID (unique identifier) generations
 
-public class IdGenerator {
+public final class IdGenerator {
     
     private IdGenerator() {
         throw new UnsupportedOperationException("Utility class");

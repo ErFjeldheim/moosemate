@@ -21,9 +21,16 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * Comprehensive tests for MoosageController with focus on error handling.
@@ -66,8 +73,12 @@ public class MoosageControllerTest {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertTrue(response.getBody().isSuccess());
-        assertEquals(1, response.getBody().getData().size());
+        ApiResponse<List<MoosageDto>> body = response.getBody();
+        assertNotNull(body);
+        assertTrue(body.isSuccess());
+        List<MoosageDto> data = body.getData();
+        assertNotNull(data);
+        assertEquals(1, data.size());
         verify(sessionService, times(1)).getUserIdByToken(validToken);
         verify(moosageService, times(1)).getAllMoosages();
     }
@@ -81,8 +92,10 @@ public class MoosageControllerTest {
 
         assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertFalse(response.getBody().isSuccess());
-        assertEquals("Invalid session token", response.getBody().getMessage());
+        ApiResponse<List<MoosageDto>> body = response.getBody();
+        assertNotNull(body);
+        assertFalse(body.isSuccess());
+        assertEquals("Invalid session token", body.getMessage());
         verify(moosageService, never()).getAllMoosages();
     }
 
@@ -96,8 +109,10 @@ public class MoosageControllerTest {
 
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertFalse(response.getBody().isSuccess());
-        assertTrue(response.getBody().getMessage().contains("Error retrieving moosages"));
+        ApiResponse<List<MoosageDto>> body = response.getBody();
+        assertNotNull(body);
+        assertFalse(body.isSuccess());
+        assertTrue(body.getMessage().contains("Error retrieving moosages"));
     }
 
     // ============== GET MOOSAGE BY ID TESTS ==============
@@ -112,9 +127,11 @@ public class MoosageControllerTest {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertTrue(response.getBody().isSuccess());
-        assertEquals("Moosage found", response.getBody().getMessage());
-        assertNotNull(response.getBody().getData());
+        ApiResponse<MoosageDto> body = response.getBody();
+        assertNotNull(body);
+        assertTrue(body.isSuccess());
+        assertEquals("Moosage found", body.getMessage());
+        assertNotNull(body.getData());
     }
 
     @Test
@@ -127,8 +144,10 @@ public class MoosageControllerTest {
 
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertFalse(response.getBody().isSuccess());
-        assertEquals("Moosage not found", response.getBody().getMessage());
+        ApiResponse<MoosageDto> body = response.getBody();
+        assertNotNull(body);
+        assertFalse(body.isSuccess());
+        assertEquals("Moosage not found", body.getMessage());
     }
 
     @Test
@@ -140,7 +159,9 @@ public class MoosageControllerTest {
 
         assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertFalse(response.getBody().isSuccess());
+        ApiResponse<MoosageDto> body = response.getBody();
+        assertNotNull(body);
+        assertFalse(body.isSuccess());
         verify(moosageService, never()).getMoosageById(anyLong());
     }
 
@@ -159,8 +180,10 @@ public class MoosageControllerTest {
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertTrue(response.getBody().isSuccess());
-        assertEquals("Moosage created successfully", response.getBody().getMessage());
+        ApiResponse<MoosageDto> body = response.getBody();
+        assertNotNull(body);
+        assertTrue(body.isSuccess());
+        assertEquals("Moosage created successfully", body.getMessage());
     }
 
     @Test
@@ -175,7 +198,9 @@ public class MoosageControllerTest {
 
         assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertFalse(response.getBody().isSuccess());
+        ApiResponse<MoosageDto> body = response.getBody();
+        assertNotNull(body);
+        assertFalse(body.isSuccess());
         verify(moosageService, never()).createMoosage(anyString(), anyString());
     }
 
@@ -191,8 +216,10 @@ public class MoosageControllerTest {
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertFalse(response.getBody().isSuccess());
-        assertEquals("Content cannot be empty", response.getBody().getMessage());
+        ApiResponse<MoosageDto> body = response.getBody();
+        assertNotNull(body);
+        assertFalse(body.isSuccess());
+        assertEquals("Content cannot be empty", body.getMessage());
     }
 
     @Test
@@ -207,7 +234,9 @@ public class MoosageControllerTest {
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertFalse(response.getBody().isSuccess());
+        ApiResponse<MoosageDto> body = response.getBody();
+        assertNotNull(body);
+        assertFalse(body.isSuccess());
     }
 
     @Test
@@ -222,7 +251,9 @@ public class MoosageControllerTest {
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertFalse(response.getBody().isSuccess());
+        ApiResponse<MoosageDto> body = response.getBody();
+        assertNotNull(body);
+        assertFalse(body.isSuccess());
     }
 
     @Test
@@ -239,8 +270,10 @@ public class MoosageControllerTest {
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertFalse(response.getBody().isSuccess());
-        assertEquals("User not found", response.getBody().getMessage());
+        ApiResponse<MoosageDto> body = response.getBody();
+        assertNotNull(body);
+        assertFalse(body.isSuccess());
+        assertEquals("User not found", body.getMessage());
     }
 
     @Test
@@ -257,8 +290,10 @@ public class MoosageControllerTest {
 
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertFalse(response.getBody().isSuccess());
-        assertTrue(response.getBody().getMessage().contains("Error creating moosage"));
+        ApiResponse<MoosageDto> body = response.getBody();
+        assertNotNull(body);
+        assertFalse(body.isSuccess());
+        assertTrue(body.getMessage().contains("Error creating moosage"));
     }
 
     // ============== TOGGLE LIKE TESTS ==============
@@ -273,8 +308,10 @@ public class MoosageControllerTest {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertTrue(response.getBody().isSuccess());
-        assertEquals("Like toggled successfully", response.getBody().getMessage());
+        ApiResponse<MoosageDto> body = response.getBody();
+        assertNotNull(body);
+        assertTrue(body.isSuccess());
+        assertEquals("Like toggled successfully", body.getMessage());
     }
 
     @Test
@@ -286,7 +323,9 @@ public class MoosageControllerTest {
 
         assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertFalse(response.getBody().isSuccess());
+        ApiResponse<MoosageDto> body = response.getBody();
+        assertNotNull(body);
+        assertFalse(body.isSuccess());
         verify(moosageService, never()).toggleLike(anyLong(), anyString());
     }
 
@@ -300,8 +339,10 @@ public class MoosageControllerTest {
 
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertFalse(response.getBody().isSuccess());
-        assertEquals("Moosage not found", response.getBody().getMessage());
+        ApiResponse<MoosageDto> body = response.getBody();
+        assertNotNull(body);
+        assertFalse(body.isSuccess());
+        assertEquals("Moosage not found", body.getMessage());
     }
 
     @Test
@@ -315,7 +356,9 @@ public class MoosageControllerTest {
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertFalse(response.getBody().isSuccess());
+        ApiResponse<MoosageDto> body = response.getBody();
+        assertNotNull(body);
+        assertFalse(body.isSuccess());
     }
 
     @Test
@@ -329,8 +372,10 @@ public class MoosageControllerTest {
 
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertFalse(response.getBody().isSuccess());
-        assertTrue(response.getBody().getMessage().contains("Error toggling like"));
+        ApiResponse<MoosageDto> body = response.getBody();
+        assertNotNull(body);
+        assertFalse(body.isSuccess());
+        assertTrue(body.getMessage().contains("Error toggling like"));
     }
 
     // ============== UPDATE MOOSAGE TESTS ==============
@@ -349,8 +394,10 @@ public class MoosageControllerTest {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertTrue(response.getBody().isSuccess());
-        assertEquals("Moosage updated successfully", response.getBody().getMessage());
+        ApiResponse<MoosageDto> body = response.getBody();
+        assertNotNull(body);
+        assertTrue(body.isSuccess());
+        assertEquals("Moosage updated successfully", body.getMessage());
     }
 
     @Test
@@ -365,7 +412,9 @@ public class MoosageControllerTest {
 
         assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertFalse(response.getBody().isSuccess());
+        ApiResponse<MoosageDto> body = response.getBody();
+        assertNotNull(body);
+        assertFalse(body.isSuccess());
     }
 
     @Test
@@ -380,8 +429,10 @@ public class MoosageControllerTest {
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertFalse(response.getBody().isSuccess());
-        assertEquals("Content cannot be empty", response.getBody().getMessage());
+        ApiResponse<MoosageDto> body = response.getBody();
+        assertNotNull(body);
+        assertFalse(body.isSuccess());
+        assertEquals("Content cannot be empty", body.getMessage());
     }
 
     @Test
@@ -397,8 +448,10 @@ public class MoosageControllerTest {
 
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertFalse(response.getBody().isSuccess());
-        assertEquals("Moosage not found", response.getBody().getMessage());
+        ApiResponse<MoosageDto> body = response.getBody();
+        assertNotNull(body);
+        assertFalse(body.isSuccess());
+        assertEquals("Moosage not found", body.getMessage());
     }
 
     @Test
@@ -417,8 +470,10 @@ public class MoosageControllerTest {
 
         assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertFalse(response.getBody().isSuccess());
-        assertEquals("You can only edit your own moosage", response.getBody().getMessage());
+        ApiResponse<MoosageDto> body = response.getBody();
+        assertNotNull(body);
+        assertFalse(body.isSuccess());
+        assertEquals("You can only edit your own moosage", body.getMessage());
     }
 
     @Test
@@ -436,8 +491,10 @@ public class MoosageControllerTest {
 
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertFalse(response.getBody().isSuccess());
-        assertTrue(response.getBody().getMessage().contains("Error updating moosage"));
+        ApiResponse<MoosageDto> body = response.getBody();
+        assertNotNull(body);
+        assertFalse(body.isSuccess());
+        assertTrue(body.getMessage().contains("Error updating moosage"));
     }
 
     // ============== DELETE MOOSAGE TESTS ==============
@@ -453,8 +510,10 @@ public class MoosageControllerTest {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertTrue(response.getBody().isSuccess());
-        assertEquals("Moosage deleted successfully", response.getBody().getMessage());
+        ApiResponse<Void> body = response.getBody();
+        assertNotNull(body);
+        assertTrue(body.isSuccess());
+        assertEquals("Moosage deleted successfully", body.getMessage());
     }
 
     @Test
@@ -466,7 +525,9 @@ public class MoosageControllerTest {
 
         assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertFalse(response.getBody().isSuccess());
+        ApiResponse<Void> body = response.getBody();
+        assertNotNull(body);
+        assertFalse(body.isSuccess());
     }
 
     @Test
@@ -479,8 +540,10 @@ public class MoosageControllerTest {
 
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertFalse(response.getBody().isSuccess());
-        assertEquals("Moosage not found", response.getBody().getMessage());
+        ApiResponse<Void> body = response.getBody();
+        assertNotNull(body);
+        assertFalse(body.isSuccess());
+        assertEquals("Moosage not found", body.getMessage());
     }
 
     @Test
@@ -496,8 +559,10 @@ public class MoosageControllerTest {
 
         assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertFalse(response.getBody().isSuccess());
-        assertEquals("You can only delete your own moosage", response.getBody().getMessage());
+        ApiResponse<Void> body = response.getBody();
+        assertNotNull(body);
+        assertFalse(body.isSuccess());
+        assertEquals("You can only delete your own moosage", body.getMessage());
     }
 
     @Test
@@ -511,7 +576,9 @@ public class MoosageControllerTest {
 
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertFalse(response.getBody().isSuccess());
-        assertEquals("Moosage not found", response.getBody().getMessage());
+        ApiResponse<Void> body = response.getBody();
+        assertNotNull(body);
+        assertFalse(body.isSuccess());
+        assertEquals("Moosage not found", body.getMessage());
     }
 }

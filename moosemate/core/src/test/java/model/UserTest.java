@@ -1,17 +1,23 @@
 package model;
 
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.UUID;
 
+import org.junit.jupiter.api.Test;
+
 public class UserTest {
 
-String userID = UUID.randomUUID().toString(); // Generates userID-hash
+    String userID = UUID.randomUUID().toString(); // Generates userID-hash
 
-//Constructor test
+    //Constructor test
     @Test
-    public void constructorTest(){
+    public void constructorTest() {
         User user = new User("testuser", "test@example.com", "password123", userID);
         assertNotNull(user);
         assertEquals("testuser", user.getUsername());
@@ -239,23 +245,23 @@ String userID = UUID.randomUUID().toString(); // Generates userID-hash
         String validUserID = UUID.randomUUID().toString();
         
         // Test constructor throws exceptions for invalid inputs
-        assertThrows(IllegalArgumentException.class, 
-            () -> new User(null, "valid@email.com", "validpass123", validUserID));
+        assertThrows(IllegalArgumentException.class,
+                () -> new User(null, "valid@email.com", "validpass123", validUserID));
             
-        assertThrows(IllegalArgumentException.class, 
-            () -> new User("validuser", null, "validpass123", validUserID));
+        assertThrows(IllegalArgumentException.class,
+                () -> new User("validuser", null, "validpass123", validUserID));
             
-        assertThrows(IllegalArgumentException.class, 
-            () -> new User("validuser", "valid@email.com", null, validUserID));
+        assertThrows(IllegalArgumentException.class,
+                () -> new User("validuser", "valid@email.com", null, validUserID));
             
-        assertThrows(IllegalArgumentException.class, 
-            () -> new User("", "valid@email.com", "validpass123", validUserID));
+        assertThrows(IllegalArgumentException.class,
+                () -> new User("", "valid@email.com", "validpass123", validUserID));
             
-        assertThrows(IllegalArgumentException.class, 
-            () -> new User("validuser", "", "validpass123", validUserID));
+        assertThrows(IllegalArgumentException.class,
+                () -> new User("validuser", "", "validpass123", validUserID));
             
-        assertThrows(IllegalArgumentException.class, 
-            () -> new User("validuser", "valid@email.com", "", validUserID));
+        assertThrows(IllegalArgumentException.class,
+                () -> new User("validuser", "valid@email.com", "", validUserID));
     }
 
     @Test

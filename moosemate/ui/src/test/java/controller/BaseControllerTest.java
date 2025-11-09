@@ -1,16 +1,20 @@
 package controller;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.lang.reflect.Field;
+
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
-
-import java.lang.reflect.Field;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(ApplicationExtension.class)
 class BaseControllerTest {
@@ -38,7 +42,7 @@ class BaseControllerTest {
     void testShowError() {
         controller.showError("Error message");
         
-        assertEquals("Error message", errorLabel.getText());
+        assertEquals("Error: Error message", errorLabel.getText());
         assertTrue(errorLabel.isVisible());
         assertTrue(errorLabel.getStyleClass().contains("error-label"));
     }
@@ -47,7 +51,7 @@ class BaseControllerTest {
     void testShowError_EmptyMessage() {
         controller.showError("");
         
-        assertEquals("", errorLabel.getText());
+        assertEquals("Error: ", errorLabel.getText());
         assertTrue(errorLabel.isVisible());
         assertTrue(errorLabel.getStyleClass().contains("error-label"));
     }
@@ -56,7 +60,7 @@ class BaseControllerTest {
     void testShowSuccess() {
         controller.showSuccess("Success message");
         
-        assertEquals("Success message", errorLabel.getText());
+        assertEquals("Success: Success message", errorLabel.getText());
         assertTrue(errorLabel.isVisible());
         assertTrue(errorLabel.getStyleClass().contains("success-label"));
     }
@@ -65,7 +69,7 @@ class BaseControllerTest {
     void testShowSuccess_EmptyMessage() {
         controller.showSuccess("");
         
-        assertEquals("", errorLabel.getText());
+        assertEquals("Success: ", errorLabel.getText());
         assertTrue(errorLabel.isVisible());
         assertTrue(errorLabel.getStyleClass().contains("success-label"));
     }
@@ -91,7 +95,7 @@ class BaseControllerTest {
         
         controller.showError("Error");
         
-        assertEquals("Error", errorLabel.getText());
+        assertEquals("Error: Error", errorLabel.getText());
         assertTrue(errorLabel.getStyleClass().contains("error-label"));
         assertFalse(errorLabel.getStyleClass().contains("success-label"));
     }
@@ -103,7 +107,7 @@ class BaseControllerTest {
         
         controller.showSuccess("Success");
         
-        assertEquals("Success", errorLabel.getText());
+        assertEquals("Success: Success", errorLabel.getText());
         assertTrue(errorLabel.getStyleClass().contains("success-label"));
         assertFalse(errorLabel.getStyleClass().contains("error-label"));
     }

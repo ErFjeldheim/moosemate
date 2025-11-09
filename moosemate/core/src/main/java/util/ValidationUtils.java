@@ -2,7 +2,7 @@ package util;
 
 // class for gathering validation handling for user, email, password, etc
 
-public class ValidationUtils {
+public final class ValidationUtils {
     
     private static final String EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
 

@@ -22,7 +22,8 @@ public class App extends Application {
                 primaryStage.getIcons().add(new Image(iconStream));
             }
         } catch (Exception e) {
-            // Icon loading failed
+            // Icon loading failed, log and continue
+            System.err.println("Failed to load application icon: " + e.getMessage());
         }
         
         primaryStage.setOnCloseRequest(event -> {

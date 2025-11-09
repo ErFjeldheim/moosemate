@@ -1,6 +1,13 @@
 package controller;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+
 import dto.MoosageDto;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -9,17 +16,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
 import org.testfx.util.WaitForAsyncUtils;
-
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit tests for HomePageController using TestFX.
@@ -89,8 +92,8 @@ class HomePageControllerTest extends FxRobot {
         sleep(100, TimeUnit.MILLISECONDS);
         Label charCountLabel = lookup("#postCharCountLabel").query();
         String labelText = charCountLabel.getText();
-        assertTrue(labelText.contains("0") && labelText.contains("280"), 
-            "Initial character count should show 0/280");
+        assertTrue(labelText.contains("0") && labelText.contains("280"),
+                "Initial character count should show 0/280");
     }
 
     @Test
@@ -127,8 +130,8 @@ class HomePageControllerTest extends FxRobot {
         
         Label charCountLabel = lookup("#postCharCountLabel").query();
         String labelText = charCountLabel.getText();
-        assertTrue(labelText.contains(String.valueOf(longText.length())), 
-            "Character count should match text length");
+        assertTrue(labelText.contains(String.valueOf(longText.length())),
+                "Character count should match text length");
     }
 
     @Test
@@ -165,8 +168,8 @@ class HomePageControllerTest extends FxRobot {
         sleep(100, TimeUnit.MILLISECONDS);
         
         TextArea postTextArea = lookup("#postTextArea").query();
-        assertTrue(postTextArea.getText().length() <= 280, 
-            "Text should not exceed 280 characters");
+        assertTrue(postTextArea.getText().length() <= 280,
+                "Text should not exceed 280 characters");
     }
 
     @Test
@@ -184,8 +187,8 @@ class HomePageControllerTest extends FxRobot {
         sleep(100, TimeUnit.MILLISECONDS);
         
         TextArea postTextArea = lookup("#postTextArea").query();
-        assertTrue(postTextArea.getText().length() <= 280, 
-            "Text should be truncated to 280 characters");
+        assertTrue(postTextArea.getText().length() <= 280,
+                "Text should be truncated to 280 characters");
     }
 
     @Test
@@ -195,8 +198,12 @@ class HomePageControllerTest extends FxRobot {
             TextArea postTextArea = lookup("#postTextArea").query();
             Button postButton = lookup("#postButton").query();
             
-            if (postTextArea != null) postTextArea.clear();
-            if (postButton != null) postButton.fire();
+            if (postTextArea != null) {
+                postTextArea.clear();
+            }
+            if (postButton != null) {
+                postButton.fire();
+            }
         });
         WaitForAsyncUtils.waitForFxEvents();
         sleep(100, TimeUnit.MILLISECONDS);
@@ -216,7 +223,9 @@ class HomePageControllerTest extends FxRobot {
                 postTextArea.clear();
                 postTextArea.setText("This is a test moosage!");
             }
-            if (postButton != null) postButton.fire();
+            if (postButton != null) {
+                postButton.fire();
+            }
         });
         WaitForAsyncUtils.waitForFxEvents();
         sleep(200, TimeUnit.MILLISECONDS);
@@ -281,8 +290,8 @@ class HomePageControllerTest extends FxRobot {
             sleep(50, TimeUnit.MILLISECONDS);
             
             Label charCountLabel = lookup("#postCharCountLabel").query();
-            assertTrue(charCountLabel.getText().contains(String.valueOf(text.length())), 
-                "Character count should update for each text: " + text);
+            assertTrue(charCountLabel.getText().contains(String.valueOf(text.length())),
+                    "Character count should update for each text: " + text);
         }
     }
 
@@ -300,8 +309,8 @@ class HomePageControllerTest extends FxRobot {
         sleep(100, TimeUnit.MILLISECONDS);
         
         TextArea postTextArea = lookup("#postTextArea").query();
-        assertTrue(postTextArea.getText().contains("multiline"), 
-            "Text area should handle multiline text");
+        assertTrue(postTextArea.getText().contains("multiline"),
+                "Text area should handle multiline text");
     }
 
     @Test
@@ -319,8 +328,8 @@ class HomePageControllerTest extends FxRobot {
         sleep(100, TimeUnit.MILLISECONDS);
         
         Label charCountLabel = lookup("#postCharCountLabel").query();
-        assertTrue(charCountLabel.getText().contains(String.valueOf(specialText.length())), 
-            "Character count should include special characters");
+        assertTrue(charCountLabel.getText().contains(String.valueOf(specialText.length())),
+                "Character count should include special characters");
     }
 
     @Test
@@ -339,8 +348,8 @@ class HomePageControllerTest extends FxRobot {
         
         Label charCountLabel = lookup("#postCharCountLabel").query();
         // Character count should update (emojis may count as multiple characters)
-        assertTrue(charCountLabel.getText().matches(".*\\d+.*"), 
-            "Character count should be displayed");
+        assertTrue(charCountLabel.getText().matches(".*\\d+.*"),
+                "Character count should be displayed");
     }
 
     @Test

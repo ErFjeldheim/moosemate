@@ -12,17 +12,20 @@ public class LoginResponse {
     public LoginResponse() { }
 
     public LoginResponse(UserDto user, String sessionToken, String userId) {
-        this.user = user;
+        // Defensive copy to avoid exposing internal representation
+        this.user = user != null ? new UserDto(user) : null;
         this.sessionToken = sessionToken;
         this.userId = userId;
     }
 
     public UserDto getUser() {
-        return user;
+        // Defensive copy to avoid exposing internal representation
+        return user != null ? new UserDto(user) : null;
     }
 
     public void setUser(UserDto user) {
-        this.user = user;
+        // Defensive copy to avoid exposing internal representation
+        this.user = user != null ? new UserDto(user) : null;
     }
 
     public String getSessionToken() {

@@ -15,12 +15,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-/**
- * Repository class for managing User data persistence using JSON files.
- * Handles CRUD operations for User objects using the same pattern as UserService.
- */
+// Repository class for managing User data persistence using JSON files.
+// Handles CRUD operations for User objects using the same pattern as UserService.
+
 @Repository
-public class UserRepository {
+public final class UserRepository {
     
     private static final String DATA_FILE_PATH = "persistence/src/main/resources/data/data.json";
     
@@ -38,8 +37,16 @@ public class UserRepository {
      * @param fileHandler the JsonFileHandler to use
      */
     public UserRepository(JsonFileHandler fileHandler) {
+        if (fileHandler == null) {
+            throw new IllegalArgumentException("JsonFileHandler cannot be null");
+        }
         this.fileHandler = fileHandler;
-        this.dataFile = new File(fileHandler.getDataFilePath(DATA_FILE_PATH));
+        // DATA_FILE_PATH is a hardcoded constant, not user input
+        String filePath = fileHandler.getDataFilePath(DATA_FILE_PATH);
+        if (filePath == null || filePath.trim().isEmpty()) {
+            throw new IllegalArgumentException("Data file path cannot be null or empty");
+        }
+        this.dataFile = new File(filePath);
         initializeDataFile();
     }
 

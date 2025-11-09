@@ -1,8 +1,22 @@
 package controller;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import dto.ApiResponse;
 import dto.LoginResponse;
 import dto.UserDto;
+
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.concurrent.TimeUnit;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -11,6 +25,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,16 +33,9 @@ import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
 import org.testfx.util.WaitForAsyncUtils;
+
 import service.ApiClient;
 import service.SessionManager;
-
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.util.concurrent.TimeUnit;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.*;
 
 /**
  * Mock-based tests for LoginController using Mockito to test API integration scenarios.
@@ -116,26 +124,26 @@ class LoginControllerMockTest extends FxRobot {
         when(mockApiClient.login(anyString(), anyString())).thenReturn(mockResponse);
 
         // Act - Perform login with invalid credentials
-            interact(() -> {
-                TextField usernameField = lookup("#usernameField").query();
-                PasswordField passwordField = lookup("#passwordField").query();
-                Button loginButton = lookup("#loginButton").query();
-                
-                if (usernameField != null) {
-                    usernameField.clear();
-                    usernameField.setText("wronguser");
-                }
-                if (passwordField != null) {
-                    passwordField.clear();
-                    passwordField.setText("wrongpass");
-                }
-                if (loginButton != null) {
-                    loginButton.fire();
-                }
-            });
+        interact(() -> {
+            TextField usernameField = lookup("#usernameField").query();
+            PasswordField passwordField = lookup("#passwordField").query();
+            Button loginButton = lookup("#loginButton").query();
             
-            WaitForAsyncUtils.waitForFxEvents();
-            sleep(200, TimeUnit.MILLISECONDS);
+            if (usernameField != null) {
+                usernameField.clear();
+                usernameField.setText("wronguser");
+            }
+            if (passwordField != null) {
+                passwordField.clear();
+                passwordField.setText("wrongpass");
+            }
+            if (loginButton != null) {
+                loginButton.fire();
+            }
+        });
+        
+        WaitForAsyncUtils.waitForFxEvents();
+        sleep(200, TimeUnit.MILLISECONDS);
 
         // Assert
         verify(mockApiClient, times(1)).login("wronguser", "wrongpass");
@@ -144,7 +152,7 @@ class LoginControllerMockTest extends FxRobot {
         Label errorLabel = lookup("#errorLabel").query();
         assertNotNull(errorLabel);
         assertTrue(errorLabel.isVisible());
-        assertEquals("Invalid username or password", errorLabel.getText());
+        assertEquals("Error: Invalid username or password", errorLabel.getText());
     }
 
     @Test
@@ -154,26 +162,26 @@ class LoginControllerMockTest extends FxRobot {
             .thenThrow(new RuntimeException("Connection refused"));
 
         // Act - Attempt login
-            interact(() -> {
-                TextField usernameField = lookup("#usernameField").query();
-                PasswordField passwordField = lookup("#passwordField").query();
-                Button loginButton = lookup("#loginButton").query();
-                
-                if (usernameField != null) {
-                    usernameField.clear();
-                    usernameField.setText("testuser");
-                }
-                if (passwordField != null) {
-                    passwordField.clear();
-                    passwordField.setText("password123");
-                }
-                if (loginButton != null) {
-                    loginButton.fire();
-                }
-            });
+        interact(() -> {
+            TextField usernameField = lookup("#usernameField").query();
+            PasswordField passwordField = lookup("#passwordField").query();
+            Button loginButton = lookup("#loginButton").query();
             
-            WaitForAsyncUtils.waitForFxEvents();
-            sleep(200, TimeUnit.MILLISECONDS);
+            if (usernameField != null) {
+                usernameField.clear();
+                usernameField.setText("testuser");
+            }
+            if (passwordField != null) {
+                passwordField.clear();
+                passwordField.setText("password123");
+            }
+            if (loginButton != null) {
+                loginButton.fire();
+            }
+        });
+        
+        WaitForAsyncUtils.waitForFxEvents();
+        sleep(200, TimeUnit.MILLISECONDS);
 
         // Assert - Verify error message is shown
         Label errorLabel = lookup("#errorLabel").query();
@@ -188,26 +196,26 @@ class LoginControllerMockTest extends FxRobot {
         when(mockApiClient.login(anyString(), anyString())).thenReturn(null);
 
         // Act
-            interact(() -> {
-                TextField usernameField = lookup("#usernameField").query();
-                PasswordField passwordField = lookup("#passwordField").query();
-                Button loginButton = lookup("#loginButton").query();
-                
-                if (usernameField != null) {
-                    usernameField.clear();
-                    usernameField.setText("testuser");
-                }
-                if (passwordField != null) {
-                    passwordField.clear();
-                    passwordField.setText("password123");
-                }
-                if (loginButton != null) {
-                    loginButton.fire();
-                }
-            });
+        interact(() -> {
+            TextField usernameField = lookup("#usernameField").query();
+            PasswordField passwordField = lookup("#passwordField").query();
+            Button loginButton = lookup("#loginButton").query();
             
-            WaitForAsyncUtils.waitForFxEvents();
-            sleep(200, TimeUnit.MILLISECONDS);
+            if (usernameField != null) {
+                usernameField.clear();
+                usernameField.setText("testuser");
+            }
+            if (passwordField != null) {
+                passwordField.clear();
+                passwordField.setText("password123");
+            }
+            if (loginButton != null) {
+                loginButton.fire();
+            }
+        });
+        
+        WaitForAsyncUtils.waitForFxEvents();
+        sleep(200, TimeUnit.MILLISECONDS);
 
         // Assert - Should handle gracefully
         assertNotNull(controller);
@@ -223,26 +231,26 @@ class LoginControllerMockTest extends FxRobot {
         when(mockApiClient.login(anyString(), anyString())).thenReturn(mockResponse);
 
         // Act
-            interact(() -> {
-                TextField usernameField = lookup("#usernameField").query();
-                PasswordField passwordField = lookup("#passwordField").query();
-                Button loginButton = lookup("#loginButton").query();
-                
-                if (usernameField != null) {
-                    usernameField.clear();
-                    usernameField.setText("testuser");
-                }
-                if (passwordField != null) {
-                    passwordField.clear();
-                    passwordField.setText("password123");
-                }
-                if (loginButton != null) {
-                    loginButton.fire();
-                }
-            });
+        interact(() -> {
+            TextField usernameField = lookup("#usernameField").query();
+            PasswordField passwordField = lookup("#passwordField").query();
+            Button loginButton = lookup("#loginButton").query();
             
-            WaitForAsyncUtils.waitForFxEvents();
-            sleep(200, TimeUnit.MILLISECONDS);
+            if (usernameField != null) {
+                usernameField.clear();
+                usernameField.setText("testuser");
+            }
+            if (passwordField != null) {
+                passwordField.clear();
+                passwordField.setText("password123");
+            }
+            if (loginButton != null) {
+                loginButton.fire();
+            }
+        });
+        
+        WaitForAsyncUtils.waitForFxEvents();
+        sleep(200, TimeUnit.MILLISECONDS);
 
         // Assert
         verify(mockApiClient, times(1)).login("testuser", "password123");
@@ -261,48 +269,48 @@ class LoginControllerMockTest extends FxRobot {
         when(mockApiClient.login("testuser", "password123")).thenReturn(successResponse);
 
         // Act - First attempt (fail)
-            interact(() -> {
-                TextField usernameField = lookup("#usernameField").query();
-                PasswordField passwordField = lookup("#passwordField").query();
-                Button loginButton = lookup("#loginButton").query();
-                
-                if (usernameField != null) {
-                    usernameField.clear();
-                    usernameField.setText("wronguser");
-                }
-                if (passwordField != null) {
-                    passwordField.clear();
-                    passwordField.setText("wrongpass");
-                }
-                if (loginButton != null) {
-                    loginButton.fire();
-                }
-            });
+        interact(() -> {
+            TextField usernameField = lookup("#usernameField").query();
+            PasswordField passwordField = lookup("#passwordField").query();
+            Button loginButton = lookup("#loginButton").query();
             
-            WaitForAsyncUtils.waitForFxEvents();
-            sleep(200, TimeUnit.MILLISECONDS);
+            if (usernameField != null) {
+                usernameField.clear();
+                usernameField.setText("wronguser");
+            }
+            if (passwordField != null) {
+                passwordField.clear();
+                passwordField.setText("wrongpass");
+            }
+            if (loginButton != null) {
+                loginButton.fire();
+            }
+        });
+        
+        WaitForAsyncUtils.waitForFxEvents();
+        sleep(200, TimeUnit.MILLISECONDS);
 
-            // Act - Second attempt (success)
-            interact(() -> {
-                TextField usernameField = lookup("#usernameField").query();
-                PasswordField passwordField = lookup("#passwordField").query();
-                Button loginButton = lookup("#loginButton").query();
-                
-                if (usernameField != null) {
-                    usernameField.clear();
-                    usernameField.setText("testuser");
-                }
-                if (passwordField != null) {
-                    passwordField.clear();
-                    passwordField.setText("password123");
-                }
-                if (loginButton != null) {
-                    loginButton.fire();
-                }
-            });
+        // Act - Second attempt (success)
+        interact(() -> {
+            TextField usernameField = lookup("#usernameField").query();
+            PasswordField passwordField = lookup("#passwordField").query();
+            Button loginButton = lookup("#loginButton").query();
             
-            WaitForAsyncUtils.waitForFxEvents();
-            sleep(200, TimeUnit.MILLISECONDS);
+            if (usernameField != null) {
+                usernameField.clear();
+                usernameField.setText("testuser");
+            }
+            if (passwordField != null) {
+                passwordField.clear();
+                passwordField.setText("password123");
+            }
+            if (loginButton != null) {
+                loginButton.fire();
+            }
+        });
+        
+        WaitForAsyncUtils.waitForFxEvents();
+        sleep(200, TimeUnit.MILLISECONDS);
 
         // Assert
         verify(mockApiClient, times(1)).login("wronguser", "wrongpass");

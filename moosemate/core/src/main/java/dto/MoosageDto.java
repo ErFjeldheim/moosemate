@@ -93,11 +93,13 @@ public class MoosageDto {
     }
     
     public Set<String> getLikedByUserIds() {
-        return likedByUserIds;
+        // Return defensive copy to avoid exposing internal representation
+        return new HashSet<>(likedByUserIds);
     }
     
     public void setLikedByUserIds(Set<String> likedByUserIds) {
-        this.likedByUserIds = likedByUserIds;
+        // Create defensive copy to avoid exposing internal representation
+        this.likedByUserIds = likedByUserIds != null ? new HashSet<>(likedByUserIds) : new HashSet<>();
     }
     
     public boolean isEdited() {

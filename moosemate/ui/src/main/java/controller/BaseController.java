@@ -57,7 +57,7 @@ public class BaseController {
 
     protected void showError(String message) {
         if (errorLabel != null) {
-            errorLabel.setText(message);
+            errorLabel.setText("Error: " + message);
             errorLabel.setVisible(true);
             errorLabel.getStyleClass().clear();
             errorLabel.getStyleClass().add("error-label");
@@ -66,7 +66,7 @@ public class BaseController {
 
     protected void showSuccess(String message) {
         if (errorLabel != null) {
-            errorLabel.setText(message);
+            errorLabel.setText("Success: " + message);
             errorLabel.setVisible(true);
             errorLabel.getStyleClass().clear();
             errorLabel.getStyleClass().add("success-label");

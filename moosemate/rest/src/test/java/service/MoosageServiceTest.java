@@ -1,23 +1,33 @@
 package service;
 
-import model.Moosage;
-import model.User;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import repository.MoosageRepository;
-import repository.UserRepository;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
+import model.Moosage;
+import model.User;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import repository.MoosageRepository;
+import repository.UserRepository;
 
 /**
  * Comprehensive tests for MoosageService with focus on error handling.
@@ -90,7 +100,7 @@ public class MoosageServiceTest {
     public void testCreateMoosageSuccess() {
         when(userRepository.getUserById("user123")).thenReturn(Optional.of(testUser));
         when(moosageRepository.createMoosage(anyString(), anyString(), anyString()))
-            .thenReturn(testMoosage);
+                .thenReturn(testMoosage);
         
         Moosage result = moosageService.createMoosage("Test content", "user123");
         
@@ -241,7 +251,7 @@ public class MoosageServiceTest {
     public void testCreateMoosageWithEmptyContent() {
         when(userRepository.getUserById("user123")).thenReturn(Optional.of(testUser));
         when(moosageRepository.createMoosage("", "user123", "testuser"))
-            .thenReturn(testMoosage);
+                .thenReturn(testMoosage);
         
         Moosage result = moosageService.createMoosage("", "user123");
         

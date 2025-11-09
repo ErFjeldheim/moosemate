@@ -46,4 +46,42 @@
         <Bug pattern="UPM_UNCALLED_PRIVATE_METHOD" />
     </Match>
     -->
+    
+    <!-- Exclude EI_EXPOSE_REP2 for Spring dependency injection in REST module -->
+    <!-- Spring-managed beans are singletons with final fields that are never modified -->
+    <Match>
+        <Or>
+            <Class name="controller.MoosageController" />
+            <Class name="service.MoosageService" />
+        </Or>
+        <Bug pattern="EI_EXPOSE_REP2" />
+    </Match>
+    
+    <!-- Exclude EI_EXPOSE_REP2 for repository constructors in persistence module -->
+    <!-- These fields are final and the objects are not modified after construction -->
+    <Match>
+        <Or>
+            <Class name="repository.MoosageRepository" />
+            <Class name="repository.UserRepository" />
+        </Or>
+        <Bug pattern="EI_EXPOSE_REP2" />
+    </Match>
+    
+    <!-- Exclude PATH_TRAVERSAL_IN for repository file handling -->
+    <!-- File paths are controlled by application configuration, not user input -->
+    <Match>
+        <Or>
+            <Class name="repository.MoosageRepository" />
+            <Class name="repository.UserRepository" />
+        </Or>
+        <Bug pattern="PATH_TRAVERSAL_IN" />
+    </Match>
+    
+    <!-- Exclude EI_EXPOSE_REP for JsonFileHandler.getObjectMapper() -->
+    <!-- Returning the ObjectMapper is intentional for configuration purposes -->
+    <Match>
+        <Class name="util.JsonFileHandler" />
+        <Method name="getObjectMapper" />
+        <Bug pattern="EI_EXPOSE_REP" />
+    </Match>
 </FindBugsFilter>

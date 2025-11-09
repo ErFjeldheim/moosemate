@@ -16,7 +16,9 @@ import org.testfx.util.WaitForAsyncUtils;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Unit tests for SignUpController using TestFX.
@@ -90,10 +92,18 @@ class SignUpControllerTest extends FxRobot {
             TextField passwordField = lookup("#passwordField").query();
             Button signUpButton = lookup("#signUpButton").query();
             
-            if (usernameField != null) usernameField.clear();
-            if (emailField != null) emailField.clear();
-            if (passwordField != null) passwordField.clear();
-            if (signUpButton != null) signUpButton.fire();
+            if (usernameField != null) {
+                usernameField.clear();
+            }
+            if (emailField != null) {
+                emailField.clear();
+            }
+            if (passwordField != null) {
+                passwordField.clear();
+            }
+            if (signUpButton != null) {
+                signUpButton.fire();
+            }
         });
         WaitForAsyncUtils.waitForFxEvents();
         sleep(100, TimeUnit.MILLISECONDS);
@@ -115,9 +125,15 @@ class SignUpControllerTest extends FxRobot {
                 usernameField.clear();
                 usernameField.setText("testuser");
             }
-            if (emailField != null) emailField.clear();
-            if (passwordField != null) passwordField.clear();
-            if (signUpButton != null) signUpButton.fire();
+            if (emailField != null) {
+                emailField.clear();
+            }
+            if (passwordField != null) {
+                passwordField.clear();
+            }
+            if (signUpButton != null) {
+                signUpButton.fire();
+            }
         });
         WaitForAsyncUtils.waitForFxEvents();
         sleep(100, TimeUnit.MILLISECONDS);
@@ -134,13 +150,19 @@ class SignUpControllerTest extends FxRobot {
             TextField passwordField = lookup("#passwordField").query();
             Button signUpButton = lookup("#signUpButton").query();
             
-            if (usernameField != null) usernameField.clear();
+            if (usernameField != null) {
+                usernameField.clear();
+            }
             if (emailField != null) {
                 emailField.clear();
                 emailField.setText("test@example.com");
             }
-            if (passwordField != null) passwordField.clear();
-            if (signUpButton != null) signUpButton.fire();
+            if (passwordField != null) {
+                passwordField.clear();
+            }
+            if (signUpButton != null) {
+                signUpButton.fire();
+            }
         });
         WaitForAsyncUtils.waitForFxEvents();
         sleep(100, TimeUnit.MILLISECONDS);
@@ -157,13 +179,19 @@ class SignUpControllerTest extends FxRobot {
             TextField passwordField = lookup("#passwordField").query();
             Button signUpButton = lookup("#signUpButton").query();
             
-            if (usernameField != null) usernameField.clear();
-            if (emailField != null) emailField.clear();
+            if (usernameField != null) {
+                usernameField.clear();
+            }
+            if (emailField != null) {
+                emailField.clear();
+            }
             if (passwordField != null) {
                 passwordField.clear();
                 passwordField.setText("password123");
             }
-            if (signUpButton != null) signUpButton.fire();
+            if (signUpButton != null) {
+                signUpButton.fire();
+            }
         });
         WaitForAsyncUtils.waitForFxEvents();
         sleep(100, TimeUnit.MILLISECONDS);
@@ -180,7 +208,9 @@ class SignUpControllerTest extends FxRobot {
             TextField passwordField = lookup("#passwordField").query();
             Button signUpButton = lookup("#signUpButton").query();
             
-            if (usernameField != null) usernameField.clear();
+            if (usernameField != null) {
+                usernameField.clear();
+            }
             if (emailField != null) {
                 emailField.clear();
                 emailField.setText("test@example.com");
@@ -189,7 +219,9 @@ class SignUpControllerTest extends FxRobot {
                 passwordField.clear();
                 passwordField.setText("password123");
             }
-            if (signUpButton != null) signUpButton.fire();
+            if (signUpButton != null) {
+                signUpButton.fire();
+            }
         });
         WaitForAsyncUtils.waitForFxEvents();
         sleep(100, TimeUnit.MILLISECONDS);
@@ -218,7 +250,9 @@ class SignUpControllerTest extends FxRobot {
                 passwordField.clear();
                 passwordField.setText("password123");
             }
-            if (signUpButton != null) signUpButton.fire();
+            if (signUpButton != null) {
+                signUpButton.fire();
+            }
         });
         WaitForAsyncUtils.waitForFxEvents();
         sleep(200, TimeUnit.MILLISECONDS);
@@ -346,7 +380,9 @@ class SignUpControllerTest extends FxRobot {
                 passwordField.clear();
                 passwordField.setText("password123");
             }
-            if (signUpButton != null) signUpButton.fire();
+            if (signUpButton != null) {
+                signUpButton.fire();
+            }
         });
         WaitForAsyncUtils.waitForFxEvents();
         sleep(100, TimeUnit.MILLISECONDS);
@@ -377,7 +413,9 @@ class SignUpControllerTest extends FxRobot {
                     passwordField.clear();
                     passwordField.setText("pass" + attempt);
                 }
-                if (signUpButton != null) signUpButton.fire();
+                if (signUpButton != null) {
+                    signUpButton.fire();
+                }
             });
             WaitForAsyncUtils.waitForFxEvents();
             sleep(100, TimeUnit.MILLISECONDS);

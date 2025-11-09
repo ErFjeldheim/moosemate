@@ -9,5 +9,25 @@
     "userID" : "USER-10ae788e-75cc-470c-9846-4ad7d8db6545",
     "email" : "holgersetten@me.com",
     "username" : "holgersetten"
+  }, {
+    "password" : "$2a$12$uMWGKrysE7eEYta/wkIQGOs9ll6PhAalqiqIcNqP0M9G3mfVkmyM.",
+    "userID" : "USER-a45e3433-3f2c-482b-9d76-c0d5c9efbfa3",
+    "email" : "edvarao@bandy.no",
+    "username" : "edvarao"
+  }, {
+    "password" : "$2a$12$rmGXFyNScjRFp9TFBHMn3.n8tvNMV0pPu0rmJAAHLB4YHK83WVFOy",
+    "userID" : "USER-b0056d1b-749a-4f6c-afd0-e9a710a4ed5d",
+    "email" : "keebards@opera.com",
+    "username" : "kebaards"
+  }, {
+    "password" : "$2a$12$pRI2wIwPBONLHJav6ojvUuCmuiHs6SYNzUzFhp4C5KDdHnRyh2Gf2",
+    "userID" : "USER-69fbae61-ae97-4d46-95b6-c3f80437b79e",
+    "email" : "erik@fjelldata.enno",
+    "username" : "erik"
+  }, {
+    "password" : "$2a$12$8CocQxQduRgWdvpgqeEZsO3yCNxZT2P2LAV26K4WqONeCJM4X.sVa",
+    "userID" : "USER-83f0d383-caa8-482c-8601-c6dfcc2c5e70",
+    "email" : "admin@admin.com",
+    "username" : "admin"
   } ]
 }

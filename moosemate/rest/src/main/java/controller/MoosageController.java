@@ -28,13 +28,19 @@ import java.util.stream.Collectors;
 // REST Controller for moosage-related endpoints.
 @RestController
 @RequestMapping("/api/moosages")
-public class MoosageController {
+public final class MoosageController {
 
     private final MoosageService moosageService;
     private final SessionService sessionService;
 
     @Autowired
     public MoosageController(MoosageService moosageService, SessionService sessionService) {
+        if (moosageService == null) {
+            throw new IllegalArgumentException("MoosageService cannot be null");
+        }
+        if (sessionService == null) {
+            throw new IllegalArgumentException("SessionService cannot be null");
+        }
         this.moosageService = moosageService;
         this.sessionService = sessionService;
     }

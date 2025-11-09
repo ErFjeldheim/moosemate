@@ -37,6 +37,16 @@ public final class User {
         // Additional validation after assignment to ensure object is fully constructed
         validateUserData();
     }
+
+    // Copy constructor for defensive copying
+    public User(User other) {
+        if (other != null) {
+            this.username = other.username;
+            this.email = other.email;
+            this.password = other.password;
+            this.userID = other.userID;
+        }
+    }
     
     // Private method to validate user data integrity (if cannot create valid user)
     private void validateUserData() {
@@ -81,4 +91,25 @@ public final class User {
         this.userID = userID;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        User user = (User) o;
+        return java.util.Objects.equals(username, user.username)
+                && java.util.Objects.equals(email, user.email)
+                && java.util.Objects.equals(password, user.password)
+                && java.util.Objects.equals(userID, user.userID);
+    }
+
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(username, email, password, userID);
+    }
+
 }
+

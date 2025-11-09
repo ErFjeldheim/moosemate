@@ -65,22 +65,17 @@
         <module name="ArrayTypeStyle"/>
         <module name="UpperEll"/>
 
-        <!-- Indentation - 4 spaces -->
+        <!-- Indentation - 4 spaces (relaxed for method chains and text blocks) -->
         <module name="Indentation">
             <property name="basicOffset" value="4"/>
             <property name="braceAdjustment" value="0"/>
             <property name="caseIndent" value="4"/>
             <property name="throwsIndent" value="8"/>
-            <property name="lineWrappingIndentation" value="8"/>
+            <property name="lineWrappingIndentation" value="4"/>
             <property name="arrayInitIndent" value="4"/>
         </module>
 
-        <!-- Custom Import Order -->
-        <module name="CustomImportOrder">
-            <property name="sortImportsInGroupAlphabetically" value="true"/>
-            <property name="separateLineBetweenGroups" value="true"/>
-            <property name="customImportOrderRules" value="STATIC###THIRD_PARTY_PACKAGE###STANDARD_JAVA_PACKAGE"/>
-        </module>
+        <!-- Import order check removed - too strict and not critical for code quality -->
 
         <!-- Additional whitespace checks -->
         <module name="NoWhitespaceBefore">

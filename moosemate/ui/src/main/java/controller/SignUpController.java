@@ -49,7 +49,7 @@ public class SignUpController extends BaseController {
             }
         } catch (Exception e) {
             System.err.println("Error handling signup: " + e.getMessage());
-            showError("Unable to connect to server. Please make sure the REST API is up and running.");
+            showError("Unable to connect to server. Please ensure the REST API is running.");
         }
     }
     

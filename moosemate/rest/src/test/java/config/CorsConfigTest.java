@@ -1,12 +1,17 @@
 package config;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.lang.NonNull;
 import org.springframework.web.servlet.config.annotation.CorsRegistration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Comprehensive tests for CorsConfig configuration class.
@@ -14,9 +19,9 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class CorsConfigTest {
 
-    private CorsConfig corsConfig;
+    private CorsConfig corsConfig = new CorsConfig();
     private WebMvcConfigurer configurer;
-    private TestCorsRegistry testRegistry;
+    private @NonNull TestCorsRegistry testRegistry = new TestCorsRegistry();
 
     @BeforeEach
     public void setUp() {
@@ -32,18 +37,18 @@ public class CorsConfigTest {
 
     @Test
     public void testCorsConfigurerIsWebMvcConfigurer() {
-        assertTrue(configurer instanceof WebMvcConfigurer, 
-            "Configurer should be instance of WebMvcConfigurer");
+        assertTrue(configurer instanceof WebMvcConfigurer,
+                "Configurer should be instance of WebMvcConfigurer");
     }
 
     @Test
     public void testAddCorsMappingsConfiguresApiEndpoints() {
         configurer.addCorsMappings(testRegistry);
         
-        assertTrue(testRegistry.isConfigured(), 
-            "CORS mappings should be configured");
-        assertEquals("/api/**", testRegistry.getPath(), 
-            "Should configure /api/** path pattern");
+        assertTrue(testRegistry.isConfigured(),
+                "CORS mappings should be configured");
+        assertEquals("/api/**", testRegistry.getPath(),
+                "Should configure /api/** path pattern");
     }
 
     @Test
@@ -51,9 +56,9 @@ public class CorsConfigTest {
         configurer.addCorsMappings(testRegistry);
         
         assertNotNull(testRegistry.getRegistration());
-        assertArrayEquals(new String[]{"http://localhost:8080"}, 
-            testRegistry.getRegistration().getAllowedOrigins(),
-            "Should allow localhost:8080 origin");
+        assertArrayEquals(new String[]{"http://localhost:8080"},
+                testRegistry.getRegistration().getAllowedOrigins(),
+                "Should allow localhost:8080 origin");
     }
 
     @Test
@@ -61,18 +66,18 @@ public class CorsConfigTest {
         configurer.addCorsMappings(testRegistry);
         
         String[] expectedMethods = {"GET", "POST", "PUT", "DELETE", "OPTIONS"};
-        assertArrayEquals(expectedMethods, 
-            testRegistry.getRegistration().getAllowedMethods(),
-            "Should allow GET, POST, PUT, DELETE, OPTIONS methods");
+        assertArrayEquals(expectedMethods,
+                testRegistry.getRegistration().getAllowedMethods(),
+                "Should allow GET, POST, PUT, DELETE, OPTIONS methods");
     }
 
     @Test
     public void testCorsAllowsAllHeaders() {
         configurer.addCorsMappings(testRegistry);
         
-        assertArrayEquals(new String[]{"*"}, 
-            testRegistry.getRegistration().getAllowedHeaders(),
-            "Should allow all headers");
+        assertArrayEquals(new String[]{"*"},
+                testRegistry.getRegistration().getAllowedHeaders(),
+                "Should allow all headers");
     }
 
     @Test
@@ -80,7 +85,7 @@ public class CorsConfigTest {
         configurer.addCorsMappings(testRegistry);
         
         assertTrue(testRegistry.getRegistration().isAllowCredentials(),
-            "Should allow credentials");
+                "Should allow credentials");
     }
 
     @Test
@@ -90,8 +95,8 @@ public class CorsConfigTest {
         
         assertNotNull(configurer1);
         assertNotNull(configurer2);
-        assertNotSame(configurer1, configurer2, 
-            "Each call should return a new configurer instance");
+        assertNotSame(configurer1, configurer2,
+                "Each call should return a new configurer instance");
     }
 
     @Test
@@ -114,7 +119,7 @@ public class CorsConfigTest {
         private boolean configured = false;
 
         @Override
-        public CorsRegistration addMapping(String pathPattern) {
+        public @NonNull CorsRegistration addMapping(@NonNull String pathPattern) {
             this.path = pathPattern;
             this.configured = true;
             this.registration = new TestCorsRegistration();
@@ -148,25 +153,25 @@ public class CorsConfigTest {
         }
 
         @Override
-        public CorsRegistration allowedOrigins(String... origins) {
+        public @NonNull CorsRegistration allowedOrigins(@NonNull String... origins) {
             this.allowedOrigins = origins;
             return this;
         }
 
         @Override
-        public CorsRegistration allowedMethods(String... methods) {
+        public @NonNull CorsRegistration allowedMethods(@NonNull String... methods) {
             this.allowedMethods = methods;
             return this;
         }
 
         @Override
-        public CorsRegistration allowedHeaders(String... headers) {
+        public @NonNull CorsRegistration allowedHeaders(@NonNull String... headers) {
             this.allowedHeaders = headers;
             return this;
         }
 
         @Override
-        public CorsRegistration allowCredentials(boolean allowCredentials) {
+        public @NonNull CorsRegistration allowCredentials(boolean allowCredentials) {
             this.allowCredentials = allowCredentials;
             return this;
         }

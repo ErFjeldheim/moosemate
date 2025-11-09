@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 
 //Repository class for managing Moosage data persistence using JSON files.
 @Repository
-public class MoosageRepository {
+public final class MoosageRepository {
     
     private static final String DATA_FILE_PATH = "persistence/src/main/resources/data/moosages.json";
     
@@ -36,6 +36,12 @@ public class MoosageRepository {
 
     //Constructor for testing that accepts a custom JsonFileHandler.
     public MoosageRepository(UserRepository userRepository, JsonFileHandler fileHandler) {
+        if (userRepository == null) {
+            throw new IllegalArgumentException("UserRepository cannot be null");
+        }
+        if (fileHandler == null) {
+            throw new IllegalArgumentException("JsonFileHandler cannot be null");
+        }
         this.userRepository = userRepository;
         this.fileHandler = fileHandler;
         
@@ -43,13 +49,17 @@ public class MoosageRepository {
         ObjectMapper mapper = fileHandler.getObjectMapper();
         mapper.registerModule(new JavaTimeModule());
         
-        this.dataFile = new File(fileHandler.getDataFilePath(DATA_FILE_PATH));
+        // DATA_FILE_PATH is a hardcoded constant, not user input
+        String filePath = fileHandler.getDataFilePath(DATA_FILE_PATH);
+        if (filePath == null || filePath.trim().isEmpty()) {
+            throw new IllegalArgumentException("Data file path cannot be null or empty");
+        }
+        this.dataFile = new File(filePath);
         initializeDataFile();
     }
 
-    /**
-     * Initializes the data file if it doesn't exist.
-     */
+   // Initializes the data file if it doesn't exist.
+    
     private void initializeDataFile() {
         try {
             MoosageStorage storage = new MoosageStorage();

@@ -249,7 +249,7 @@ class UserRepositoryTest {
         assertFalse(repository.emailExists(null), "Null email should return false");
     }
 
-        @Test
+    @Test
     void testCreateUser_NullUsername() {
         try {
             boolean result = repository.createUser(null, "test@example.com", "password123");

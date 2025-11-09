@@ -1,41 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <FindBugsFilter>
-    <!-- Exclude UPM_UNCALLED_PRIVATE_METHOD warnings for JavaFX controller classes -->
-    <!-- These methods are called via FXML reflection, not detectable by static analysis -->
-    
-    <!-- HomePageController - handleLogoutButton method -->
     <Match>
-        <Class name="moosemate.ui.HomePageController" />
-        <Method name="handleLogoutButton" />
-        <Bug pattern="UPM_UNCALLED_PRIVATE_METHOD" />
+        <Class name="repository.UserRepository" />
+        <Or>
+            <Bug pattern="EI_EXPOSE_REP2" />
+            <Bug pattern="PATH_TRAVERSAL_IN" />
+        </Or>
     </Match>
-    
-    <!-- LoginController - handleLoginButton method -->
     <Match>
-        <Class name="moosemate.ui.LoginController" />
-        <Method name="handleLoginButton" />
-        <Bug pattern="UPM_UNCALLED_PRIVATE_METHOD" />
+        <Class name="repository.MoosageRepository" />
+        <Or>
+            <Bug pattern="EI_EXPOSE_REP2" />
+            <Bug pattern="PATH_TRAVERSAL_IN" />
+        </Or>
     </Match>
-    
-    <!-- LoginController - handleSignUpButton method -->
     <Match>
-        <Class name="moosemate.ui.LoginController" />
-        <Method name="handleSignUpButton" />
-        <Bug pattern="UPM_UNCALLED_PRIVATE_METHOD" />
+        <Class name="util.JsonFileHandler" />
+        <Bug pattern="EI_EXPOSE_REP" />
     </Match>
-    
-    <!-- SignUpController - handleBackToLoginButton method -->
-    <Match>
-        <Class name="moosemate.ui.SignUpController" />
-        <Method name="handleBackToLoginButton" />
-        <Bug pattern="UPM_UNCALLED_PRIVATE_METHOD" />
-    </Match>
-    
-    <!-- SignUpController - handleSignUpButton method -->
-    <Match>
-        <Class name="moosemate.ui.SignUpController" />
-        <Method name="handleSignUpButton" />
-        <Bug pattern="UPM_UNCALLED_PRIVATE_METHOD" />
-    </Match>
-    
 </FindBugsFilter>

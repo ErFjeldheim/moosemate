@@ -9,7 +9,8 @@
     --dark-grey: #3d3d3d;
     --white: #ffffff;
     --alert: #d27d56;
-    --success: #88a37f; */
+    --success: #ffd000;
+    --error: #000000        */
 
 /* Set Chewy Regular as default font (loaded programmatically) */
 .root {
@@ -36,17 +37,20 @@
 
 /* Error message styling */
 .error-label {
-    -fx-text-fill: #3d3d3d; /* dark-grey */
+    -fx-text-fill: #000000; /* error */
     -fx-font-size: 12px;
+    -fx-font-weight: bold;
     -fx-padding: 5px 0 0 0;
+    -fx-alignment: center;
 }
 
 /* Success message styling */
 .success-label {
-    -fx-text-fill: #88a37f; /* success */
+    -fx-text-fill: #ffd000; /* success */
     -fx-font-size: 12px;
     -fx-font-weight: normal;
     -fx-padding: 5px 0 0 0;
+    -fx-alignment: center;
 }
 
 /* Loading label styling */
