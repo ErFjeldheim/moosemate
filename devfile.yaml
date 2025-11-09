@@ -14,16 +14,14 @@ components:
   - name: tools
     container:
       image: registry.access.redhat.com/ubi9/openjdk-21
-      memoryLimit: 4Gi
-      memoryRequest: 1Gi
-      cpuLimit: 2000m
-      cpuRequest: 500m
+      memoryLimit: 2Gi
+      memoryRequest: 512Mi
       mountSources: true
       env:
         - name: JAVA_HOME
           value: /usr/lib/jvm/java-21
         - name: MAVEN_OPTS
-          value: -Xmx2048m
+          value: -Xmx1024m
       endpoints:
         - name: rest-api
           targetPort: 8080
