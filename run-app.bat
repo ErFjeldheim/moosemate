@@ -1,3 +1,4 @@
+@REM Generated with help of CoPilot Claude Sonnet 4.5 due to complicated code/syntax
 @echo off
 REM MooseMate Startup Script (for enkel kjøring i dev)
 REM Dette scriptet starter både backend (REST API) og frontend (JavaFX UI)

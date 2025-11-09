@@ -18,6 +18,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
 
+// Partially implemented by AI (Copilot, Claude sonnet 4.5), due to minimal previous experience.
 public class ApiClient {
     private static final String BASE_URL = "http://localhost:8080/api";
     private final HttpClient httpClient;
@@ -69,8 +70,8 @@ public class ApiClient {
                 new TypeReference<ApiResponse<String>>() { };
         return objectMapper.readValue(response.body(), typeRef);
     }
-    
 
+    
     // HTTP-POST request for signup to API
     public ApiResponse<String> signUp(String username, String email, String password) throws Exception {
         SignUpRequest signUpRequest = new SignUpRequest(username, password, email);

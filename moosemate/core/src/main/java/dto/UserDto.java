@@ -1,5 +1,9 @@
 package dto;
 
+// Partially implemented by AI (Copilot, Claude sonnet 4.5), 
+// in order to efficiently generate boilerplate code.
+
+// Used for transferring user data without sensitive information.
 public class UserDto {
     private String username;
     private String email;

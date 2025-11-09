@@ -3,6 +3,8 @@ package model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import util.ValidationUtils;
 
+// Partially implemented by AI (Copilot, Claude sonnet 4.5), 
+// in order to efficiently generate boilerplate code.
 public final class User {
     
     private String username;

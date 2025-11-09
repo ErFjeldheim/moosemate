@@ -6,6 +6,10 @@ import org.springframework.lang.NonNull;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+
+// Partially implemented by AI (Copilot, Claude sonnet 4.5), 
+// due to limited experience with CORS configuration.
+
 @Configuration
 public class CorsConfig {
 

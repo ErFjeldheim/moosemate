@@ -1,0 +1,142 @@
+# Post Moosage Class Diagram
+
+This diagram illustrates the class structure and relationships involved in creating and posting a moosage (message) in the MooseMate application.
+
+```mermaid
+---
+config:
+  theme: forest
+  layout: elk
+---
+classDiagram
+    class HomePageController {
+        -TextArea postTextArea
+        -Button postButton
+        -Label postCharCountLabel
+        -ListView~MoosageDto~ moosageList
+        -ObservableList~MoosageDto~ moosages
+        +handleCreatePost(ActionEvent)
+        -updateCharCount(String)
+    }
+    class ApiClient {
+        -String BASE_URL
+        -HttpClient httpClient
+        -ObjectMapper objectMapper
+        +getInstance() ApiClient
+        +postMoosage(String) ApiResponse~MoosageDto~
+    }
+    class SessionManager {
+        -String sessionToken
+        -String username
+        -String userId
+        +getInstance() SessionManager
+        +getSessionToken() String
+        +getUserId() String
+    }
+    class CreateMoosageRequest {
+        -String content
+        +getContent() String
+        +setContent(String)
+    }
+    class ApiResponse~T~ {
+        -boolean success
+        -String message
+        -T data
+        +isSuccess() boolean
+        +getMessage() String
+        +getData() T
+    }
+    class MoosageDto {
+        -Long id
+        -String content
+        -String authorId
+        -String authorUsername
+        -LocalDateTime time
+        -Set~String~ likedByUserIds
+        -boolean edited
+        +fromMoosage(Moosage) MoosageDto
+        +getId() Long
+        +getContent() String
+        +getAuthorUsername() String
+    }
+    class MoosageController {
+        -MoosageService moosageService
+        -SessionService sessionService
+        +createMoosage(CreateMoosageRequest, String) ResponseEntity~ApiResponse~MoosageDto~~
+    }
+    class MoosageService {
+        -MoosageRepository moosageRepository
+        -UserRepository userRepository
+        +createMoosage(String, String) Moosage
+    }
+    class MoosageRepository {
+        -JsonFileHandler fileHandler
+        -File dataFile
+        -UserRepository userRepository
+        +createMoosage(String, String, String) Moosage
+        -loadStorage() MoosageStorage
+        -saveStorage(MoosageStorage)
+    }
+    class Moosage {
+        -Long id
+        -String content
+        -User author
+        -LocalDateTime time
+        -Set~String~ likedByUserIds
+        -boolean edited
+        +getId() Long
+        +getContent() String
+        +getAuthor() User
+        +getTime() LocalDateTime
+    }
+    class User {
+        -String username
+        -String email
+        -String userID
+        +getUserID() String
+        +getUsername() String
+    }
+    class UserRepository {
+        -JsonFileHandler fileHandler
+        -File dataFile
+        +getUserById(String) Optional~User~
+    }
+    class SessionService {
+        -Map~String,User~ activeSessions
+        +getUserIdByToken(String) String
+    }
+    class ValidationUtils {
+        +requireNonEmpty(String, String)
+        +isNullOrEmpty(String) boolean
+    }
+    class ResponseUtils {
+        +created(String, T) ResponseEntity~ApiResponse~T~~
+        +unauthorized(String) ResponseEntity~ApiResponse~T~~
+        +badRequest(String) ResponseEntity~ApiResponse~T~~
+    }
+    HomePageController --> ApiClient : uses
+    HomePageController --> SessionManager : uses
+    HomePageController --> ValidationUtils : uses
+    HomePageController --> MoosageDto : displays
+    HomePageController --> ApiResponse : receives
+    ApiClient --> CreateMoosageRequest : creates
+    ApiClient --> SessionManager : gets token from
+    ApiClient --> ApiResponse : receives
+    ApiResponse --> MoosageDto : wraps
+    ApiClient ..> MoosageController : HTTP POST /api/moosages
+    MoosageController --> CreateMoosageRequest : receives
+    MoosageController --> SessionService : uses
+    MoosageController --> ValidationUtils : uses
+    MoosageController --> ResponseUtils : uses
+    MoosageController --> MoosageService : uses
+    MoosageController --> MoosageDto : creates
+    MoosageService --> MoosageRepository : uses
+    MoosageService --> UserRepository : uses
+    MoosageService --> Moosage : returns
+    MoosageRepository --> Moosage : creates
+    MoosageRepository --> UserRepository : uses
+    Moosage --> User : contains
+    UserRepository --> User : retrieves
+    MoosageDto --> Moosage : converts from
+    ResponseUtils --> ApiResponse : creates
+```

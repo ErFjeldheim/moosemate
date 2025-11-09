@@ -1,18 +1,18 @@
 {
   "moosages" : [ {
     "id" : 1,
-    "content" : "Gledes til hælj, det skal smake godt!",
+    "content" : "This is the first moosage ever!",
     "author" : {
       "username" : "holgersetten",
       "email" : "holgersetten@me.com",
       "userID" : "USER-10ae788e-75cc-470c-9846-4ad7d8db6545"
     },
-    "time" : [ 2025, 11, 6, 19, 0, 33, 493680500 ],
+    "time" : [ 2025, 10, 26, 19, 0, 33, 493680500 ],
     "likedByUserIds" : [ "USER-150d157c-447d-444b-a09a-796a72d9ccc1", "USER-10ae788e-75cc-470c-9846-4ad7d8db6545" ],
     "edited" : false
   }, {
     "id" : 2,
-    "content" : "Jeg heter syver, igjen. Og igjen. Og igjen. :D\nGod hælj fra æljstua!",
+    "content" : "This app is really cool, I hope I meet new mates here!",
     "author" : {
       "username" : "syver",
       "email" : "abd@syver.no",
@@ -21,6 +21,17 @@
     "time" : [ 2025, 11, 6, 19, 1, 45, 564458900 ],
     "likedByUserIds" : [ ],
     "edited" : true
+  }, {
+    "id" : 6,
+    "content" : "I can't wait to send moosages that my friends can see!",
+    "author" : {
+      "username" : "syver",
+      "email" : "abd@syver.no",
+      "userID" : "USER-150d157c-447d-444b-a09a-796a72d9ccc1"
+    },
+    "time" : [ 2025, 11, 7, 11, 46, 52, 351783700 ],
+    "likedByUserIds" : [ ],
+    "edited" : false
   } ],
-  "nextId" : 5
+  "nextId" : 7
 }
