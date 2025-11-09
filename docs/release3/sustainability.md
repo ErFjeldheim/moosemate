@@ -26,7 +26,7 @@ This modular approach also improves adaptability. When technologies evolve, indi
 Extensive test coverage prevents costly hotfixes and emergency deployments, saving developer time and reducing rollbacks and redeployments. Automated testing ensures that potential issues are caught early, before reaching production environments. By identifying bugs sooner, MooseMate minimizes unnecessary builds, redeployments, and server activity.
 
 Testing supports long-term software health by enabling continuous integration and deployment pipelines that run efficiently. Stable, predictable software requires fewer interventions and consumes fewer computing resources.  
-In this way, testing becomes a key aspect of sustainability — conserving both human effort and digital energy, and ensuring that MooseMate remains reliable, maintainable, and environmentally responsible over time.
+In this way, testing becomes a key aspect of sustainability — conserving both human effort and digital energy, and ensuring that MooseMate remains reliable, maintainable, and sustainable over time.
 
 ---
 

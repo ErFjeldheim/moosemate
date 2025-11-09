@@ -6,9 +6,10 @@ One of the biggest issues we encountered was in release 2, when we had to refact
 
 We believe it would have been easier if we were informed of the requirement from the start. However, we did learn that refactoring may require a lot of work, emphasizing that thoroughness and structure is key when initializing the project-structure.
 
-More specifically, we spent a few full work days making this implementation work seemless. It was a huge challenge modifying the POM files to work across the application. We appreciated individual assignment 1, as it provided valuable experience.
+More specifically, we spent a few full work days making this implementation work seemlessly. It was a huge challenge modifying the files and classes to cooperate between modules, but luckily we had similar experience from the individual assigment.
 
-Originally, we tried to implement this manually in pairs, but quickly realized that this task was more complicated than we first anticipated. We decided on the following standup that the entire group needed to work on refactoring. In addition to online resources like geek4geeks, we also took advantage of the integrated CoPilot to help implement the correct syntax in certain classes, as it could be confusing when relocating imports, methods, etc.
+Originally, we tried to implement this manually in pairs, but quickly realized that this task was more complicated than we first anticipated. We decided on the following standup that the entire group needed to work on refactoring. In addition to using online resources like geek4geeks, we also took advantage of the integrated Github CoPilot to help implement certain classes as it could be confusing when refactoring the code structure.
+
 
 # Configuring tests.
 
