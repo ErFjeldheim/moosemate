@@ -13,17 +13,19 @@ metadata:
 components:
   - name: tools
     container:
-      image: eclipse-temurin:21-jdk
+      # ✅ Bruk Red Hat-registry (stabil og tillatt i NTNU Che)
+      image: registry.access.redhat.com/ubi9/openjdk-21
       memoryLimit: 4Gi
-      memoryRequest: 2Gi
+      memoryRequest: 1Gi
       cpuLimit: 2000m
-      cpuRequest: 1000m
+      cpuRequest: 500m
       mountSources: true
       env:
+        # ✅ Riktig JAVA_HOME for dette imaget
         - name: JAVA_HOME
-          value: /opt/java/openjdk
+          value: /usr/lib/jvm/java-21
         - name: PATH
-          value: /opt/java/openjdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+          value: /usr/lib/jvm/java-21/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
         - name: MAVEN_OPTS
           value: -Xmx2048m
       endpoints:
@@ -111,7 +113,7 @@ commands:
       workingDir: ${PROJECT_SOURCE}/moosemate
       commandLine: ./mvnw -q jacoco:report
 
-# Gjør start robust: dropp postStart (eller gjør den "best effort" med || true)
+# ✅ Dropp postStart — den forårsaket CrashLoop i Che
 # events:
 #   postStart:
 #     - maven-build
