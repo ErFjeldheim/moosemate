@@ -13,4 +13,4 @@ Holger has contributed to the making of services files and rest-API setup. On hi
 Edvard contributed on the UI side of the application. With Syver, Edvard has programmed in pairs in making the fronted in scenebuilder, additionally using CSS to make the UI look approachable. In release 2 and 3, Edvard had the main responsibility for documentation.
 
 ### Katharina
-Katharina has worked primarily backend, more specifically making services files, rest-api setup and test-configuration. When refactoring the folder structure (adding multi-module functionaly) her contribution was key. Holger and Katharina worked closely, often pair programming, assuring that the server side of MooseMate works properly.
+Katharina has worked primarily backend, more specifically making services files, rest-api setup and test-configuration. When refactoring the folder structure (adding multi-module functionaly) her contribution was key. Holger and Katharina worked closely, often pair programming, assuring that the backend works properly and smoothly.
