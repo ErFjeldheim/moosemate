@@ -136,7 +136,7 @@ These scripts allow you to save MooseMate to a location by own choice on your co
 
 [Open project in Eclipse Che](https://che.stud.ntnu.no/#https://git.ntnu.no/IT1901-2025-groups/gr2524)
 
-> **Note:** Since the repository is private, you need to configure a Personal Access Token in Eclipse Che:
+> **Note (1/2):** Since the repository is private, you need to configure a Personal Access Token in Eclipse Che:
 
 1. Go to GitHub: [Settings → Developer Settings → Personal Access Tokens](https://git.ntnu.no/settings/tokens)
 2. Generate new token (classic) → Create a token with `read_repository` scope
@@ -144,6 +144,15 @@ These scripts allow you to save MooseMate to a location by own choice on your co
 4. Add `https://git.ntnu.no/` under *Git Provider Endpoint*
 5. Add Personal Access Token under *Token*
 6. The Eclipse Che link above should now work
+
+> **Note (2/2):** Since Java 17 is default version in Eclipse Che, you might need to run the following commands in the terminal:
+
+```
+  curl -s "https://get.sdkman.io" | bash
+  sdk install java 21.0.8-tem
+```
+
+This builds the project successfully with *mvn clean compile*
 
 ## Documentation
 
