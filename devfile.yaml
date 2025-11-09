@@ -4,11 +4,7 @@ metadata:
   version: 1.0.0
   displayName: MooseMate Application
   description: A JavaFX application with Spring Boot REST API and Maven
-  tags:
-    - Java
-    - JavaFX
-    - Spring Boot
-    - Maven
+  tags: [Java, JavaFX, Spring Boot, Maven]
   projectType: maven
   language: java
   provider: Red Hat
@@ -25,7 +21,9 @@ components:
       mountSources: true
       env:
         - name: JAVA_HOME
-          value: /usr/lib/jvm/java-21-openjdk
+          value: /opt/java/openjdk
+        - name: PATH
+          value: /opt/java/openjdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
         - name: MAVEN_OPTS
           value: -Xmx2048m
       endpoints:
@@ -44,82 +42,76 @@ commands:
       label: "Maven: Build"
       component: tools
       workingDir: ${PROJECT_SOURCE}/moosemate
-      commandLine: mvn clean install
-      group:
-        kind: build
-        isDefault: true
+      commandLine: ./mvnw -q clean install
+      group: { kind: build, isDefault: true }
 
   - id: maven-test
     exec:
       label: "Maven: Test"
       component: tools
       workingDir: ${PROJECT_SOURCE}/moosemate
-      commandLine: mvn test
+      commandLine: ./mvnw -q test
 
   - id: maven-clean
     exec:
       label: "Maven: Clean"
       component: tools
       workingDir: ${PROJECT_SOURCE}/moosemate
-      commandLine: mvn clean
+      commandLine: ./mvnw -q clean
 
   - id: maven-package
     exec:
       label: "Maven: Package"
       component: tools
       workingDir: ${PROJECT_SOURCE}/moosemate
-      commandLine: mvn package
+      commandLine: ./mvnw -q package
 
   - id: run-rest-api
     exec:
       label: "Run: REST API"
       component: tools
       workingDir: ${PROJECT_SOURCE}/moosemate/rest
-      commandLine: mvn spring-boot:run
-      group:
-        kind: run
-        isDefault: false
+      commandLine: ./mvnw -q spring-boot:run
+      group: { kind: run }
 
   - id: run-ui
     exec:
       label: "Run: JavaFX UI"
       component: tools
       workingDir: ${PROJECT_SOURCE}/moosemate/ui
-      commandLine: mvn javafx:run
-      group:
-        kind: run
-        isDefault: true
+      commandLine: ./mvnw -q javafx:run
+      group: { kind: run, isDefault: true }
 
   - id: debug-rest-api
     exec:
       label: "Debug: REST API"
       component: tools
       workingDir: ${PROJECT_SOURCE}/moosemate/rest
-      commandLine: mvn spring-boot:run -Dspring-boot.run.jvmArguments="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
-      group:
-        kind: debug
+      commandLine: ./mvnw -q spring-boot:run -Dspring-boot.run.jvmArguments="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
+      group: { kind: debug }
 
   - id: checkstyle
     exec:
       label: "Quality: Checkstyle"
       component: tools
       workingDir: ${PROJECT_SOURCE}/moosemate
-      commandLine: mvn checkstyle:check
+      commandLine: ./mvnw -q checkstyle:check
 
   - id: spotbugs
     exec:
       label: "Quality: SpotBugs"
       component: tools
       workingDir: ${PROJECT_SOURCE}/moosemate
-      commandLine: mvn spotbugs:check
+      commandLine: ./mvnw -q spotbugs:check
 
   - id: jacoco-report
     exec:
       label: "Quality: JaCoCo Coverage Report"
       component: tools
       workingDir: ${PROJECT_SOURCE}/moosemate
-      commandLine: mvn jacoco:report
+      commandLine: ./mvnw -q jacoco:report
 
-events:
-  postStart:
-    - maven-build
+# Gjør start robust: dropp postStart (eller gjør den "best effort" med || true)
+# events:
+#   postStart:
+#     - maven-build
