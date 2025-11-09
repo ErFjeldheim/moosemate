@@ -17,7 +17,7 @@ metadata:
 components:
   - name: tools
     container:
-      image: quay.io/devfile/universal-developer-image:ubi8-latest
+      image: eclipse-temurin:21-jdk
       memoryLimit: 4Gi
       memoryRequest: 2Gi
       cpuLimit: 2000m
