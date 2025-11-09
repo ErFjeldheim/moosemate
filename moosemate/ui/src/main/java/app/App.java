@@ -15,7 +15,15 @@ public class App extends Application {
     public void start(Stage primaryStage) throws Exception {
         loadCustomFonts();
         
-        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/Moosemate-icon.png")));
+        // Set application icon - using logo as fallback if icon doesn't exist
+        try {
+            var iconStream = getClass().getResourceAsStream("/images/moosemate_logo.png");
+            if (iconStream != null) {
+                primaryStage.getIcons().add(new Image(iconStream));
+            }
+        } catch (Exception e) {
+            // Icon loading failed
+        }
         
         primaryStage.setOnCloseRequest(event -> {
             handleApplicationClose();

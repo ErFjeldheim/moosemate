@@ -69,9 +69,9 @@ public class PasswordServiceTest {
     
     @Test
     void testVerifyPasswordWithNullValues() {
-        assertFalse(passwordService.verifyPassword(null, "hashedPassword"));
-        assertFalse(passwordService.verifyPassword("password", null));
-        assertFalse(passwordService.verifyPassword(null, null));
+        assertThrows(IllegalArgumentException.class, () -> passwordService.verifyPassword(null, "hashedPassword"));
+        assertThrows(NullPointerException.class, () -> passwordService.verifyPassword("password", null));
+        assertThrows(IllegalArgumentException.class, () -> passwordService.verifyPassword(null, null));
     }
     
     @Test

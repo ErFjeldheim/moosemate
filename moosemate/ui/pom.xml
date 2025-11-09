@@ -96,6 +96,8 @@
             <scope>test</scope>
         </dependency>
         
+        <!-- Mockito core 5.x includes inline mocking for static methods -->
+        
         <!-- Mockito JUnit Jupiter extension -->
         <dependency>
             <groupId>org.mockito</groupId>
@@ -117,7 +119,7 @@
                             <goal>check</goal>
                         </goals>
                         <configuration>
-                            <!-- Skip TestFX check on macOS as it is not supported  -->
+                            <!-- Enable/disable UI JaCoCo coverage check based on OS profile -->
                             <skip>${skip.ui.jacoco.check}</skip>
                             <rules>
                                 <rule>
@@ -179,7 +181,7 @@
                         <prism.text>t2k</prism.text>
                     </systemPropertyVariables>
                     <!-- CRITICAL: @{argLine} allows JaCoCo to inject its agent parameters -->
-                    <argLine>@{argLine} --add-exports javafx.graphics/com.sun.javafx.application=ALL-UNNAMED --add-exports javafx.graphics/com.sun.glass.ui=ALL-UNNAMED --add-opens javafx.graphics/javafx.stage=ALL-UNNAMED</argLine>
+                    <argLine>@{argLine} --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.desktop/java.awt=ALL-UNNAMED</argLine>
                 </configuration>
             </plugin>
             
@@ -190,6 +192,10 @@
                 <version>${javafx.maven.plugin.version}</version>
                 <configuration>
                     <mainClass>app.App</mainClass>
+                    <options>
+                        <option>--add-modules</option>
+                        <option>javafx.controls,javafx.fxml</option>
+                    </options>
                 </configuration>
             </plugin>
             
@@ -202,7 +208,7 @@
     
                     <execution>
                         <id>coverage-summary</id>
-                        <phase>test</phase>
+                        <phase>install</phase>
                         <goals>
                             <goal>run</goal>
                         </goals>
@@ -213,14 +219,13 @@
                                 <echo message="  Test Coverage Report" level="info" />
                                 <echo message="========================================" level="info" />
                                 <echo message="" level="info" />
-                                <echo message="Coverage report includes: core, persistence and rest" level="info" />
-                                <echo message="Click link below (cmd/ctrl + click) to open report:" level="info" />
-                                <echo message="" level="info" />
+                                <echo message="Aggregate coverage report (core, persistence, rest):" level="info" />
                                 <echo message="macOS:   file://${maven.multiModuleProjectDirectory}/ui/target/site/jacoco-aggregate/index.html" level="info" />
                                 <echo message="Windows: file:///${maven.multiModuleProjectDirectory}/ui/target/site/jacoco-aggregate/index.html" level="info" />
                                 <echo message="" level="info" />
-                                <echo message="For UI-specific coverage report:" level="info" />
-                                <echo message="  file:///${maven.multiModuleProjectDirectory}/ui/target/site/jacoco/index.html" level="info" />
+                                <echo message="UI-specific coverage report (controller tests with TestFX):" level="info" />
+                                <echo message="macOS:   file://${maven.multiModuleProjectDirectory}/ui/target/site/jacoco/index.html" level="info" />
+                                <echo message="Windows: file:///${maven.multiModuleProjectDirectory}/ui/target/site/jacoco/index.html" level="info" />
                                 <echo message="" level="info" />
                                 <echo message="========================================" level="info" />
                             </target>

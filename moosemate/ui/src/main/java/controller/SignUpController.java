@@ -43,7 +43,7 @@ public class SignUpController extends BaseController {
             
             if (response.isSuccess()) {
                 navigateToOtherPageWithSuccess(event, "/fxml/loginpage.fxml", "Login", 
-                        "Account created successfully! Please log in.");
+                        "Account created successfully!");
             } else {
                 showError(response.getMessage());
             }

@@ -279,12 +279,11 @@ public class SignUpServiceTest {
         assertNotNull(service2);
         assertNotSame(service1, service2);
         
-        // Both should work independently - use timestamp to ensure unique usernames
-        long timestamp = System.currentTimeMillis();
-        assertTrue(service1.signUpUser("uniqueUser1_" + timestamp,
-                "unique1_" + timestamp + "@example.com", "password123"));
-        assertTrue(service2.signUpUser("uniqueUser2_" + timestamp,
-                "unique2_" + timestamp + "@example.com", "password456"));
+        // Both should work independently - use short unique usernames
+        assertTrue(service1.signUpUser("user1",
+                "user1@example.com", "password123"));
+        assertTrue(service2.signUpUser("user2",
+                "user2@example.com", "password456"));
     }
 
 
