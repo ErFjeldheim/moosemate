@@ -29,5 +29,10 @@
     "userID" : "USER-83f0d383-caa8-482c-8601-c6dfcc2c5e70",
     "email" : "admin@admin.com",
     "username" : "admin"
+  }, {
+    "password" : "$2a$12$pOuPD/vHss4wA7uYSnLG5upjG9KPnOX8.Uwji2cKc/hZOR/ayD4mC",
+    "userID" : "USER-3dfdb034-054c-4495-a43f-4bcc14102b58",
+    "email" : "erik@fjelldata.com",
+    "username" : "ErFjeldheim"
   } ]
 }

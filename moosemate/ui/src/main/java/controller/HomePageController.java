@@ -85,6 +85,7 @@ public class HomePageController extends BaseController {
                 moosageList.setCellFactory(param -> {
                     MoosageListCell cell = new MoosageListCell();
                     cell.setOnDeleteCallback(this::handleMoosageDeleted);
+                    cell.setOnEditCallback(this::handleMoosageEdited);
                     return cell;
                 });
             } else {
@@ -119,6 +120,7 @@ public class HomePageController extends BaseController {
                             moosageList.setCellFactory(param -> {
                                 MoosageListCell cell = new MoosageListCell();
                                 cell.setOnDeleteCallback(this::handleMoosageDeleted);
+                                cell.setOnEditCallback(this::handleMoosageEdited);
                                 return cell;
                             });
                         }
@@ -141,6 +143,17 @@ public class HomePageController extends BaseController {
     private void handleMoosageDeleted(MoosageDto deletedMoosage) {
         if (moosages != null) {
             moosages.remove(deletedMoosage);
+        }
+    }
+    
+    // Callback when a moosage is edited
+    private void handleMoosageEdited(MoosageDto editedMoosage) {
+        if (moosages != null) {
+            // Trigger a refresh of the ListView by updating the ObservableList
+            int index = moosages.indexOf(editedMoosage);
+            if (index >= 0) {
+                moosages.set(index, editedMoosage);
+            }
         }
     }
 

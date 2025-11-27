@@ -11,17 +11,6 @@
     "likedByUserIds" : [ "USER-150d157c-447d-444b-a09a-796a72d9ccc1", "USER-10ae788e-75cc-470c-9846-4ad7d8db6545" ],
     "edited" : false
   }, {
-    "id" : 2,
-    "content" : "This app is really cool, I hope I meet new mates here!",
-    "author" : {
-      "username" : "syver",
-      "email" : "abd@syver.no",
-      "userID" : "USER-150d157c-447d-444b-a09a-796a72d9ccc1"
-    },
-    "time" : [ 2025, 11, 6, 19, 1, 45, 564458900 ],
-    "likedByUserIds" : [ "USER-a45e3433-3f2c-482b-9d76-c0d5c9efbfa3" ],
-    "edited" : true
-  }, {
     "id" : 5,
     "content" : "Kom å se på bandykampen på sønda, a! Jeg skårer og skårer, dribler motstanderne i senk. Verdt penga!",
     "author" : {
@@ -77,16 +66,16 @@
     "likedByUserIds" : [ ],
     "edited" : true
   }, {
-    "id" : 6,
-    "content" : "I can't wait to send moosages that my friends can see!",
+    "id" : 14,
+    "content" : "Hei Hei :D",
     "author" : {
-      "username" : "syver",
-      "email" : "abd@syver.no",
-      "userID" : "USER-150d157c-447d-444b-a09a-796a72d9ccc1"
+      "username" : "ErFjeldheim",
+      "email" : "erik@fjelldata.com",
+      "userID" : "USER-3dfdb034-054c-4495-a43f-4bcc14102b58"
     },
-    "time" : [ 2025, 11, 7, 11, 46, 52, 351783700 ],
+    "time" : [ 2025, 11, 27, 1, 30, 23, 137994117 ],
     "likedByUserIds" : [ ],
     "edited" : false
   } ],
-  "nextId" : 7
+  "nextId" : 15
 }

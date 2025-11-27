@@ -57,8 +57,15 @@ public class MoosageListCell extends ListCell<MoosageDto> {
     // Callback to notify parent when a moosage is deleted
     private Consumer<MoosageDto> onDeleteCallback;
     
+    // Callback to notify parent when a moosage is edited
+    private Consumer<MoosageDto> onEditCallback;
+    
     public void setOnDeleteCallback(Consumer<MoosageDto> callback) {
         this.onDeleteCallback = callback;
+    }
+    
+    public void setOnEditCallback(Consumer<MoosageDto> callback) {
+        this.onEditCallback = callback;
     }
     
     @Override
@@ -215,9 +222,19 @@ public class MoosageListCell extends ListCell<MoosageDto> {
                             MoosageDto updatedMoosage = response.getData();
                             
                             Platform.runLater(() -> {
+                                // Update the original moosage object
+                                moosage.setContent(updatedMoosage.getContent());
+                                moosage.setEdited(updatedMoosage.isEdited());
+                                
+                                // Update the UI
                                 contentText.setText(updatedMoosage.getContent());
                                 editedLabel.setVisible(true);
                                 editedLabel.setManaged(true);
+                                
+                                // Notify parent controller to update the list
+                                if (onEditCallback != null) {
+                                    onEditCallback.accept(moosage);
+                                }
                             });
                         } else {
                             System.err.println("Failed to update moosage: " + response.getMessage());
