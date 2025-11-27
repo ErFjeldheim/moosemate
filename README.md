@@ -36,8 +36,8 @@ Before running MooseMate, ensure you have the following installed:
 
 1. **Clone the repository**
    ```bash
-   git clone https://git.ntnu.no/IT1901-2025-groups/gr2524.git
-   cd gr2524
+   git clone https://github.com/ErFjeldheim/moosemate.git
+   cd moosemate
    ```
 
 2. **Build the project**
@@ -132,28 +132,6 @@ These scripts allow you to save MooseMate to a location by own choice on your co
 - Jackson (2.18.1)
 - BCrypt (0.4)
 
-## Eclipse Che
-
-[Open project in Eclipse Che](https://che.stud.ntnu.no/#https://git.ntnu.no/IT1901-2025-groups/gr2524)
-
-> **Note (1/2):** Since the repository is private, you need to configure a Personal Access Token in Eclipse Che:
-
-1. Go to GitHub: [Settings → Developer Settings → Personal Access Tokens](https://git.ntnu.no/settings/tokens)
-2. Generate new token (classic) → Create a token with `read_repository` scope
-3. In Eclipse Che: [Profile → User Preferences → Personal Access Tokens](https://che.stud.ntnu.no/dashboard/#/user-preferences?tab=PersonalAccessTokens)
-4. Add `https://git.ntnu.no/` under *Git Provider Endpoint*
-5. Add Personal Access Token under *Token*
-6. The Eclipse Che link above should now work
-
-> **Note (2/2):** Since Java 17 is default version in Eclipse Che, you might need to run the following commands in the terminal:
-
-```
-  curl -s "https://get.sdkman.io" | bash
-  sdk install java 21.0.8-tem
-```
-
-This builds the project successfully with *mvn clean compile*
-
 ## Documentation
 
 Documentation is found in the [docs](./docs) folder, including:
@@ -201,8 +179,6 @@ For a detailed file tree, see [architecture-diagram.md](./docs/release3/diagrams
     │               └── util
     ├── rest
     │   ├── rest
-    │   │   └── target
-    │   │       └── test-data
     │   └── src
     │       ├── main
     │       │   └── java
@@ -234,4 +210,7 @@ For a detailed file tree, see [architecture-diagram.md](./docs/release3/diagrams
 
 ---
 
-**MooseMate** - Developed by Group gr2524 for IT1901, Fall 2025
+**MooseMate** - Developed by Group gr2524 for IT1901, Fall 2025.
+Original repository: https://git.ntnu.no/IT1901-2025-groups/gr2524
+
+Forked for further improvements.
